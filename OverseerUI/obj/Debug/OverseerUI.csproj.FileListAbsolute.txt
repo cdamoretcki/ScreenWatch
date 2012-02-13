@@ -1,0 +1,17 @@
+c:\users\jared\documents\visual studio 2010\Projects\ParentsEyes\ParentsEyes\bin\OverseerUI.dll
+c:\users\jared\documents\visual studio 2010\Projects\ParentsEyes\ParentsEyes\bin\OverseerUI.pdb
+c:\users\jared\documents\visual studio 2010\Projects\ParentsEyes\ParentsEyes\obj\Debug\ResolveAssemblyReference.cache
+c:\users\jared\documents\visual studio 2010\Projects\ParentsEyes\ParentsEyes\obj\Debug\OverseerUI.dll
+c:\users\jared\documents\visual studio 2010\Projects\ParentsEyes\ParentsEyes\obj\Debug\OverseerUI.pdb
+C:\Users\Jared\Documents\Visual Studio 2010\Projects\ParentsEyes\OverseerUI\bin\OverseerUI.dll
+C:\Users\Jared\Documents\Visual Studio 2010\Projects\ParentsEyes\OverseerUI\bin\OverseerUI.pdb
+C:\Users\Jared\Documents\Visual Studio 2010\Projects\ParentsEyes\OverseerUI\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jared\Documents\Visual Studio 2010\Projects\ParentsEyes\OverseerUI\obj\Debug\OverseerUI.dll
+C:\Users\Jared\Documents\Visual Studio 2010\Projects\ParentsEyes\OverseerUI\obj\Debug\OverseerUI.pdb
+D:\dev\Solution\ParentsEyes\OverseerUI\bin\OverseerUI.dll
+D:\dev\Solution\ParentsEyes\OverseerUI\bin\OverseerUI.pdb
+D:\dev\Solution\ParentsEyes\OverseerUI\obj\Debug\ResolveAssemblyReference.cache
+D:\dev\Solution\ParentsEyes\OverseerUI\obj\Debug\OverseerUI.dll
+D:\dev\Solution\ParentsEyes\OverseerUI\obj\Debug\OverseerUI.pdb
+D:\dev\Solution\ParentsEyes\OverseerUI\bin\ScreenWatchData.dll
+D:\dev\Solution\ParentsEyes\OverseerUI\bin\ScreenWatchData.pdb

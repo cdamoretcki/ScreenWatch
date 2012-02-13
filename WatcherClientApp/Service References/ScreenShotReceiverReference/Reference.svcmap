@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="68b87af6-eb78-4d6c-b511-1d878a5d93da" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ScreenShotReceiver1.xsd" MetadataType="Schema" ID="e2a82ad1-82d2-4aad-a86a-7a8e223696c6" SourceId="1" SourceUrl="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc?xsd=xsd2" />
+    <MetadataFile FileName="ScreenShotReceiver.wsdl" MetadataType="Wsdl" ID="52113b50-eddf-4256-b4d2-0712a373dd70" SourceId="1" SourceUrl="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc?wsdl" />
+    <MetadataFile FileName="ScreenShotReceiver.disco" MetadataType="Disco" ID="84c44850-23f0-4145-8679-16d1ef6e2816" SourceId="1" SourceUrl="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc?disco" />
+    <MetadataFile FileName="ScreenShotReceiver2.xsd" MetadataType="Schema" ID="8c4fab7f-e73f-40b1-9e39-f6e6e23914fc" SourceId="1" SourceUrl="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc?xsd=xsd1" />
+    <MetadataFile FileName="ScreenShotReceiver3.xsd" MetadataType="Schema" ID="b7ee30f7-03c1-4702-86bf-59d51a4f9887" SourceId="1" SourceUrl="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
