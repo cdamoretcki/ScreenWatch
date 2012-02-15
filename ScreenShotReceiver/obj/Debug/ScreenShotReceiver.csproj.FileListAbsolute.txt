@@ -27,3 +27,10 @@ C:\Users\Jared\Dropbox\SWENG_500_Share\Solution\FirstEndToEnd\ScreenShotReceiver
 C:\Users\Jared\Dropbox\SWENG_500_Share\Solution\FirstEndToEnd\ScreenShotReceiver\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Jared\Dropbox\SWENG_500_Share\Solution\FirstEndToEnd\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.dll
 C:\Users\Jared\Dropbox\SWENG_500_Share\Solution\FirstEndToEnd\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.pdb
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\bin\ScreenShotReceiver.dll
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\bin\ScreenShotReceiver.pdb
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\bin\ScreenWatchData.dll
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\bin\ScreenWatchData.pdb
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.dll
+C:\Users\Jared\ScreenWatch\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.pdb
