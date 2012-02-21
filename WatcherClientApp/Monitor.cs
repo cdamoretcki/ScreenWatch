@@ -11,14 +11,19 @@ using System.Drawing.Imaging;
 using System.Threading;
 using WatcherClient.ScreenShotReceiverReference;
 using System.IO;
+using System.ComponentModel;
 
 namespace WatcherClient
 {
-    sealed class Monitor
+    sealed class Monitor : ApplicationContext
     {
         #region instance members
         
-        private static System.Timers.Timer timer;
+        private System.Timers.Timer timer;
+
+        private NotifyIcon trayIcon;
+
+        private Container components;
 
         #endregion
 
@@ -27,6 +32,16 @@ namespace WatcherClient
         /// </summary>
         public Monitor()
         {
+            Bitmap bm = new Bitmap(new Bitmap("icon.png"), new Size(32, 32));
+            components = new System.ComponentModel.Container();
+            trayIcon = new NotifyIcon(components)
+            {
+                ContextMenuStrip = new ContextMenuStrip(),
+                Icon = Icon.FromHandle(bm.GetHicon()),
+                Text = "Hi Friend",
+                Visible = true 
+            };
+
             int periodInMS = int.Parse(ConfigurationManager.AppSettings["period"]) * 1000;
             timer = new System.Timers.Timer(periodInMS);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(ScanImage);
@@ -46,7 +61,7 @@ namespace WatcherClient
                 using (Graphics gfx = Graphics.FromImage(screenShot))
                 {
                     gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
-                    screenShot.Save(@"c:\temp\clienttest.png", ImageFormat.Png);
+                    //screenShot.Save(@"c:\temp\clienttest.png", ImageFormat.Png);
                     MemoryStream stream = new MemoryStream();
                     screenShot.Save(stream, ImageFormat.Png);
                     ImageUpload image = new ImageUpload();

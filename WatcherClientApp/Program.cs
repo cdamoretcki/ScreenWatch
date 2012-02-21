@@ -29,9 +29,7 @@ namespace WatcherClient
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Form1());
-                Monitor monitorInstance = new Monitor();
-                Thread.Sleep(10000);
+                Application.Run(new Monitor());
             }
             catch (Exception e)
             {
