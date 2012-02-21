@@ -23,3 +23,8 @@ C:\Users\Jared\ScreenWatch\ScreenWatchData\bin\Debug\ScreenWatchData.pdb
 C:\Users\Jared\ScreenWatch\ScreenWatchData\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Jared\ScreenWatch\ScreenWatchData\obj\Debug\ScreenWatchData.dll
 C:\Users\Jared\ScreenWatch\ScreenWatchData\obj\Debug\ScreenWatchData.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\ScreenWatchData\bin\Debug\ScreenWatchData.dll
+C:\Documents and Settings\harbak1\ScreenWatch\ScreenWatchData\bin\Debug\ScreenWatchData.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\ScreenWatchData\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\harbak1\ScreenWatch\ScreenWatchData\obj\Debug\ScreenWatchData.dll
+C:\Documents and Settings\harbak1\ScreenWatch\ScreenWatchData\obj\Debug\ScreenWatchData.pdb

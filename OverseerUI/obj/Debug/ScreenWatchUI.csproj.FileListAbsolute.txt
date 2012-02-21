@@ -24,3 +24,26 @@ C:\temp\FirstEndToEnd\OverseerUI\bin\ScreenWatchData.pdb
 C:\temp\FirstEndToEnd\OverseerUI\obj\Debug\ResolveAssemblyReference.cache
 C:\temp\FirstEndToEnd\OverseerUI\obj\Debug\OverseerUI.dll
 C:\temp\FirstEndToEnd\OverseerUI\obj\Debug\OverseerUI.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\OverseerUI.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\OverseerUI.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\ScreenWatchData.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\obj\Debug\OverseerUI.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\obj\Debug\OverseerUI.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\AjaxControlToolkit.pdb
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\ar\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\cs\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\de\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\es\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\fr\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\he\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\hi\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\it\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\ja\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\ko\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\nl\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\pt\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\ru\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\tr-TR\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\zh-CHS\AjaxControlToolkit.resources.dll
+C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\zh-CHT\AjaxControlToolkit.resources.dll
