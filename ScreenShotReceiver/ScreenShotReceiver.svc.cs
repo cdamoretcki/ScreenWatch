@@ -35,7 +35,9 @@ namespace ScreenShotReceiver
                 MemoryStream stream = new MemoryStream(upload.ImageData);
                 Image image = Bitmap.FromStream(stream);
                 image.Save(@"c:\temp\servicetest.png", ImageFormat.Png);
-                new ImageActions().insertImage("1", image);
+                ScreenShot screenShot = new ScreenShot();
+                screenShot.image = image;
+                new ScreenShotActions().insertImage(screenShot);
             }
             catch (Exception e)
             {
