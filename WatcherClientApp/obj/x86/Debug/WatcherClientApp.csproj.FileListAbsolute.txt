@@ -48,3 +48,13 @@ C:\Users\Jared\ScreenWatch\WatcherClientApp\obj\x86\Debug\WatcherClient.Properti
 C:\Users\Jared\ScreenWatch\WatcherClientApp\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Jared\ScreenWatch\WatcherClientApp\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Jared\ScreenWatch\WatcherClientApp\bin\Debug\icon.png
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\bin\Debug\WatcherClient.exe.config
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\obj\x86\Debug\WatcherClient.exe
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\obj\x86\Debug\WatcherClient.pdb
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\obj\x86\Debug\WatcherClient.Properties.Resources.resources
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\bin\Debug\icon.ico
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\bin\Debug\WatcherClient.exe
+C:\Users\Jared\ScreenWatch-4.0\WatcherClientApp\bin\Debug\WatcherClient.pdb

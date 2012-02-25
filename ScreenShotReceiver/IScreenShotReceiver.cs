@@ -26,9 +26,12 @@ namespace ScreenShotReceiver
         public string UserID { get; set; }
 
         [DataMember]
-        public Guid PCGuid { get; set; }
+        public string PCGuid { get; set; }
 
         [DataMember]
         public byte[] ImageData { get; set; }
+
+        [DataMember]
+        public string CaptureTime { get; set; }
     }
 }

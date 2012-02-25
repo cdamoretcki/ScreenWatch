@@ -9,9 +9,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
-using WatcherClient.ScreenShotReceiver;
 using System.IO;
 using System.ComponentModel;
+using WatcherClient.ScreenShotReceiverReference;
 
 namespace WatcherClient
 {

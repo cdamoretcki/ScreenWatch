@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="GiJV2bRfYC04FiY97GRHwxsesZY=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="4HU9/zp104RuKxqfjdVG4oc0NOA=">
   <bindingConfigurations>
-    <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IScreenShotReceiver">
+    <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IScreenShotReceiver1">
       <properties>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IScreenShotReceiver</serializedValue>
+          <serializedValue>BasicHttpBinding_IScreenShotReceiver1</serializedValue>
         </property>
         <property path="/closeTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>00:01:00</serializedValue>
@@ -112,7 +112,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IScreenShotReceiver" contract="ScreenShotReceiverReference.IScreenShotReceiver" bindingType="basicHttpBinding" address="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc" bindingConfiguration="BasicHttpBinding_IScreenShotReceiver">
+    <endpoint name="BasicHttpBinding_IScreenShotReceiver1" contract="ScreenShotReceiverReference.IScreenShotReceiver" bindingType="basicHttpBinding" address="http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc" bindingConfiguration="BasicHttpBinding_IScreenShotReceiver1">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://localhost:10397/ScreenShotReceiver/ScreenShotReceiver.svc</serializedValue>
@@ -124,7 +124,7 @@
           <serializedValue>basicHttpBinding</serializedValue>
         </property>
         <property path="/bindingConfiguration" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IScreenShotReceiver</serializedValue>
+          <serializedValue>BasicHttpBinding_IScreenShotReceiver1</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>ScreenShotReceiverReference.IScreenShotReceiver</serializedValue>
@@ -187,7 +187,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>BasicHttpBinding_IScreenShotReceiver</serializedValue>
+          <serializedValue>BasicHttpBinding_IScreenShotReceiver1</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

@@ -34,3 +34,10 @@ C:\Users\Jared\ScreenWatch\ScreenShotReceiver\bin\ScreenWatchData.pdb
 C:\Users\Jared\ScreenWatch\ScreenShotReceiver\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Jared\ScreenWatch\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.dll
 C:\Users\Jared\ScreenWatch\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.pdb
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\bin\ScreenShotReceiver.dll
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\bin\ScreenShotReceiver.pdb
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\bin\ScreenWatchData.dll
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\bin\ScreenWatchData.pdb
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.dll
+C:\Users\Jared\ScreenWatch-4.0\ScreenShotReceiver\obj\Debug\ScreenShotReceiver.pdb
