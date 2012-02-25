@@ -110,7 +110,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.png">
+    <Content Include="icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

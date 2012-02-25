@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
-using WatcherClient.ScreenShotReceiverReference;
+using WatcherClient.ScreenShotReceiver;
 using System.IO;
 using System.ComponentModel;
 
@@ -18,7 +18,7 @@ namespace WatcherClient
     sealed class Monitor : ApplicationContext
     {
         #region instance members
-        
+
         private System.Timers.Timer timer;
 
         private NotifyIcon trayIcon;
@@ -32,17 +32,17 @@ namespace WatcherClient
         /// </summary>
         public Monitor()
         {
-            Bitmap bm = new Bitmap(new Bitmap("icon.png"), new Size(32, 32));
             components = new System.ComponentModel.Container();
             trayIcon = new NotifyIcon(components)
             {
                 ContextMenuStrip = new ContextMenuStrip(),
-                Icon = Icon.FromHandle(bm.GetHicon()),
+                Icon = Icon.ExtractAssociatedIcon("icon.ico"),
                 Text = "Hi Friend",
-                Visible = true 
+                Visible = true
             };
 
             int periodInMS = int.Parse(ConfigurationManager.AppSettings["period"]) * 1000;
+            Debug.WriteLine("Scanning every " + periodInMS + " seconds");
             timer = new System.Timers.Timer(periodInMS);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(ScanImage);
             timer.Enabled = true;
@@ -52,7 +52,7 @@ namespace WatcherClient
 
         public void ScanImage(object source, ElapsedEventArgs eventArgs)
         {
-            Debug.WriteLine("Monitor.ScanImage enter {0}", DateTime.Now);
+            Debug.WriteLine("Monitor.ScanImage enter " + DateTime.Now);
             try
             {
                 int screenWidth = Screen.GetBounds(new Point(0, 0)).Width;
@@ -62,18 +62,22 @@ namespace WatcherClient
                 {
                     gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
                     //screenShot.Save(@"c:\temp\clienttest.png", ImageFormat.Png);
-                    MemoryStream stream = new MemoryStream();
-                    screenShot.Save(stream, ImageFormat.Png);
                     ImageUpload image = new ImageUpload();
-                    image.ImageData = stream.ToArray();
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        screenShot.Save(stream, ImageFormat.Png);
+                        image.ImageData = stream.ToArray();
+                    }
+                    image.CaptureTime = DateTime.Now.ToString();
                     new ScreenShotReceiverClient().Upload(image);
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine("{0} - {1}", e, DateTime.Now);                
+                Debug.WriteLine(DateTime.Now);
+                Debug.WriteLine(e);
             }
-            Debug.WriteLine("Monitor.ScanImage exit {0}", DateTime.Now);
+            Debug.WriteLine("Monitor.ScanImage exit " + DateTime.Now);
             Debug.Flush();
         }
     }
