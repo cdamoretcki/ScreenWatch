@@ -48,7 +48,7 @@ namespace ScreenWatchData
                 SqlCommand insertCommand = new SqlCommand("", connection);
                 insertCommand.CommandText = "INSERT INTO [ScreenWatch].[dbo].[ScreenShot] ([id], [userName], [timeStamp], [image]) VALUES (@id, @userName, @timeStamp, (0x))";
                 insertCommand.CommandType = System.Data.CommandType.Text;
-  
+
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
                 Guid id = Guid.NewGuid();
                 parameter.Value = id;
@@ -58,7 +58,7 @@ namespace ScreenWatchData
                 parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
                 parameter.Value = screenShot.user;
                 insertCommand.Parameters.Add(parameter);
-  
+
                 parameter = new System.Data.SqlClient.SqlParameter("@timeStamp", System.Data.SqlDbType.DateTime);
                 parameter.Value = screenShot.timeStamp;
                 insertCommand.Parameters.Add(parameter);
@@ -66,41 +66,7 @@ namespace ScreenWatchData
                 insertCommand.ExecuteNonQuery();
 
                 return id;
-
-                // TODO FILESTREAM
-
-                /*SqlCommand command = new SqlCommand("", connection);
-                
-                SqlTransaction transaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
-                command.Transaction = transaction;
-
-                command.CommandText = "select image.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() from ScreDAC.dbo.ScreenShot where id = " + id;
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Get the pointer for file 
-                        string path = reader.GetString(0);
-                        byte[] transactionContext = reader.GetSqlBytes(1).Buffer;
-
-                        // Create the SqlFileStream
-                        SqlFileStream fileStream = new SqlFileStream(path,
-                            (byte[])reader.GetValue(1),
-                            FileAccess.Write,
-                            FileOptions.SequentialScan, 0);
-
-                        // Write a single byte to the file. This will
-                        // replace any data in the file.
-                        fileStream.WriteByte(0x02);
-
-                        fileStream.Close();
-                    }
-                }
-                transaction.Commit();*/
             }
-
-            //return idString;
         }
 
         public ScreenShot getScreenShotById_IMPL(Guid id)
@@ -127,9 +93,6 @@ namespace ScreenWatchData
                     {
                         screenShot.user = (String) reader["userName"];
                         screenShot.timeStamp = (DateTime) reader["timeStamp"];
-                        MemoryStream memoryStream = new MemoryStream((Byte[])reader["image"]);
-                        Image image = Bitmap.FromStream(memoryStream);
-                        screenShot.image = image;
                     }
                 }
             }
