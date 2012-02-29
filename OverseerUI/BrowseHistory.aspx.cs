@@ -25,7 +25,10 @@ namespace ScreenWatchUI
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            ImageActions IA = new ImageActions();
+            
+ 
+           /* ImageActions IA = new ImageActions();          
+
             string id = TextBox1.Text;
 
             string pathToImage = IA.getImagePath(id);
@@ -41,7 +44,7 @@ namespace ScreenWatchUI
                 ThumbNail2.ImageUrl = pathToImage;
                 ThumbNail3.ImageUrl = pathToImage;
                 ThumbNail4.ImageUrl = pathToImage;
-            }
+            }*/
         }
 
         protected void Calendar2_SelectionChanged(object sender, EventArgs e)
@@ -80,6 +83,12 @@ namespace ScreenWatchUI
 
         protected void TextBox2_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        protected void ThumbNail1_Click(object sender, ImageClickEventArgs e)
+        {
+           
 
         }
     }

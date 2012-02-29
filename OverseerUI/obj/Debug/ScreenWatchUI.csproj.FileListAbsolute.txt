@@ -47,3 +47,10 @@ C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\ru\AjaxControlToolk
 C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\tr-TR\AjaxControlToolkit.resources.dll
 C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\zh-CHS\AjaxControlToolkit.resources.dll
 C:\Documents and Settings\harbak1\ScreenWatch\OverseerUI\bin\zh-CHT\AjaxControlToolkit.resources.dll
+C:\ScreenWatch\OverseerUI\bin\OverseerUI.dll
+C:\ScreenWatch\OverseerUI\bin\OverseerUI.pdb
+C:\ScreenWatch\OverseerUI\bin\ScreenWatchData.pdb
+C:\ScreenWatch\OverseerUI\obj\Debug\ResolveAssemblyReference.cache
+C:\ScreenWatch\OverseerUI\obj\Debug\OverseerUI.dll
+C:\ScreenWatch\OverseerUI\obj\Debug\OverseerUI.pdb
+C:\ScreenWatch\OverseerUI\bin\AjaxControlToolkit.dll

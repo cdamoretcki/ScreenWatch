@@ -22,6 +22,15 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        
+        /// <summary>
         /// Label1 control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.TextBox TextBox2;
         
         /// <summary>
+        /// Calendarextender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender Calendarextender1;
+        
+        /// <summary>
         /// Label3 control.
         /// </summary>
         /// <remarks>
@@ -83,6 +101,15 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox3;
+        
+        /// <summary>
+        /// calExtender2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender calExtender2;
         
         /// <summary>
         /// Button2 control.
@@ -127,7 +154,7 @@ namespace ScreenWatchUI {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ThumbNail1;
+        protected global::System.Web.UI.WebControls.ImageButton ThumbNail1;
         
         /// <summary>
         /// ThumbNail2 control.
@@ -136,7 +163,7 @@ namespace ScreenWatchUI {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ThumbNail2;
+        protected global::System.Web.UI.WebControls.ImageButton ThumbNail2;
         
         /// <summary>
         /// ThumbNail3 control.
@@ -145,7 +172,7 @@ namespace ScreenWatchUI {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ThumbNail3;
+        protected global::System.Web.UI.WebControls.ImageButton ThumbNail3;
         
         /// <summary>
         /// ThumbNail4 control.
@@ -154,6 +181,6 @@ namespace ScreenWatchUI {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ThumbNail4;
+        protected global::System.Web.UI.WebControls.ImageButton ThumbNail4;
     }
 }
