@@ -21,8 +21,6 @@ namespace ScreenWatchData
         public String thumbnailFilePath { get; set; }
     }
 
-
-
     public class ScreenShotActions
     {
         const string SQL_CONNECTION_STRING = @"Data Source=HANSOLO\SQLEXPRESS;Integrated Security=True;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096";
@@ -69,7 +67,7 @@ namespace ScreenWatchData
             }
         }
 
-        public ScreenShot getScreenShotById_IMPL(Guid id)
+        private ScreenShot getScreenShotById_IMPL(Guid id)
         {
             ScreenShot screenShot = new ScreenShot();
 
@@ -126,7 +124,7 @@ namespace ScreenWatchData
          */
 
         // This is a stub handler for inserting an image onto the local webserver
-        public void theImagePutItForMe(String id, Image image)
+        private void theImagePutItForMe(String id, Image image)
         {
             String fileName = @"c:\temp\" + id + @".png";
             Image imageFromFile = Image.FromFile(fileName);
@@ -136,7 +134,7 @@ namespace ScreenWatchData
         }
 
         // This is a stub handler for getting a group of images
-        public List<ScreenShot> theImagesGiveThemToMe()
+        private List<ScreenShot> theImagesGiveThemToMe()
         {
             List<ScreenShot> screenShots = new List<ScreenShot>();
             ScreenShot screenShot;
