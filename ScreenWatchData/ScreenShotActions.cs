@@ -21,10 +21,89 @@ namespace ScreenWatchData
         public String thumbnailFilePath { get; set; }
     }
 
+    public enum TriggerMatchType
+    {
+        Include,
+        Exclude
+    }
+
+    public interface AnalysisTrigger
+    {
+        Guid id { get; set; }
+        int matchThreshold { get; set; }
+    }
+
+    public class TextTrigger: AnalysisTrigger
+    {
+        public String tokenString { get; set; }
+        public TriggerMatchType matchType { get; set; }
+        public Guid id { get; set; }
+        public int matchThreshold { get; set; }
+    }
+
     public class ScreenShotActions
     {
         const string SQL_CONNECTION_STRING = @"Data Source=HANSOLO\SQLEXPRESS;Integrated Security=True;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096";
-    
+
+        /**
+         * ScreenShot API
+         */
+
+        // This is a test implementation - When the final implemetation is finished, the code will be
+        // part of this method - See the _IMPL method the current state of the final implementation
+        public Guid insertImage(ScreenShot screenShot)
+        {
+            Guid guid = Guid.NewGuid();
+            String fileName = @"c:\temp\" + guid.ToString() + @".png";
+            Image imageFromFile = Image.FromFile(fileName);
+            string pathToImage = string.Format(@"~\Images\{0}.png", guid.ToString());
+            screenShot.image.Save(HttpContext.Current.Request.MapPath(pathToImage), ImageFormat.Png);
+            return guid;
+        }
+
+        // This is a test implementation - When the final implemetation is finished, the code will be
+        // part of this method - See the _IMPL method the current state of the final implementation
+        public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
+        {
+            List<ScreenShot> screenShots = new List<ScreenShot>();
+            ScreenShot screenShot;
+
+            for (int i = 1; i < 9; i++)
+            {
+                screenShot = new ScreenShot();
+                screenShot.timeStamp = DateTime.Now;
+                screenShot.user = "TESTUSER";
+                screenShot.filePath = @"C:\temp\ScreenWatchTestImages\testImage" + i + @".png";
+                screenShot.image = Image.FromFile(screenShot.filePath);
+                screenShot.thumbnailFilePath = @"C:\temp\ScreenWatchTestImages\testImage" + i + @"_thumb.png";
+                screenShot.thumbnail = Image.FromFile(screenShot.thumbnailFilePath);
+                screenShots.Add(screenShot);
+            }
+
+            return screenShots;
+        }
+
+        /**
+         * Triggers API
+         * 
+         */
+
+        // This is a test implementation - When the final implemetation is finished, the code will be
+        // part of this method - See the _IMPL method the current state of the final implementation
+        public List<TextTrigger> getTextTriggers()
+        {
+            List<TextTrigger> textTriggers = new List<TextTrigger>();
+            TextTrigger textTrigger = new TextTrigger();
+            textTrigger.matchType = TriggerMatchType.Include;
+            textTrigger.tokenString = "TEST";
+            textTriggers.Add(textTrigger);
+            return textTriggers;
+        }
+
+        public Guid insertTextTrigger(TextTrigger textTrigger){
+            return insertTextTrigger_IMPL(textTrigger);
+        }
+
         /**
          * WORK IN PROGRESS
          */
@@ -99,58 +178,49 @@ namespace ScreenWatchData
             return screenShot;
         }
 
-        /**
-         * STUBS
-         */
-
-        // This is a stub method.  Eventually all the juicy goodness will be here.  For now, the 
-        // method signature is defined, but we use a test stub handler to general the returned data.
-        public Guid insertImage(ScreenShot screenShot)
+        private List<TextTrigger> getTextTriggers_IMPL()
         {
-            Guid guid = Guid.NewGuid();
-            theImagePutItForMe(guid.ToString(), screenShot.image);
-            return Guid.Empty;
+            List<TextTrigger> textTriggers = new List<TextTrigger>();
+            return textTriggers;
         }
 
-        // This is a stub method.  Eventually all the juicy goodness will be here.  For now, the 
-        // method signature is defined, but we use a test stub handler to general the returned data.
-        public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
+        private Guid insertTextTrigger_IMPL(TextTrigger textTrigger)
         {
-            return theImagesGiveThemToMe();
-        }
-
-        /**
-         * STUB HANDLERS
-         */
-
-        // This is a stub handler for inserting an image onto the local webserver
-        private void theImagePutItForMe(String id, Image image)
-        {
-            String fileName = @"c:\temp\" + id + @".png";
-            Image imageFromFile = Image.FromFile(fileName);
-            string pathToImage = string.Format(@"~\Images\{0}.png", id);
-            image.Save(HttpContext.Current.Request.MapPath(pathToImage), ImageFormat.Png);
-            image.Save(pathToImage, ImageFormat.Png);
-        }
-
-        // This is a stub handler for getting a group of images
-        private List<ScreenShot> theImagesGiveThemToMe()
-        {
-            List<ScreenShot> screenShots = new List<ScreenShot>();
-            ScreenShot screenShot;
-
-            for (int i = 1; i < 9; i++){
-                screenShot = new ScreenShot();
-                screenShot.timeStamp = DateTime.Now;
-                screenShot.user = "TESTUSER";
-                screenShot.filePath = @"C:\temp\ScreenWatchTestImages\testImage" + i + @".png";
-                screenShot.image = Image.FromFile(screenShot.filePath);
-                screenShot.thumbnailFilePath = @"C:\temp\ScreenWatchTestImages\testImage" + i + @"_thumb.png";
-                screenShot.thumbnail = Image.FromFile(screenShot.thumbnailFilePath);
-                screenShots.Add(screenShot);
+            if (textTrigger == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "textTrigger");
             }
 
-            return screenShots;
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                SqlCommand insertCommand = new SqlCommand("", connection);
+
+                insertCommand.CommandText = "INSERT INTO [ScreenWatch].[dbo].[TextTrigger] ([id], [matchThreshold], [matchType], [tokenString]) VALUES (@id, @matchThreshold, @matchType, @tokenString)";
+                insertCommand.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                Guid id = Guid.NewGuid();
+                parameter.Value = id;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@matchThreshold", System.Data.SqlDbType.Int);
+                parameter.Value = textTrigger.matchThreshold;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@matchType", System.Data.SqlDbType.VarChar, 20);
+                parameter.Value = textTrigger.matchType;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@tokenString", System.Data.SqlDbType.VarChar, 2048);
+                parameter.Value = textTrigger.tokenString;
+                insertCommand.Parameters.Add(parameter);
+
+                insertCommand.ExecuteNonQuery();
+
+                return id;
+            }
         }
     }
 }
