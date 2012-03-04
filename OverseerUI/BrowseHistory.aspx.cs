@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ScreenWatchData;
 using ScreenWatchUI;
+using System.Text;
+using System.IO;
 
 namespace ScreenWatchUI
 {
@@ -25,55 +27,64 @@ namespace ScreenWatchUI
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
- 
-           /* ImageActions IA = new ImageActions();          
 
-            string id = TextBox1.Text;
+           DateTime  getDate2;
+           DateTime getDate3; 
 
-            string pathToImage = IA.getImagePath(id);
-            if (pathToImage == null || pathToImage == String.Empty)
-            {
-                //DisplayImage.ImageUrl = @"~\Images\notFound.jpg";
-                DisplayImage.ImageUrl = "C:\\ScreenWatch\\Images\notFound.jpg";
-            }
-            else
-            {
-                DisplayImage.ImageUrl = pathToImage;
-                ThumbNail1.ImageUrl = pathToImage;
-                ThumbNail2.ImageUrl = pathToImage;
-                ThumbNail3.ImageUrl = pathToImage;
-                ThumbNail4.ImageUrl = pathToImage;
-            }*/
+           DateTime.TryParse(TextBox2.Text,out getDate2);
+           DateTime.TryParse(TextBox3.Text, out getDate3);
+
+           ScreenShotActions SSA = new ScreenShotActions();
+
+            //instance of screenshot
+           List<ScreenShot> lstOfScreenShots = new List<ScreenShot>();
+
+            //assign the return screenshots to lstOfScreenshots array
+           lstOfScreenShots=SSA.getScreenShotsByDateRange(getDate2, getDate3);
+
+           //ThumbNail1.ImageUrl = lstOfScreenShots[0].filePath;
+           //ThumbNail2.ImageUrl = lstOfScreenShots[1].filePath;
+           //ThumbNail3.ImageUrl = lstOfScreenShots[2].filePath;
+           //ThumbNail4.ImageUrl = lstOfScreenShots[3].filePath;
+           //ThumbNail5.ImageUrl = lstOfScreenShots[4].filePath;
+
+            //Stringbuilder - dynamically build thumbnail img tags
+           StringBuilder ThumbeNailBuilder = new StringBuilder();
+           
+           StringWriter stringWriter = new StringWriter();
+           
+            //dynamically build thumbnail img tags
+	        // Put HtmlTextWriter in using block because it needs to call Dispose.
+           using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+           for(int i=1 ; i < lstOfScreenShots.Count ;i++)
+           {
+               string urlValue = lstOfScreenShots[i].filePath;
+               writer.RenderBeginTag(HtmlTextWriterTag.Img);
+               writer.AddAttribute(HtmlTextWriterAttribute.Src, urlValue);               
+               writer.AddAttribute(HtmlTextWriterAttribute.Height, "60px");
+               writer.AddAttribute(HtmlTextWriterAttribute.Width, "168px");
+               writer.AddAttribute(HtmlTextWriterAttribute.Id, "ImgThumb" + i.ToString());
+               writer.RenderEndTag();
+               //ThumbeNailBuilder.Append(@"<asp:ImageButton ID='ThumbNail' + i.ToString() + "' runat='server' ImageUrl='" + lstOfScreenShots[i].filePath + "' Height='60px' Width='163px' OnClick='ThumbNail" + i.ToString() + "_Click'/>");
+               //ThumbeNailBuilder.Append(@"<br />");              
+               ThumbeNailBuilder.Append(stringWriter);              
+               ImageButton btn=new ImageButton();
+               btn.ImageUrl=lstOfScreenShots[i].filePath;
+               
+           }
+           ThumbNailHeader.InnerHtml = ThumbeNailBuilder.ToString();
+           //DisplayImage.get = lstOfScreenShots[0].image;
+           DisplayImage.Width = lstOfScreenShots[0].image.Width;
+           DisplayImage.Height = lstOfScreenShots[0].image.Height;                                                    
         }
 
-        protected void Calendar2_SelectionChanged(object sender, EventArgs e)
-        {
-            string getDate2 = TextBox2.Text;          
-            string getDate3 = TextBox3.Text;
-            
-            TextBox2.Text = Calendar2.SelectedDate.ToShortDateString();
-            getDate2 = TextBox2.Text;
-
-            if(TextBox2.Text == getDate2)
-            {
-                Calendar2.Visible = false;
-                Calendar3.Visible = true;                        
-            }
-        }    
-
-        protected void Calendar3_SelectionChanged(object sender, EventArgs e)
-        {
-            TextBox3.Text = Calendar3.SelectedDate.ToShortDateString();
-            //getDate3 = TextBox3.Text;
-        }
-
+         
+       
         protected void ClearDates_Click(object sender, EventArgs e)
         {
             TextBox2.Text = "";
             TextBox3.Text = "";
-            Calendar2.Visible = true;
-            Calendar3.Visible = false;
+        
         }
 
         protected void TextBox3_TextChanged(object sender, EventArgs e)
@@ -83,7 +94,7 @@ namespace ScreenWatchUI
 
         protected void TextBox2_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void ThumbNail1_Click(object sender, ImageClickEventArgs e)
