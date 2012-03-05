@@ -131,5 +131,32 @@ namespace ScreenWatchDataTest
             actual = target.getScreenShotsByDateRange(fromDate, toDate);
             Assert.AreEqual(expected.Count, actual.Count);
         }
+
+        /// <summary>
+        ///A test for insertTextTrigger
+        ///</summary>
+        [TestMethod()]
+        public void insertTextTriggerTest()
+        {
+            ScreenShotActions target = new ScreenShotActions();
+            TextTrigger textTrigger = new TextTrigger();
+            textTrigger.matchType = TriggerMatchType.Include;
+            textTrigger.matchThreshold = 10;
+            textTrigger.tokenString = "TEST";
+            Guid actual = target.insertTextTrigger(textTrigger);
+            Assert.IsNotNull(actual);
+        }
+
+        /// <summary>
+        ///A test for getTextTriggers
+        ///</summary>
+        [TestMethod()]
+        public void getTextTriggersTest()
+        {
+            ScreenShotActions target = new ScreenShotActions();
+            List<TextTrigger> actual = target.getTextTriggers();
+            Assert.IsNotNull(actual);
+            //Assert.AreEqual(expected, actual);
+        }
     }
 }
