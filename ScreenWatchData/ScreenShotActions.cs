@@ -8,6 +8,8 @@ using System.Web;
 using System.Data.SqlTypes;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Transactions;
+using System.Data;
 
 namespace ScreenWatchData
 {
@@ -123,13 +125,12 @@ namespace ScreenWatchData
                 connection.Open();
 
                 SqlCommand insertCommand = new SqlCommand("", connection);
-                insertCommand.CommandText = "INSERT INTO [ScreenWatch].[dbo].[ScreenShot] ([id], [userName], [timeStamp], [image]) VALUES (@id, @userName, @timeStamp, (0x))";
+                insertCommand.CommandText = "INSERT INTO [ScreenWatch].[dbo].[ScreenShot] ([id], [userName], [timeStamp], [image]) VALUES (@id, @userName, @timeStamp, @image)";
                 insertCommand.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
                 Guid id = Guid.NewGuid();
                 parameter.Value = id;
-                Console.WriteLine("The id is: " + id.ToString());
                 insertCommand.Parameters.Add(parameter);
 
                 parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
@@ -138,6 +139,12 @@ namespace ScreenWatchData
 
                 parameter = new System.Data.SqlClient.SqlParameter("@timeStamp", System.Data.SqlDbType.DateTime);
                 parameter.Value = screenShot.timeStamp;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@image", System.Data.SqlDbType.VarBinary);
+                MemoryStream memoryStream = new MemoryStream();
+                screenShot.image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                parameter.Value = memoryStream.ToArray();
                 insertCommand.Parameters.Add(parameter);
 
                 insertCommand.ExecuteNonQuery();
@@ -150,7 +157,7 @@ namespace ScreenWatchData
         {
             ScreenShot screenShot = new ScreenShot();
 
-            StringBuilder connectionString = new StringBuilder();
+            /*StringBuilder connectionString = new StringBuilder();
             connectionString.Append(SQL_CONNECTION_STRING);
 
             using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
@@ -170,10 +177,54 @@ namespace ScreenWatchData
                     {
                         screenShot.user = (String) reader["userName"];
                         screenShot.timeStamp = (DateTime) reader["timeStamp"];
+                        
                     }
                 }
-            }
+            }*/
 
+            const string SelectTSql = @"
+                SELECT
+                    userName,
+                    timeStamp,
+                    image.PathName(),
+                    GET_FILESTREAM_TRANSACTION_CONTEXT()
+                  FROM [ScreenWatch].[dbo].[ScreenShot]
+                  WHERE id = @id";
+
+            string serverPath;
+            byte[] serverTxn;
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                using (SqlConnection conn = new SqlConnection(SQL_CONNECTION_STRING))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
+                    {
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            screenShot.user = rdr.GetSqlString(0).Value;
+                            screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
+                            serverPath = rdr.GetSqlString(2).Value;
+                            serverTxn = rdr.GetSqlBinary(3).Value;
+                            rdr.Close();
+                        }
+                    }
+
+                    using (SqlFileStream sfs =
+                      new SqlFileStream(serverPath, serverTxn, FileAccess.Read))
+                    {
+                        screenShot.image = Image.FromStream(sfs);
+                        sfs.Close();
+                    }
+                }
+
+                ts.Complete();
+            }
 
             return screenShot;
         }
