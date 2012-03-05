@@ -131,8 +131,7 @@
         Thumbnail Images</h3>
     <table border="3" style="height: 9px" width="100%">
         <tr align='left'>
-            <td id="ThumbNailHeader" runat="server">
-                
+            <td id="ThumbNailHeader" runat="server">              
             </td>
         </tr>
     </table>

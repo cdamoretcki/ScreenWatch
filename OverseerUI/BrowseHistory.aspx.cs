@@ -11,96 +11,119 @@ using System.IO;
 
 namespace ScreenWatchUI
 {
-    public partial class BrowseHistory : System.Web.UI.Page
-    {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            //DisplayImage.ImageUrl = "C:\\ScreenWatch\\Images\notFound.jpg";
-            //TextBox3.Focus();
-        }
+	public partial class BrowseHistory : System.Web.UI.Page
+	{
+		protected void Page_Load(object sender, EventArgs e)
+		{
+			//DisplayImage.ImageUrl = "C:\\ScreenWatch\\Images\notFound.jpg";
+			//TextBox3.Focus();
+		}
 
-        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
-        {
-            
+		protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+		{
+			
 
-        }
+		}
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
+		protected void Button1_Click(object sender, EventArgs e)
+		{
 
-           DateTime  getDate2;
-           DateTime getDate3; 
+			DateTime getDate2;
+			DateTime getDate3;
 
-           DateTime.TryParse(TextBox2.Text,out getDate2);
-           DateTime.TryParse(TextBox3.Text, out getDate3);
+			DateTime.TryParse(TextBox2.Text, out getDate2);
+			DateTime.TryParse(TextBox3.Text, out getDate3);
 
-           ScreenShotActions SSA = new ScreenShotActions();
+			ScreenShotActions SSA = new ScreenShotActions();
 
-            //instance of screenshot
-           List<ScreenShot> lstOfScreenShots = new List<ScreenShot>();
+			List<ScreenShot> lstOfScreenShots = new List<ScreenShot>();
 
-            //assign the return screenshots to lstOfScreenshots array
-           lstOfScreenShots=SSA.getScreenShotsByDateRange(getDate2, getDate3);
+			lstOfScreenShots = SSA.getScreenShotsByDateRange(getDate2, getDate3);
 
-           //ThumbNail1.ImageUrl = lstOfScreenShots[0].filePath;
-           //ThumbNail2.ImageUrl = lstOfScreenShots[1].filePath;
-           //ThumbNail3.ImageUrl = lstOfScreenShots[2].filePath;
-           //ThumbNail4.ImageUrl = lstOfScreenShots[3].filePath;
-           //ThumbNail5.ImageUrl = lstOfScreenShots[4].filePath;
+			for (int i = 0; i < lstOfScreenShots.Count; i++)
+			{
+				ImageButton btn = new ImageButton();
+				string MyEvent = "ThumbNail1_Click";
+				string MyId = "ThumbNail" + (i + 1).ToString();
+				btn.ImageUrl = lstOfScreenShots[i].thumbnailFilePath;
+				btn.Attributes.Add("runat", "server");
+				btn.ID = MyId;
+				btn.Height = Unit.Pixel(60);
+				btn.Width = Unit.Pixel(168);
+				btn.Attributes.Add("OnClick", MyEvent);
+				ThumbNailHeader.Controls.Add(btn);
+			}
+		}
 
-            //Stringbuilder - dynamically build thumbnail img tags
-           StringBuilder ThumbeNailBuilder = new StringBuilder();
-           
-           StringWriter stringWriter = new StringWriter();
-           
-            //dynamically build thumbnail img tags
-	        // Put HtmlTextWriter in using block because it needs to call Dispose.
-           using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
-           for(int i=1 ; i < lstOfScreenShots.Count ;i++)
-           {
-               string urlValue = lstOfScreenShots[i].filePath;
-               writer.RenderBeginTag(HtmlTextWriterTag.Img);
-               writer.AddAttribute(HtmlTextWriterAttribute.Src, urlValue);               
-               writer.AddAttribute(HtmlTextWriterAttribute.Height, "60px");
-               writer.AddAttribute(HtmlTextWriterAttribute.Width, "168px");
-               writer.AddAttribute(HtmlTextWriterAttribute.Id, "ImgThumb" + i.ToString());
-               writer.RenderEndTag();
-               //ThumbeNailBuilder.Append(@"<asp:ImageButton ID='ThumbNail' + i.ToString() + "' runat='server' ImageUrl='" + lstOfScreenShots[i].filePath + "' Height='60px' Width='163px' OnClick='ThumbNail" + i.ToString() + "_Click'/>");
-               //ThumbeNailBuilder.Append(@"<br />");              
-               ThumbeNailBuilder.Append(stringWriter);              
-               ImageButton btn=new ImageButton();
-               btn.ImageUrl=lstOfScreenShots[i].filePath;
-               
-           }
-           ThumbNailHeader.InnerHtml = ThumbeNailBuilder.ToString();
-           //DisplayImage.get = lstOfScreenShots[0].image;
-           DisplayImage.Width = lstOfScreenShots[0].image.Width;
-           DisplayImage.Height = lstOfScreenShots[0].image.Height;                                                    
-        }
+		/*{
 
-         
-       
-        protected void ClearDates_Click(object sender, EventArgs e)
-        {
-            TextBox2.Text = "";
-            TextBox3.Text = "";
-        
-        }
+		   DateTime  getDate2;
+		   DateTime getDate3; 
 
-        protected void TextBox3_TextChanged(object sender, EventArgs e)
-        {
+		   DateTime.TryParse(TextBox2.Text,out getDate2);
+		   DateTime.TryParse(TextBox3.Text, out getDate3);
 
-        }
+		   ScreenShotActions SSA = new ScreenShotActions();
 
-        protected void TextBox2_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
+			//instance of screenshot
+		   List<ScreenShot> lstOfScreenShots = new List<ScreenShot>();
 
-        protected void ThumbNail1_Click(object sender, ImageClickEventArgs e)
-        {
-           
+			//assign the return screenshots to lstOfScreenshots array
+		   lstOfScreenShots=SSA.getScreenShotsByDateRange(getDate2, getDate3);
 
-        }
-    }
+			//Stringbuilder - dynamically build thumbnail img tags
+		   StringBuilder ThumbeNailBuilder = new StringBuilder();
+		   
+		   StringWriter stringWriter = new StringWriter();
+		   
+			//dynamically build thumbnail img tags
+			// Put HtmlTextWriter in using block because it needs to call Dispose.
+		   using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+		   for(int i=0 ; i < lstOfScreenShots.Count ;i++)
+		   {
+			   string urlValue = lstOfScreenShots[i].thumbnailFilePath;        
+			   writer.RenderBeginTag(HtmlTextWriterTag.Img);
+			   writer.AddAttribute(HtmlTextWriterAttribute.Src, urlValue);               
+			   writer.AddAttribute(HtmlTextWriterAttribute.Height, "60px");
+			   writer.AddAttribute(HtmlTextWriterAttribute.Width, "168px");
+			   writer.AddAttribute(HtmlTextWriterAttribute.Id, "ImgThumb" + i.ToString());
+			   writer.RenderEndTag();
+			   //ThumbeNailBuilder.Append(@"<asp:ImageButton ID='ThumbNail' + i.ToString() + "' runat='server' ImageUrl='" + lstOfScreenShots[i].filePath + "' Height='60px' Width='163px' OnClick='ThumbNail" + i.ToString() + "_Click'/>");
+			   //ThumbeNailBuilder.Append(@"<br />");              
+			   ThumbeNailBuilder.Append(stringWriter);              
+			   ImageButton btn=new ImageButton();
+			   btn.ImageUrl=lstOfScreenShots[i].filePath;
+			   
+		   }
+		   ThumbNailHeader.InnerHtml = ThumbeNailBuilder.ToString();
+		   //DisplayImage.get = lstOfScreenShots[0].image;
+		   DisplayImage.Width = lstOfScreenShots[0].image.Width;
+		   DisplayImage.Height = lstOfScreenShots[0].image.Height;                                                    
+		}*/
+
+		 
+	   
+		protected void ClearDates_Click(object sender, EventArgs e)
+		{
+			TextBox2.Text = "";
+			TextBox3.Text = "";
+		
+		}
+
+		protected void TextBox3_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		protected void TextBox2_TextChanged(object sender, EventArgs e)
+		{
+			
+		}
+
+		protected void ThumbNail1_Click(object sender, ImageClickEventArgs e)
+		{
+		   
+
+		}
+	}
 }
