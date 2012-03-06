@@ -18,10 +18,14 @@ namespace ParentsEyes
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            ScreenWatchData.ImageActions imageActions = new ScreenWatchData.ImageActions();
+            /**
+             * IS THIS DEAD CODE?
+             */
+
+            /*ScreenWatchData.ScreenShotActions screenShotActions = new ScreenWatchData.ScreenShotActions();
             String id = TextBox1.Text;
 
-            String imagePath = imageActions.getImagePath(id);
+            String imagePath = screenShotActions.getImagePath(id);
             if (imagePath == null || imagePath == String.Empty)
             {
                 DisplayImage.ImageUrl = @"~\Images\notFound.jpg";
@@ -29,7 +33,7 @@ namespace ParentsEyes
             else
             {
                 DisplayImage.ImageUrl = imagePath;
-            }
+            }*/
 
         }
 
