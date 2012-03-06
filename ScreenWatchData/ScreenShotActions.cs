@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Transactions;
 using System.Data;
+using System.Drawing.Drawing2D;
 
 namespace ScreenWatchData
 {
@@ -53,21 +54,88 @@ namespace ScreenWatchData
 
         // This is a test implementation - When the final implemetation is finished, the code will be
         // part of this method - See the _IMPL method the current state of the final implementation
-        public Guid insertImage(ScreenShot screenShot)
+        public Guid insertScreenShot(ScreenShot screenShot)
         {
-            Guid guid = Guid.NewGuid();
-            String fileName = @"c:\temp\" + guid.ToString() + @".png";
-            Image imageFromFile = Image.FromFile(fileName);
-            string pathToImage = string.Format(@"~\Images\{0}.png", guid.ToString());
-            screenShot.image.Save(HttpContext.Current.Request.MapPath(pathToImage), ImageFormat.Png);
-            return guid;
+            if (screenShot == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "screenShot");
+            }
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand insertCommand = new SqlCommand("", connection);
+                insertCommand.CommandText = "INSERT INTO ScreenWatch.dbo.ScreenShot (id, userName, timeStamp, image) VALUES (@id, @userName, @timeStamp, (0x))";
+                insertCommand.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                Guid id = Guid.NewGuid();
+                parameter.Value = id;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = screenShot.user;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@timeStamp", System.Data.SqlDbType.DateTime);
+                parameter.Value = screenShot.timeStamp;
+                insertCommand.Parameters.Add(parameter);
+
+                insertCommand.ExecuteNonQuery();
+
+                SqlCommand command = new SqlCommand("", connection);
+
+                SqlTransaction transaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+                command.Transaction = transaction;
+
+                command.CommandText = "select image.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() from ScreenWatch.dbo.ScreenShot WHERE id = @id";
+                command.CommandType = System.Data.CommandType.Text;
+
+                parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                parameter.Value = id;
+                command.Parameters.Add(parameter);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Get the pointer for file 
+                        string path = reader.GetString(0);
+                        byte[] transactionContext = reader.GetSqlBytes(1).Buffer;
+
+                        const int BlockSize = 1024 * 512;
+                        String clientPath = @"c:\temp\temp.png";
+                        screenShot.image.Save(clientPath, ImageFormat.Png);
+                        using (FileStream source = new FileStream(clientPath, FileMode.Open, FileAccess.Read))
+                        {
+                            using (SqlFileStream dest = new SqlFileStream(path, (byte[])reader.GetValue(1), FileAccess.Write))
+                            {
+                                byte[] buffer = new byte[BlockSize];
+                                int bytesRead;
+                                while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    dest.Write(buffer, 0, bytesRead);
+                                    dest.Flush();
+                                }
+                                dest.Close();
+                            }
+                            source.Close();
+                        }
+                    }
+                }
+                transaction.Commit();
+                return id;
+            }
         }
 
         // This is a test implementation - When the final implemetation is finished, the code will be
         // part of this method - See the _IMPL method the current state of the final implementation
         public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
         {
-            List<ScreenShot> screenShots = new List<ScreenShot>();
+            /*List<ScreenShot> screenShots = new List<ScreenShot>();
             ScreenShot screenShot;
 
             for (int i = 1; i < 9; i++)
@@ -75,13 +143,22 @@ namespace ScreenWatchData
                 screenShot = new ScreenShot();
                 screenShot.timeStamp = DateTime.Now;
                 screenShot.user = "TESTUSER";
-                screenShot.filePath = @"C:\temp\ScreenWatchTestImages\testImage" + i + @".png";
-                screenShot.image = Image.FromFile(screenShot.filePath);
-                screenShot.thumbnailFilePath = @"C:\temp\ScreenWatchTestImages\testImage" + i + @"_thumb.png";
-                screenShot.thumbnail = Image.FromFile(screenShot.thumbnailFilePath);
+                screenShot.filePath = @"~/ScreenWatchTestImages/testImage" + i + @".png";
+                screenShot.image = Image.FromFile(HttpContext.Current.Request.MapPath("~/ScreenWatchTestImages/testImage" + i + @".png"));
+                screenShot.thumbnailFilePath = @"~/ScreenWatchTestImages/testImage" + i + @"_thumb.png";
+                screenShot.thumbnail = Image.FromFile(HttpContext.Current.Request.MapPath(screenShot.thumbnailFilePath));
                 screenShots.Add(screenShot);
             }
 
+            return screenShots;*/
+            
+            List<String> ids = getScreenShotIdsByDateRange(fromDate, toDate);
+            List<ScreenShot> screenShots = new List<ScreenShot>();
+            foreach (String id in ids)
+            {
+                screenShots.Add(getScreenShotById_IMPL(new Guid(id)));
+            }
+            
             return screenShots;
         }
 
@@ -157,38 +234,13 @@ namespace ScreenWatchData
         {
             ScreenShot screenShot = new ScreenShot();
 
-            /*StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
-            {
-                connection.Open();
-
-                SqlCommand selectCommand = new SqlCommand("", connection);
-                selectCommand.CommandText = "SELECT * FROM [ScreenWatch].[dbo].[ScreenShot] WHERE id = @id";
-                selectCommand.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
-                parameter.Value = id;
-                selectCommand.Parameters.Add(parameter);
-                using (SqlDataReader reader = selectCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        screenShot.user = (String) reader["userName"];
-                        screenShot.timeStamp = (DateTime) reader["timeStamp"];
-                        
-                    }
-                }
-            }*/
-
             const string SelectTSql = @"
                 SELECT
                     userName,
                     timeStamp,
                     image.PathName(),
                     GET_FILESTREAM_TRANSACTION_CONTEXT()
-                  FROM [ScreenWatch].[dbo].[ScreenShot]
+                  FROM ScreenWatch.dbo.ScreenShot
                   WHERE id = @id";
 
             string serverPath;
@@ -226,7 +278,50 @@ namespace ScreenWatchData
                 ts.Complete();
             }
 
+            // Create temporary image info
+            screenShot.filePath = @"~/ScreenWatchImageCache/image/" + id.ToString() + @".png";
+            String absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
+            screenShot.image.Save(absolutePath, ImageFormat.Png);
+            screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnail/" + id.ToString() + @".png";
+            /*Bitmap bitmap = new Bitmap(128, 128);
+            Graphics graphics = Graphics.FromImage((Image) bitmap);
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
+            graphics.Dispose();
+            screenShot.thumbnail = (Image) bitmap;
+            screenShot.thumbnail.Save(screenShot.thumbnailFilePath, ImageFormat.Png);
+            */
             return screenShot;
+        }
+
+        private List<String> getScreenShotIdsByDateRange(DateTime fromDate, DateTime toDate)
+        {
+            List<String> ids = new List<String>();
+            
+            const string query = @"SELECT ss.id FROM ScreenWatch.dbo.ScreenShot ss WHERE ss.timeStamp BETWEEN @fromDate AND @toDate";
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.Add("@fromDate", SqlDbType.DateTime).Value = fromDate;
+                    cmd.Parameters.Add("@toDate", SqlDbType.DateTime).Value = toDate;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            ids.Add(reader.GetSqlString(0).Value);
+                        }
+                        reader.Close();
+                    }
+                }
+                connection.Close();
+            }
+
+            return ids;
         }
 
         private List<TextTrigger> getTextTriggers_IMPL()
@@ -248,7 +343,7 @@ namespace ScreenWatchData
 
                 SqlCommand insertCommand = new SqlCommand("", connection);
 
-                insertCommand.CommandText = "INSERT INTO [ScreenWatch].[dbo].[TextTrigger] ([id], [matchThreshold], [matchType], [tokenString]) VALUES (@id, @matchThreshold, @matchType, @tokenString)";
+                insertCommand.CommandText = "INSERT INTO ScreenWatch.dbo.TextTrigger (id, matchThreshold, matchType, tokenString) VALUES (@id, @matchThreshold, @matchType, @tokenString)";
                 insertCommand.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
