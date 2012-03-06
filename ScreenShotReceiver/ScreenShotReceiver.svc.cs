@@ -50,7 +50,7 @@ namespace ScreenShotReceiver
                 //send image to database
                 ScreenShot screenShot = new ScreenShot();
                 screenShot.image = image;
-                dataLayer.insertImage(screenShot);
+                dataLayer.insertScreenShot(screenShot);
             }
             catch (Exception e)
             {
