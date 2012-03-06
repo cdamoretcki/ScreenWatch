@@ -15,6 +15,7 @@ namespace ScreenShotReceiver
 {
     public class ScreenShotReceiver : IScreenShotReceiver
     {
+
         static ScreenShotReceiver()
         {
             TextWriterTraceListener debugListener = new TextWriterTraceListener(@"c:\temp\ScreenShotReceiver.log");
@@ -32,18 +33,42 @@ namespace ScreenShotReceiver
             }
             try
             {
+                //connect to datalayer for triggers
+                ScreenShotActions dataLayer = new ScreenShotActions();
+                HashSet<string> triggers = new HashSet<string>();
+                int confidence = 255;
+                //TODO: talk Chris about confidence of trigger and the associated email being outside of the list
+                foreach (var triggerInfo in dataLayer.getTextTriggers())
+                {
+                    if (!triggers.Contains(triggerInfo.tokenString))
+                    {
+                        triggers.Add(triggerInfo.tokenString);
+                    }
+                }
+
+                //load image
                 MemoryStream stream = new MemoryStream(upload.ImageData);
                 Image image = Bitmap.FromStream(stream);
-                image.Save(@"c:\temp\servicetest.png", ImageFormat.Png);
+                image.Save(@"c:\temp\servicetest.png", ImageFormat.Png); //TODO: remove this eventually
+
+                //Analyze the image
+                ImageAnalysis analyzer = ImageAnalysis.Instance;
+                Debug.WriteLine("ScreenShotReceiver.Upload retrieved analyzer");
+                analyzer.ProcessImage((Bitmap)image, upload.CaptureTime, confidence, triggers);
+
+                //send image to database
                 ScreenShot screenShot = new ScreenShot();
                 screenShot.image = image;
-                new ScreenShotActions().insertImage(screenShot);
+                dataLayer.insertImage(screenShot);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
-            Debug.WriteLine("ScreenShotReceiver.Upload exit");
+            finally
+            {
+                Debug.WriteLine("ScreenShotReceiver.Upload exit");
+            }
         }
     }
 }
