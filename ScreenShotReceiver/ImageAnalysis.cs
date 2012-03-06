@@ -50,11 +50,13 @@ namespace ScreenShotReceiver
         /// <param name="confidenceFilter">confidence cutoff, 0 is certain 255 is low confidence</param>
         /// <param name="badWords">words that should trigger the filter</param>
         /// <returns></returns>
-        public void ProcessImage(Bitmap bmp, string captureTime, int textConfidence, HashSet<string> textTriggers)
+        public void ProcessImage(Bitmap bmp, string captureTime)
         {
+            int confidenceFilter = 240;
             string email = "jared.tait@gmail.com";
+            HashSet<string> filters = new HashSet<string>() { "bad" };
 
-            AnalysisResult result = ProcessText(bmp, textConfidence, textTriggers);
+            AnalysisResult result = ProcessText(bmp, confidenceFilter, filters);
 
             if (result.FaultFound)
             {

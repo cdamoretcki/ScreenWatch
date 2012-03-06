@@ -33,28 +33,19 @@ namespace ScreenShotReceiver
             }
             try
             {
-                //connect to datalayer for triggers
+                //TODO: connect to datalayer for triggers
                 ScreenShotActions dataLayer = new ScreenShotActions();
-                HashSet<string> triggers = new HashSet<string>();
-                int confidence = 255;
-                //TODO: talk Chris about confidence of trigger and the associated email being outside of the list
-                foreach (var triggerInfo in dataLayer.getTextTriggers())
-                {
-                    if (!triggers.Contains(triggerInfo.tokenString))
-                    {
-                        triggers.Add(triggerInfo.tokenString);
-                    }
-                }
 
                 //load image
                 MemoryStream stream = new MemoryStream(upload.ImageData);
                 Image image = Bitmap.FromStream(stream);
-                image.Save(@"c:\temp\servicetest.png", ImageFormat.Png); //TODO: remove this eventually
+                image.Save(@"c:\temp\servicetest.png", ImageFormat.Png);
 
-                //Analyze the image
                 ImageAnalysis analyzer = ImageAnalysis.Instance;
                 Debug.WriteLine("ScreenShotReceiver.Upload retrieved analyzer");
-                analyzer.ProcessImage((Bitmap)image, upload.CaptureTime, confidence, triggers);
+
+                //Analyze the image
+                analyzer.ProcessImage((Bitmap)image, upload.CaptureTime);
 
                 //send image to database
                 ScreenShot screenShot = new ScreenShot();
