@@ -25,6 +25,11 @@ namespace ScreenWatchUI
 
 		}
 
+		protected void ThumbNail1_Click(object sender, EventArgs e)
+        {
+
+
+        }
 		protected void Button1_Click(object sender, EventArgs e)
 		{
 
@@ -47,9 +52,9 @@ namespace ScreenWatchUI
 				string MyId = "ThumbNail" + (i + 1).ToString();
 				btn.ImageUrl = lstOfScreenShots[i].thumbnailFilePath;
 				btn.Attributes.Add("runat", "server");
-				btn.ID = MyId;
+				btn.ID = MyId;                
 				btn.Height = Unit.Pixel(60);
-				btn.Width = Unit.Pixel(168);
+				btn.Width = Unit.Pixel(140);
 				btn.Attributes.Add("OnClick", MyEvent);
 				ThumbNailHeader.Controls.Add(btn);
 			}

@@ -129,9 +129,9 @@
     </table>
     <h3 class="style7">
         Thumbnail Images</h3>
-    <table border="3" style="height: 9px" width="100%">
+    <table border="3" style="height: 9px" width="100%" cellpadding="4" cellspacing="4">
         <tr align='left'>
-            <td id="ThumbNailHeader" runat="server">              
+            <td id="ThumbNailHeader" runat="server" align="center">              
             </td>
         </tr>
     </table>
