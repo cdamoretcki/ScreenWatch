@@ -82,7 +82,7 @@
     <span class="style8">ScreenWatch - Browser History<br />
     </span>
     <table cellpadding="1">
-       <tr align=left>
+       <tr align="left">
             <th style="margin-left: 40px" class="style9">
                 <asp:Label ID="Label2" 
                 runat="server" 
