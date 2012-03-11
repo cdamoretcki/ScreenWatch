@@ -90,7 +90,7 @@
         <td class="style1">Color Triggers</td>
       </tr>
     </table>
-    <asp:Table ID="Table1" runat="server" Width="50%" 
+    <asp:Table ID="DocumentsToDownloadTable1" runat="server" Width="50%" 
         GridLines="Both" Height="16px" >
           <asp:TableRow VerticalAlign="top"> 
                 <asp:TableCell 
@@ -101,20 +101,19 @@
                 <asp:TableCell 
                      Height="15" 
                     Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">Text Type</asp:TableCell> 
+                    HorizontalAlign="Center" Font-Bold="true">Color Code</asp:TableCell> 
                     
                     <asp:TableCell 
                      Height="25" 
                     Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">Text Change</asp:TableCell>              
+                    HorizontalAlign="Center" Font-Bold="true">Color Change</asp:TableCell>              
           </asp:TableRow>
     </asp:Table>  
-     <asp:TextBox id="tb2" runat="server" Height="19px" Width="143px"/>
-        <ajaxtoolkit:ColorPickerExtender ID="tb2_ColorPickerExtender" 
-        runat="server" Enabled="True" TargetControlID="tb2">
-    </ajaxtoolkit:ColorPickerExtender>
 
-    <br /><br /><br />
+    <br /><br />
+    <asp:Button ID="Button4" runat="server" Text="Load Color" 
+        onclick="Button4_Click"/>
+    <br />
 
     <br /><br /><br />
 

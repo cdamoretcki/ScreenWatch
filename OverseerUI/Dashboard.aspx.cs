@@ -13,9 +13,8 @@ namespace ScreenWatchUI
 
     public partial class Dashboard : System.Web.UI.Page
     {
-        protected System.Web.UI.WebControls.Table DocumentsToDownloadTable; 
+        protected System.Web.UI.WebControls.Table DocumentsToDownloadTable;
 
-   
         protected void Page_Load(object sender, EventArgs e)
         {
          
@@ -43,32 +42,64 @@ namespace ScreenWatchUI
                 //API CALL
                 ScreenShotActions SSA = new ScreenShotActions();
                 if (SSA != null)
-                {        // make sure you got this thing before you make calls agains it 
+                {       
                     List<TextTrigger> lstOftextTriggers = SSA.getTextTriggers(); //instacne to getTextTiggers
                     if (lstOftextTriggers != null)
-                    {        // again make sure you got something ; validation
-                        TableRow NewRow = null;       // a pointer for a new HTML row 
-                        TableCell NewCell = null;     // a pointer for a new HTML cell 
-                        TextTrigger textTrigger = null; // pointer to use in textTrigger list
+                    {        
+                        TableRow NewRow = null;       
+                        TableCell NewCell = null;     
+                        TextTrigger textTrigger = null; 
 
                         for (int x = 0; x < lstOftextTriggers.Count; x++)
                         {
-                            textTrigger = (TextTrigger)lstOftextTriggers[x];       // i'm casting here, you might not have to have the (TextTrigger) part, not sure 
+                            textTrigger = (TextTrigger)lstOftextTriggers[x];       
                             if (textTrigger != null)
                             {
-                                NewRow = new TableRow();        // create a new row in memory 
-                                NewCell = new TableCell();        // create a new cell for the row above, you could create as many cells as you need here. Many cells to 1 row                                                                      
+                                NewRow = new TableRow();        
+                                NewCell = new TableCell();        
                                 NewCell.Text = textTrigger.tokenString;
 
-                                NewRow.Cells.Add(NewCell);                // add that cell to the row 
-                                DocumentsToDownloadTable.Controls.Add(NewRow);        // and add the row to the table (use your table name)
+                                NewRow.Cells.Add(NewCell);                
+                                DocumentsToDownloadTable.Controls.Add(NewRow);       
                             }     // end if
                         }        //end for 
-                    } // end if
-                    //else { 
-                    // MessageBox.Show("list is empty","Problem"); 
-                    // } 
+                    } // end if              
+                }
+            }
+            catch (Exception x1)
+            {
+                //MessageBox.Show(x1.Message,"Problem"); 
+            }
+        }
 
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            try
+            {        
+                //API CALL
+                ScreenShotActions SSA = new ScreenShotActions();
+                if (SSA != null)
+                {       
+                    List<TextTrigger> lstOftextTriggers = SSA.getTextTriggers(); 
+                    if (lstOftextTriggers != null)
+                    {        
+                        TableRow NewRow = null;      
+                        TableCell NewCell = null;      
+                        TextTrigger textTrigger = null; 
+
+                        for (int x = 0; x < lstOftextTriggers.Count; x++)
+                        {
+                            textTrigger = (TextTrigger)lstOftextTriggers[x];      
+                            if (textTrigger != null)
+                            {
+                                NewRow = new TableRow();        
+                                NewCell = new TableCell();      
+                                NewCell.Text = textTrigger.tokenString;
+                                NewRow.Cells.Add(NewCell);             
+                                DocumentsToDownloadTable1.Controls.Add(NewRow);  
+                            }     
+                        }        
+                    } 
                 }
             }
             catch (Exception x1)
@@ -77,6 +108,9 @@ namespace ScreenWatchUI
             }
         }       
         }
+      
 
-    }                              
+}
+
+                                  
     
