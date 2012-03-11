@@ -12,7 +12,8 @@
         .style1
         {
             font-family: Calibri;
-            font-size: x-large;
+            font-size: large;
+            text-decoration: underline;
         }
         .style3
         {
@@ -27,19 +28,11 @@
         {
             font-size: small;
         }
-        .style6
-        {
-            font-family: Calibri;
-            text-decoration: underline;
-            border-left-color: #ACA899;
-            border-right-color: #C0C0C0;
-            border-top-color: #ACA899;
-            border-bottom-color: #C0C0C0;
-            padding: 1px;
-        }
         .style7
         {
-            width: 8px;
+            font-family: Calibri;
+            font-size: x-large;
+            font-weight: bold;
         }
         </style>
 </head>
@@ -59,46 +52,85 @@
    
     <table>
       <tr>
-        <th class="style1">PCWatcher - Dashboard</th>
+        <td class="style7">ScreenWatcher - Dashboard</td>
       </tr>
     </table>
+    <br /><br /><br />
+
+    <table>
+      <tr>
+        <td class="style1">Text Triggers</td>
+      </tr>
+    </table>
+    <asp:Table ID="DocumentsToDownloadTable" runat="server" Width="50%" 
+        GridLines="Both" Height="16px" >
+          <asp:TableRow VerticalAlign="top"> 
+                <asp:TableCell 
+                    Height="15"                      
+                    Width="15%" 
+                    HorizontalAlign="Center" Font-Bold="true">ID</asp:TableCell>    
+                         
+                <asp:TableCell 
+                     Height="15" 
+                    Width="15%" 
+                    HorizontalAlign="Center" Font-Bold="true">Text Type</asp:TableCell> 
+                    
+                    <asp:TableCell 
+                     Height="25" 
+                    Width="15%" 
+                    HorizontalAlign="Center" Font-Bold="true">Text Change</asp:TableCell>              
+          </asp:TableRow>
+    </asp:Table>  <br />
+    <asp:Button ID="Button3" runat="server" Text="Load Text" 
+        onclick="Button3_Click"/>
     <br /><br />
-    
-    <table border="1">
-     <tr align="center">
-       <th><span class="style6">Text Trigger</span><br />          
-           <asp:GridView ID="GridView1" runat="server" AllowPaging="True" 
-               DataSourceID="SqlDataSource3" 
-               onselectedindexchanged="GridView1_SelectedIndexChanged1">
-               <Columns>
-                   <asp:BoundField HeaderText="ID" />
-                   <asp:BoundField HeaderText="Type" />
-                   <asp:BoundField HeaderText="Text" />
-               </Columns>
-           </asp:GridView>                                     
-         </th>          
-     </tr>
-     </table>
-     <br /><br />
-     <table border="1">
-     <tr align="center">
-       <th><span class="style6">Color Trigger</span><br />          
-           <asp:GridView ID="GridView2" runat="server" Height="201px" Width="377px">
-           </asp:GridView>          
-         </th>          
-     </tr>
-     </table>
+
+    <table>
+      <tr>
+        <td class="style1">Color Triggers</td>
+      </tr>
+    </table>
+    <asp:Table ID="Table1" runat="server" Width="50%" 
+        GridLines="Both" Height="16px" >
+          <asp:TableRow VerticalAlign="top"> 
+                <asp:TableCell 
+                    Height="15"                      
+                    Width="15%" 
+                    HorizontalAlign="Center" Font-Bold="true">ID</asp:TableCell>    
+                         
+                <asp:TableCell 
+                     Height="15" 
+                    Width="15%" 
+                    HorizontalAlign="Center" Font-Bold="true">Text Type</asp:TableCell> 
+                    
+                    <asp:TableCell 
+                     Height="25" 
+                    Width="15%" 
+                    HorizontalAlign="Center" Font-Bold="true">Text Change</asp:TableCell>              
+          </asp:TableRow>
+    </asp:Table>  
+     <asp:TextBox id="tb2" runat="server" Height="19px" Width="143px"/>
+        <ajaxtoolkit:ColorPickerExtender ID="tb2_ColorPickerExtender" 
+        runat="server" Enabled="True" TargetControlID="tb2">
+    </ajaxtoolkit:ColorPickerExtender>
+
+    <br /><br /><br />
+
+    <br /><br /><br />
+
+     <br /><br /><br />
+
      <table border="1" cellpadding="3">
      <tr>
-      <th class="style4"><asp:RadioButton ID="RadioButton0" runat="server" 
-              Text="5 Screenshot per Minute" CssClass="style5"/>&nbsp;&nbsp;&nbsp;&nbsp;
+      <td class="style4"><asp:RadioButton ID="RadioButton0" runat="server" 
+             Text="5 Screenshot per Minute" CssClass="style5"/>&nbsp;&nbsp;&nbsp;&nbsp;
           <asp:RadioButton ID="RadioButton1" runat="server" 
               Text="15 Screenshot per minute" CssClass="style5"/>
         &nbsp;&nbsp;
-        </th>
+        </td>
      </tr>
-       <tr><br /><br />
-      <th class="style4"> 
+      <tr><br /><br />
+        <th class="style4"> 
            <asp:RadioButton ID="RadioButton2" runat="server" 
                Text="20 Screenshot per minute" CssClass="style5" />&nbsp;&nbsp;&nbsp;
             <asp:RadioButton ID="RadioButton3" runat="server" 
@@ -106,11 +138,13 @@
         </th>      
      </tr>
      </table>
+     
      <br />
      <br />
+     
      <table>
       <tr>
-            <th align=justify>
+            <th align="justify">
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <asp:Button ID="Button1" runat="server" Text="Save Changes" />
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <asp:Button ID="Button2" runat="server" Text="Undo Changes" />
             </th>
@@ -120,11 +154,11 @@
      <br />
 
      <table border=1>
-     <tr align=left>
+     <tr align="left">
        <th><span class="style3">Real-time Images</span><br /></th>          
      </tr>
      </table>
-     <table border=1 cellpadding=3>
+     <table border="1" cellpadding="3">
         <tr>
          <th>
              <asp:RadioButton ID="RadioButton4" runat="server" Text="Show recent Image" 
