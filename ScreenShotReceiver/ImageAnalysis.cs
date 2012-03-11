@@ -14,34 +14,7 @@ namespace ScreenShotReceiver
 {
     public class ImageAnalysis
     {
-        private Tesseract tessocr = new Tesseract();
-
-        private static ImageAnalysis _instance;
-
-        private static Object lockObject = new Object();
-
-        public static ImageAnalysis Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (lockObject)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = new ImageAnalysis();
-                        }
-                    }
-                }
-                return _instance;
-            }
-        }
-
-        private ImageAnalysis()
-        {
-            tessocr.Init(ConfigurationManager.AppSettings["tessdata"], "eng", false);
-        }
+        private static object lockObj = new object();
 
         /// <summary>
         /// analyse image for text and return key filtered words
@@ -50,7 +23,8 @@ namespace ScreenShotReceiver
         /// <param name="confidenceFilter">confidence cutoff, 0 is certain 255 is low confidence</param>
         /// <param name="badWords">words that should trigger the filter</param>
         /// <returns></returns>
-        public void ProcessImage(Bitmap bmp, string captureTime)
+        /// 
+        public static void ProcessImage(Bitmap bmp, string captureTime)
         {
             int confidenceFilter = 240;
             string email = "jared.tait@gmail.com";
@@ -81,9 +55,20 @@ namespace ScreenShotReceiver
             }
         }
 
-        private AnalysisResult ProcessText(Bitmap bmp, int confidenceFilter, HashSet<string> filters)
+        private static AnalysisResult ProcessText(Bitmap bmp, int confidenceFilter, HashSet<string> filters)
         {
-            List<Word> results = tessocr.DoOCR(bmp, Rectangle.Empty);
+            List<Word> results;
+
+            //perform OCR thread safe :/
+            lock (lockObj)
+            {
+                using (Tesseract tessocr = new Tesseract())
+                {
+                    tessocr.Init(ConfigurationManager.AppSettings["tessdata"], "eng", false);
+                    results = tessocr.DoOCR(bmp, Rectangle.Empty);
+                }
+            }
+
             AnalysisResult analysisResult = new AnalysisResult();
             //lower number for confidence is greater certainty, don't ask, i don't know why.
             foreach (var resultWord in results.Where(word => word.Confidence < confidenceFilter))

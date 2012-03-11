@@ -89,7 +89,9 @@
   <ItemGroup>
     <Content Include="libraries\tessnet2.dll" />
     <Content Include="ScreenShotReceiver.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalysisResult.cs" />

@@ -25,7 +25,11 @@ namespace WatcherClient
 
         private Container components;
 
+        private ContextMenu menu;
+
         #endregion
+
+        #region constructor
 
         /// <summary>
         /// The main entry point for the application.
@@ -33,12 +37,17 @@ namespace WatcherClient
         public Monitor()
         {
             components = new System.ComponentModel.Container();
+            menu = new ContextMenu(new MenuItem[] 
+            { 
+                new MenuItem("Do not do this to me", new System.EventHandler(Kill)) 
+            });
             trayIcon = new NotifyIcon(components)
             {
                 ContextMenuStrip = new ContextMenuStrip(),
                 Icon = Icon.ExtractAssociatedIcon("icon.ico"),
-                Text = "Hi Friend",
-                Visible = true
+                Text = "Mommas watchin'",
+                Visible = true,
+                ContextMenu = menu
             };
 
             int periodInMS = int.Parse(ConfigurationManager.AppSettings["period"]) * 1000;
@@ -49,6 +58,10 @@ namespace WatcherClient
             timer.AutoReset = true;
             timer.Start();
         }
+
+        #endregion
+
+        #region methods
 
         public void ScanImage(object source, ElapsedEventArgs eventArgs)
         {
@@ -80,5 +93,54 @@ namespace WatcherClient
             Debug.WriteLine("Monitor.ScanImage exit " + DateTime.Now);
             Debug.Flush();
         }
+
+        public void Kill(Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("Monitor.Kill " + DateTime.Now);
+            Debug.Flush();
+            Application.Exit();
+        }
+
+        #region overriden methods
+
+        protected override void OnMainFormClosed(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Monitor.OnMainFormClosed " + DateTime.Now);
+            Debug.Flush();
+            base.OnMainFormClosed(sender, e);
+        }
+
+        protected override void ExitThreadCore()
+        {
+            Debug.WriteLine("Monitor.ExitThreadCore " + DateTime.Now);
+            Debug.Flush();
+            base.ExitThreadCore();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                Debug.WriteLine("Monitor.Dispose enter " + DateTime.Now);
+                if (disposing)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                    trayIcon.Dispose();
+                    components.Dispose();
+                    menu.Dispose();
+                }
+                base.Dispose(disposing);
+                Debug.WriteLine("Monitor.Dispose exit " + DateTime.Now);
+            }
+            finally
+            {
+                Debug.Flush();
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }
