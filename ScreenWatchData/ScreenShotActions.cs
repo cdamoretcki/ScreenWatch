@@ -116,7 +116,7 @@ namespace ScreenWatchData
             List<ScreenShot> screenShots = new List<ScreenShot>();
             foreach (String id in ids)
             {
-                screenShots.Add(getScreenShotById_IMPL(new Guid(id)));
+                screenShots.Add(getScreenShotById(new Guid(id)));
             }
             
             return screenShots;
@@ -126,17 +126,6 @@ namespace ScreenWatchData
          * Triggers API
          * 
          */
-
-        // This is a test implementation - When the final implemetation is finished, the code will be
-        // part of this method - See the _IMPL method the current state of the final implementation
-        public List<TextTrigger> getTextTriggers()
-        {
-            List<TextTrigger> textTriggers = new List<TextTrigger>();
-            TextTrigger textTrigger = new TextTrigger();
-            textTrigger.triggerString = "TEST";
-            textTriggers.Add(textTrigger);
-            return textTriggers;
-        }
 
         public Guid insertTextTrigger(TextTrigger textTrigger)
         {
@@ -261,7 +250,7 @@ namespace ScreenWatchData
 
         public List<ToneTrigger> getToneTriggersByUser(String user)
         {
-           if (user == null)
+            if (user == null)
             {
                 throw new System.ArgumentException("Input to method cannot be null", "user");
             }
@@ -307,17 +296,10 @@ namespace ScreenWatchData
             }
         }
 
-        /**
-         * WORK IN PROGRESS
-         */
-
-        private Guid insertScreenShot_IMPL(ScreenShot screenShot)
+        public List<TextTrigger> getAllTextTriggers()
         {
-            if (screenShot == null)
-            {
-                throw new System.ArgumentException("Input to method cannot be null", "screenShot");
-            }
-            
+            List<TextTrigger> textTriggers = new List<TextTrigger>();
+
             StringBuilder connectionString = new StringBuilder();
             connectionString.Append(SQL_CONNECTION_STRING);
 
@@ -325,36 +307,69 @@ namespace ScreenWatchData
             {
                 connection.Open();
 
-                SqlCommand insertCommand = new SqlCommand("", connection);
-                insertCommand.CommandText = "INSERT INTO [ScreenWatch].[dbo].[ScreenShot] ([id], [userName], [timeStamp], [image]) VALUES (@id, @userName, @timeStamp, @image)";
-                insertCommand.CommandType = System.Data.CommandType.Text;
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM ScreenWatch.dbo.TextTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName";
+                command.CommandType = System.Data.CommandType.Text;
 
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
-                Guid id = Guid.NewGuid();
-                parameter.Value = id;
-                insertCommand.Parameters.Add(parameter);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    TextTrigger textTrigger = new TextTrigger();
 
-                parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = screenShot.user;
-                insertCommand.Parameters.Add(parameter);
+                    while (reader.Read())
+                    {
+                        textTrigger = new TextTrigger();
+                        textTrigger.id = reader.GetGuid(0);
+                        textTrigger.userName = reader.GetString(1);
+                        textTrigger.userEmail = reader.GetString(2);
+                        textTrigger.triggerString = reader.GetString(3);
+                        textTriggers.Add(textTrigger);
+                    }
+                }
 
-                parameter = new System.Data.SqlClient.SqlParameter("@timeStamp", System.Data.SqlDbType.DateTime);
-                parameter.Value = screenShot.timeStamp;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@image", System.Data.SqlDbType.VarBinary);
-                MemoryStream memoryStream = new MemoryStream();
-                screenShot.image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                parameter.Value = memoryStream.ToArray();
-                insertCommand.Parameters.Add(parameter);
-
-                insertCommand.ExecuteNonQuery();
-
-                return id;
+                return textTriggers;
             }
         }
 
-        private ScreenShot getScreenShotById_IMPL(Guid id)
+        public List<ToneTrigger> getAllToneTriggers()
+        {
+            List<ToneTrigger> toneTriggers = new List<ToneTrigger>();
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM ScreenWatch.dbo.ToneTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName";
+                command.CommandType = System.Data.CommandType.Text;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    ToneTrigger toneTrigger = new ToneTrigger();
+                    int color = 0;
+
+                    while (reader.Read())
+                    {
+                        toneTrigger = new ToneTrigger();
+                        toneTrigger.id = reader.GetGuid(0);
+                        toneTrigger.userName = reader.GetString(1);
+                        toneTrigger.userEmail = reader.GetString(2);
+                        color = reader.GetInt32(3);
+                        toneTrigger.lowerColorBound = Color.FromArgb(color, color, color);
+                        color = reader.GetInt32(4);
+                        toneTrigger.upperColorBound = Color.FromArgb(color, color, color);
+                        toneTrigger.sensitivity = reader.GetString(5);
+                        toneTriggers.Add(toneTrigger);
+                    }
+                }
+
+                return toneTriggers;
+            }
+        }
+
+        private ScreenShot getScreenShotById(Guid id)
         {
             ScreenShot screenShot = new ScreenShot();
 
@@ -451,13 +466,6 @@ namespace ScreenWatchData
 
             return ids;
         }
-
-        private List<TextTrigger> getTextTriggers_IMPL()
-        {
-            List<TextTrigger> textTriggers = new List<TextTrigger>();
-            return textTriggers;
-        }
-
     }
 
     internal class ScreenWatchDataLogger

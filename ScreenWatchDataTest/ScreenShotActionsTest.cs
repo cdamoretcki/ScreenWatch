@@ -105,7 +105,7 @@ namespace ScreenWatchDataTest
             Guid newlyInsertedId = target.insertScreenShot(screenShot);
             Assert.IsNotNull(newlyInsertedId);
 
-            ScreenShot returnedScreenShot = target.getScreenShotById_IMPL(newlyInsertedId);
+            ScreenShot returnedScreenShot = target.getScreenShotById(newlyInsertedId);
             Assert.IsNotNull(returnedScreenShot);
             Assert.AreEqual(returnedScreenShot.user, insertedUser);
             Assert.AreEqual(returnedScreenShot.timeStamp.DayOfYear, DateTime.Now.DayOfYear);
@@ -192,6 +192,30 @@ namespace ScreenWatchDataTest
             actual = target.getTextTriggersByUser(user);
             Assert.IsNotNull(actual);
             //Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for getAllToneTriggers
+        ///</summary>
+        [TestMethod()]
+        public void getAllToneTriggersTest()
+        {
+            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            List<ToneTrigger> actual;
+            actual = target.getAllToneTriggers();
+            Assert.IsNotNull(actual);
+        }
+
+        /// <summary>
+        ///A test for getAllTextTriggers
+        ///</summary>
+        [TestMethod()]
+        public void getAllTextTriggersTest()
+        {
+            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            List<TextTrigger> actual;
+            actual = target.getAllTextTriggers();
+            Assert.IsNotNull(actual);
         }
     }
 }
