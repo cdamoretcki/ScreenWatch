@@ -133,6 +133,21 @@ namespace ScreenWatchDataTest
         }
 
         /// <summary>
+        ///A test for getToneTriggersByUser
+        ///</summary>
+        [TestMethod()]
+        public void getToneTriggersByUserTest()
+        {
+            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            string user = "TESTUSER"; // TODO: Initialize to an appropriate value
+            List<ToneTrigger> expected = null; // TODO: Initialize to an appropriate value
+            List<ToneTrigger> actual;
+            actual = target.getToneTriggersByUser(user);
+            Assert.IsNotNull(actual);
+            //Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for insertTextTrigger
         ///</summary>
         [TestMethod()]
@@ -140,21 +155,41 @@ namespace ScreenWatchDataTest
         {
             ScreenShotActions target = new ScreenShotActions();
             TextTrigger textTrigger = new TextTrigger();
-            textTrigger.matchType = TriggerMatchType.Include;
-            textTrigger.matchThreshold = 10;
-            textTrigger.tokenString = "TEST";
+            textTrigger.userName = "TESTUSER";
+            textTrigger.userEmail = "TEST@";
+            textTrigger.triggerString = "TEST";
             Guid actual = target.insertTextTrigger(textTrigger);
             Assert.IsNotNull(actual);
         }
 
         /// <summary>
-        ///A test for getTextTriggers
+        ///A test for insertToneTrigger
         ///</summary>
         [TestMethod()]
-        public void getTextTriggersTest()
+        public void insertToneTriggerTest()
         {
             ScreenShotActions target = new ScreenShotActions();
-            List<TextTrigger> actual = target.getTextTriggers();
+            ToneTrigger toneTrigger = new ToneTrigger();
+            toneTrigger.userName = "TESTUSER";
+            toneTrigger.userEmail = "TEST@";
+            toneTrigger.lowerColorBound = Color.AliceBlue;
+            toneTrigger.upperColorBound = Color.Azure;
+            toneTrigger.sensitivity = "sensitive";
+            Guid actual = target.insertToneTrigger(toneTrigger);
+            Assert.IsNotNull(actual);
+        }
+
+        /// <summary>
+        ///A test for getTextTriggersByUser
+        ///</summary>
+        [TestMethod()]
+        public void getTextTriggersByUserTest()
+        {
+            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            string user = "TESTUSER"; // TODO: Initialize to an appropriate value
+            List<TextTrigger> expected = null; // TODO: Initialize to an appropriate value
+            List<TextTrigger> actual;
+            actual = target.getTextTriggersByUser(user);
             Assert.IsNotNull(actual);
             //Assert.AreEqual(expected, actual);
         }

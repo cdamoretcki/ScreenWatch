@@ -11,43 +11,20 @@ using System.Drawing;
 using System.Transactions;
 using System.Data;
 using System.Drawing.Drawing2D;
+using System.Diagnostics;
 
 namespace ScreenWatchData
-{
-    public class ScreenShot
+{    
+    public class ScreenShotActions: IScreenShotActions
     {
-        public DateTime timeStamp { get; set; }
-        public String user { get; set; }
-        public Image image { get; set; }
-        public Image thumbnail { get; set; }
-        public String filePath { get; set; }
-        public String thumbnailFilePath { get; set; }
-    }
+        private const string APP_NAME = "ScreenWatchData";
+        private const string SQL_CONNECTION_STRING = @"Data Source=HANSOLO\SQLEXPRESS;Integrated Security=True;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096";
 
-    public enum TriggerMatchType
-    {
-        Include,
-        Exclude
-    }
-
-    public interface AnalysisTrigger
-    {
-        Guid id { get; set; }
-        int matchThreshold { get; set; }
-    }
-
-    public class TextTrigger: AnalysisTrigger
-    {
-        public String tokenString { get; set; }
-        public TriggerMatchType matchType { get; set; }
-        public Guid id { get; set; }
-        public int matchThreshold { get; set; }
-    }
-
-    public class ScreenShotActions
-    {
-        const string SQL_CONNECTION_STRING = @"Data Source=HANSOLO\SQLEXPRESS;Integrated Security=True;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096";
-
+        public ScreenShotActions()
+        {
+            ScreenWatchDataLogger.init();
+        }
+        
         /**
          * ScreenShot API
          */
@@ -134,24 +111,7 @@ namespace ScreenWatchData
         // This is a test implementation - When the final implemetation is finished, the code will be
         // part of this method - See the _IMPL method the current state of the final implementation
         public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
-        {
-            /*List<ScreenShot> screenShots = new List<ScreenShot>();
-            ScreenShot screenShot;
-
-            for (int i = 1; i < 9; i++)
-            {
-                screenShot = new ScreenShot();
-                screenShot.timeStamp = DateTime.Now;
-                screenShot.user = "TESTUSER";
-                screenShot.filePath = @"~/ScreenWatchTestImages/testImage" + i + @".png";
-                screenShot.image = Image.FromFile(HttpContext.Current.Request.MapPath("~/ScreenWatchTestImages/testImage" + i + @".png"));
-                screenShot.thumbnailFilePath = @"~/ScreenWatchTestImages/testImage" + i + @"_thumb.png";
-                screenShot.thumbnail = Image.FromFile(HttpContext.Current.Request.MapPath(screenShot.thumbnailFilePath));
-                screenShots.Add(screenShot);
-            }
-
-            return screenShots;*/
-            
+        {            
             List<String> ids = getScreenShotIdsByDateRange(fromDate, toDate);
             List<ScreenShot> screenShots = new List<ScreenShot>();
             foreach (String id in ids)
@@ -173,14 +133,178 @@ namespace ScreenWatchData
         {
             List<TextTrigger> textTriggers = new List<TextTrigger>();
             TextTrigger textTrigger = new TextTrigger();
-            textTrigger.matchType = TriggerMatchType.Include;
-            textTrigger.tokenString = "TEST";
+            textTrigger.triggerString = "TEST";
             textTriggers.Add(textTrigger);
             return textTriggers;
         }
 
-        public Guid insertTextTrigger(TextTrigger textTrigger){
-            return insertTextTrigger_IMPL(textTrigger);
+        public Guid insertTextTrigger(TextTrigger textTrigger)
+        {
+            if (textTrigger == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "textTrigger");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                SqlCommand insertCommand = new SqlCommand("", connection);
+
+                insertCommand.CommandText = "INSERT INTO ScreenWatch.dbo.TextTrigger (id, userName, triggerString) VALUES (@id, @userName, @triggerString)";
+                insertCommand.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                Guid id = Guid.NewGuid();
+                parameter.Value = id;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = textTrigger.userName;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@triggerString", System.Data.SqlDbType.VarChar, 2048);
+                parameter.Value = textTrigger.triggerString;
+                insertCommand.Parameters.Add(parameter);
+
+                insertCommand.ExecuteNonQuery();
+
+                return id;
+            }
+        }
+        
+        public Guid insertToneTrigger(ToneTrigger toneTrigger)
+        {
+            if (toneTrigger == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "toneTrigger");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                SqlCommand insertCommand = new SqlCommand("", connection);
+
+                insertCommand.CommandText = @"INSERT INTO ScreenWatch.dbo.ToneTrigger (id, userName, lowerColorBound, upperColorBound, sensitivity) VALUES (@id, @userName, @lowerColorBound, @upperColorBound, @sensitivity)";
+                insertCommand.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                Guid id = Guid.NewGuid();
+                parameter.Value = id;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = toneTrigger.userName;
+                insertCommand.Parameters.Add(parameter);
+                
+                parameter = new System.Data.SqlClient.SqlParameter("@lowerColorBound", System.Data.SqlDbType.Int);
+                parameter.Value = toneTrigger.lowerColorBound.ToArgb();
+                insertCommand.Parameters.Add(parameter);
+                
+                parameter = new System.Data.SqlClient.SqlParameter("@upperColorBound", System.Data.SqlDbType.Int);
+                parameter.Value = toneTrigger.upperColorBound.ToArgb();
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@sensitivity", System.Data.SqlDbType.VarChar, 128);
+                parameter.Value = toneTrigger.sensitivity;
+                insertCommand.Parameters.Add(parameter);
+
+                insertCommand.ExecuteNonQuery();
+
+                return id;
+            }
+        }
+
+        public List<TextTrigger> getTextTriggersByUser(String user)
+        {
+            if (user == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "user");
+            }
+            
+            List<TextTrigger> textTriggers = new List<TextTrigger>();
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = "SELECT tt.id, u.email, tt.triggerString FROM ScreenWatch.dbo.TextTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName WHERE tt.userName = @userName";
+                command.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = user;
+                command.Parameters.Add(parameter);
+                
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    TextTrigger textTrigger = new TextTrigger();
+
+                    while (reader.Read())
+                    {
+                        textTrigger = new TextTrigger();
+                        textTrigger.userName = user;
+                        textTrigger.id = reader.GetGuid(0);
+                        textTrigger.userEmail = reader.GetString(1);
+                        textTrigger.triggerString = reader.GetString(2);
+                        textTriggers.Add(textTrigger);
+                    }
+                }
+
+                return textTriggers;
+            }
+        }
+
+        public List<ToneTrigger> getToneTriggersByUser(String user)
+        {
+           if (user == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "user");
+            }
+            
+            List<ToneTrigger> toneTriggers = new List<ToneTrigger>();
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = @"SELECT tt.id, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM ScreenWatch.dbo.ToneTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName WHERE tt.userName = @userName";
+                command.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = user;
+                command.Parameters.Add(parameter);
+                
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    ToneTrigger toneTrigger = new ToneTrigger();
+                    int color = 0;
+                    
+                    while (reader.Read())
+                    {
+                        toneTrigger = new ToneTrigger();
+                        toneTrigger.userName = user;
+                        toneTrigger.id = reader.GetGuid(0);
+                        toneTrigger.userEmail = reader.GetString(1);
+                        color = reader.GetInt32(2);
+                        toneTrigger.lowerColorBound = Color.FromArgb(color, color, color);
+                        color = reader.GetInt32(3);
+                        toneTrigger.upperColorBound = Color.FromArgb(color, color, color);
+                        toneTrigger.sensitivity = reader.GetString(4);
+                        toneTriggers.Add(toneTrigger);
+                    }
+                }
+
+                return toneTriggers;
+            }
         }
 
         /**
@@ -279,18 +403,22 @@ namespace ScreenWatchData
             }
 
             // Create temporary image info
-            screenShot.filePath = @"~/ScreenWatchImageCache/image/" + id.ToString() + @".png";
-            String absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
+            screenShot.filePath = @"~/ScreenWatchImageCache/images/" + id.ToString() + @".png";
+            //String absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
+            String absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
             screenShot.image.Save(absolutePath, ImageFormat.Png);
-            screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnail/" + id.ToString() + @".png";
-            /*Bitmap bitmap = new Bitmap(128, 128);
+            screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnails/" + id.ToString() + @".png";
+            absolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
+            ScreenWatchDataLogger.log("the thumb absolute path is: " + absolutePath);
+            
+            Bitmap bitmap = new Bitmap(128, 128);
             Graphics graphics = Graphics.FromImage((Image) bitmap);
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
             graphics.Dispose();
             screenShot.thumbnail = (Image) bitmap;
-            screenShot.thumbnail.Save(screenShot.thumbnailFilePath, ImageFormat.Png);
-            */
+            screenShot.thumbnail.Save(absolutePath, ImageFormat.Png);
+            
             return screenShot;
         }
 
@@ -330,43 +458,21 @@ namespace ScreenWatchData
             return textTriggers;
         }
 
-        private Guid insertTextTrigger_IMPL(TextTrigger textTrigger)
+    }
+
+    internal class ScreenWatchDataLogger
+    {
+        private const string APP_NAME = "ScreenWatchData";
+
+        public static void init(){
+            Trace.Listeners.Add(new TextWriterTraceListener(@"C:\temp\ScreenWatchData.log", "ScreenWatchDataListener"));
+        }
+
+        public static void log(string message)
         {
-            if (textTrigger == null)
-            {
-                throw new System.ArgumentException("Input to method cannot be null", "textTrigger");
-            }
-
-            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
-            {
-                connection.Open();
-
-                SqlCommand insertCommand = new SqlCommand("", connection);
-
-                insertCommand.CommandText = "INSERT INTO ScreenWatch.dbo.TextTrigger (id, matchThreshold, matchType, tokenString) VALUES (@id, @matchThreshold, @matchType, @tokenString)";
-                insertCommand.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
-                Guid id = Guid.NewGuid();
-                parameter.Value = id;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@matchThreshold", System.Data.SqlDbType.Int);
-                parameter.Value = textTrigger.matchThreshold;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@matchType", System.Data.SqlDbType.VarChar, 20);
-                parameter.Value = textTrigger.matchType;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@tokenString", System.Data.SqlDbType.VarChar, 2048);
-                parameter.Value = textTrigger.tokenString;
-                insertCommand.Parameters.Add(parameter);
-
-                insertCommand.ExecuteNonQuery();
-
-                return id;
-            }
+            Trace.WriteLine(string.Format("{0}, {1}, {2}, {3}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), "info", APP_NAME, message));
+            //Trace.TraceInformation("the thumb absolute path is: " + absolutePath);
+            Trace.Flush();
         }
     }
 }
