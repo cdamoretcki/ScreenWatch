@@ -40,31 +40,22 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Button Button3;
         
         /// <summary>
-        /// Table1 control.
+        /// DocumentsToDownloadTable1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table Table1;
+        protected global::System.Web.UI.WebControls.Table DocumentsToDownloadTable1;
         
         /// <summary>
-        /// tb2 control.
+        /// Button4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tb2;
-        
-        /// <summary>
-        /// tb2_ColorPickerExtender control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.ColorPickerExtender tb2_ColorPickerExtender;
+        protected global::System.Web.UI.WebControls.Button Button4;
         
         /// <summary>
         /// RadioButton0 control.

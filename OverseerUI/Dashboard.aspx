@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="ScreenWatchUI.Dashboard" %>
 
 <%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajaxtoolkit" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit.HTMLEditor"
+    TagPrefix="cc1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -111,30 +113,51 @@
     </asp:Table>  
 
     <br /><br />
+ 
     <asp:Button ID="Button4" runat="server" Text="Load Color" 
         onclick="Button4_Click"/>
     <br />
 
-    <br /><br /><br />
+    <br />
+ 
 
-     <br /><br /><br />
-
-     <table border="1" cellpadding="3">
-     <tr>
-      <td class="style4"><asp:RadioButton ID="RadioButton0" runat="server" 
-             Text="5 Screenshot per Minute" CssClass="style5"/>&nbsp;&nbsp;&nbsp;&nbsp;
-          <asp:RadioButton ID="RadioButton1" runat="server" 
-              Text="15 Screenshot per minute" CssClass="style5"/>
-        &nbsp;&nbsp;
+     <table id="tblSSFreq" border="1" cellpadding="3">
+        <tr>
+            <td class="style4">&nbsp;
+                <asp:RadioButton 
+                ID="RadioButton0" 
+                runat="server" 
+                Text="5 Screenshot per Minute" 
+                CssClass="style5"/>
+                
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:RadioButton 
+                ID="RadioButton1" 
+                runat="server" 
+                Text="15 Screenshot per minute" 
+                CssClass="style5"/>
+                
+                &nbsp;&nbsp;
         </td>
      </tr>
+
       <tr><br /><br />
-        <th class="style4"> 
-           <asp:RadioButton ID="RadioButton2" runat="server" 
-               Text="20 Screenshot per minute" CssClass="style5" />&nbsp;&nbsp;&nbsp;
-            <asp:RadioButton ID="RadioButton3" runat="server" 
-               Text="25 Screenshot per minute" CssClass="style5" />&nbsp;&nbsp;&nbsp;
-        </th>      
+            <td class="style4"> 
+                <asp:RadioButton 
+                ID="RadioButton2" 
+                runat="server" 
+                Text="20 Screenshot per minute" 
+                CssClass="style5" />
+                
+                &nbsp;&nbsp;&nbsp;
+                <asp:RadioButton 
+                ID="RadioButton3" 
+                runat="server" 
+                Text="25 Screenshot per minute" 
+                CssClass="style5" />
+                
+                &nbsp;&nbsp;&nbsp;
+            </td>      
      </tr>
      </table>
      
