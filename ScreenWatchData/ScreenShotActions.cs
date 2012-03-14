@@ -17,12 +17,11 @@ namespace ScreenWatchData
 {    
     public class ScreenShotActions: IScreenShotActions
     {
-        private const string APP_NAME = "ScreenWatchData";
         private const string SQL_CONNECTION_STRING = @"Data Source=HANSOLO\SQLEXPRESS;Integrated Security=True;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096";
 
-        public ScreenShotActions()
+        static ScreenShotActions()
         {
-            ScreenWatchDataLogger.init();
+            ScreenShotActionsLogger.init();
         }
         
         /**
@@ -421,10 +420,11 @@ namespace ScreenWatchData
             screenShot.filePath = @"~/ScreenWatchImageCache/images/" + id.ToString() + @".png";
             //String absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
             String absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
+            ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
             screenShot.image.Save(absolutePath, ImageFormat.Png);
             screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnails/" + id.ToString() + @".png";
             absolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
-            ScreenWatchDataLogger.log("the thumb absolute path is: " + absolutePath);
+            ScreenShotActionsLogger.log("the thumbnail absolute path is: " + absolutePath);
             
             Bitmap bitmap = new Bitmap(128, 128);
             Graphics graphics = Graphics.FromImage((Image) bitmap);
@@ -468,19 +468,18 @@ namespace ScreenWatchData
         }
     }
 
-    internal class ScreenWatchDataLogger
+    internal class ScreenShotActionsLogger
     {
-        private const string APP_NAME = "ScreenWatchData";
+        private const string APP_NAME = "ScreenShotActions";
 
         public static void init(){
-            Trace.Listeners.Add(new TextWriterTraceListener(@"C:\temp\ScreenWatchData.log", "ScreenWatchDataListener"));
+            Debug.Listeners.Add(new TextWriterTraceListener(@"C:\temp\" + APP_NAME + ".log", APP_NAME));
+            Debug.AutoFlush = true;
         }
 
         public static void log(string message)
         {
-            Trace.WriteLine(string.Format("{0}, {1}, {2}, {3}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), "info", APP_NAME, message));
-            //Trace.TraceInformation("the thumb absolute path is: " + absolutePath);
-            Trace.Flush();
+            Debug.WriteLine(string.Format("{0}, {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), message));
         }
     }
 }

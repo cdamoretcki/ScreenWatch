@@ -49,7 +49,7 @@ namespace ScreenShotReceiver
 
                 //TODO: connect to datalayer for triggers
                 ScreenShotActions dataLayer = new ScreenShotActions();
-                var textTriggers = dataLayer.getTextTriggers();
+                var textTriggers = dataLayer.getAllTextTriggers();
 
                 //load image
                 using (MemoryStream stream = new MemoryStream(upload.ImageData))
