@@ -11,12 +11,13 @@ using System.Drawing;
 using System.IO;
 using ScreenWatchData;
 using System.Threading;
+using System.ServiceModel.Activation;
 
 namespace ScreenShotReceiver
 {
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)] 
     public class ScreenShotReceiver : IScreenShotReceiver
     {
-
         static ScreenShotReceiver()
         {
             TextWriterTraceListener debugListener = new TextWriterTraceListener(@"c:\temp\ScreenShotReceiver.log");
@@ -31,6 +32,7 @@ namespace ScreenShotReceiver
         public void Upload(ImageUpload upload)
         {
             Debug.WriteLine("ScreenShotReceiver.Upload entered " + DateTime.Now);
+            ImageAnalysis.Init();
             if (upload == null)
             {
                 Debug.WriteLine("upload is null");
@@ -65,6 +67,7 @@ namespace ScreenShotReceiver
                     screenShot.image = image;
                     screenShot.timeStamp = DateTime.Parse(upload.CaptureTime);
                     screenShot.user = upload.UserID;
+                    
                     dataLayer.insertScreenShot(screenShot);
                 }
             }

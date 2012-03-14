@@ -19,7 +19,7 @@ namespace WatcherClient
         [STAThread]
         public static void Main()
         {
-            TextWriterTraceListener debugListener = new TextWriterTraceListener(@"c:\temp\WatcherClient.txt");
+            TextWriterTraceListener debugListener = new TextWriterTraceListener(@"c:\temp\WatcherClient.log");
             Debug.Listeners.Add(debugListener);
             Debug.AutoFlush = true;
             Debug.WriteLine("------------------------------------------------------------------------------");
