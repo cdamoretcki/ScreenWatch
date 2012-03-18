@@ -34,6 +34,7 @@ namespace ScreenShotReceiver
                 using (var stream = new MemoryStream())
                 {
                     image.Save(stream, ImageFormat.Png);
+                    stream.Position = 0;
                     message.Attachments.Add(new Attachment(stream, "Screenshot.png"));
                     smtp.Send(message);
                 }
