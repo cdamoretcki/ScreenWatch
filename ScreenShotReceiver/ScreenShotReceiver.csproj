@@ -94,14 +94,16 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalysisResult.cs" />
-    <Compile Include="ImageAnalysis.cs" />
+    <Compile Include="ScreenShotDataAdapter.cs" />
+    <Compile Include="TextAnalysisResult.cs" />
+    <Compile Include="TextAnalysis.cs" />
     <Compile Include="MailUtil.cs" />
     <Compile Include="ScreenShotReceiver.svc.cs">
       <DependentUpon>ScreenShotReceiver.svc</DependentUpon>
     </Compile>
     <Compile Include="IScreenShotReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToneAnalysis.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -39,13 +39,13 @@ namespace WatcherClient
             components = new System.ComponentModel.Container();
             menu = new ContextMenu(new MenuItem[] 
             { 
-                new MenuItem("Do not do this to me", new System.EventHandler(Kill)) 
+                new MenuItem("Nothing to see here", new System.EventHandler(Kill)) 
             });
             trayIcon = new NotifyIcon(components)
             {
                 ContextMenuStrip = new ContextMenuStrip(),
                 Icon = Icon.ExtractAssociatedIcon("icon.ico"),
-                Text = "Mommas watchin'",
+                Text = "Dr. Barb is watchin'",
                 Visible = true,
                 ContextMenu = menu
             };

@@ -6,16 +6,18 @@ using System.Net.Mail;
 using System.Net;
 using System.IO;
 using System.Net.Mime;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace ScreenShotReceiver
 {
     public class MailUtil
     {
-        public static void SendEmail(string subject, string body, string recipient)
+        public static void SendEmail(string subject, string body, string recipient, Image image)
         {
             MailAddress fromAddress = new MailAddress("screenwatchnotifier@gmail.com", "Screen Watch");
             const string fromPassword = "kfqkksxixcxiclpw";
-            
+
             var smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
@@ -29,7 +31,12 @@ namespace ScreenShotReceiver
             {
                 message.Subject = subject;
                 message.Body = body;
-                smtp.Send(message);
+                using (var stream = new MemoryStream())
+                {
+                    image.Save(stream, ImageFormat.Png);
+                    message.Attachments.Add(new Attachment(stream, "Screenshot.png"));
+                    smtp.Send(message);
+                }
             }
         }
     }

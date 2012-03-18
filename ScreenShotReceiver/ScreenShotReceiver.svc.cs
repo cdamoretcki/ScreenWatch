@@ -15,9 +15,11 @@ using System.ServiceModel.Activation;
 
 namespace ScreenShotReceiver
 {
-    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)] 
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
     public class ScreenShotReceiver : IScreenShotReceiver
     {
+        #region static constructor
+
         static ScreenShotReceiver()
         {
             TextWriterTraceListener debugListener = new TextWriterTraceListener(@"c:\temp\ScreenShotReceiver.log");
@@ -25,33 +27,36 @@ namespace ScreenShotReceiver
             Debug.AutoFlush = true;
         }
 
+
+        #endregion
+
         /// <summary>
         /// Upload your screenshot here
         /// </summary>
-        /// <param name="upload"></param>
+        /// <param name="upload">image data and meta data</param>
         public void Upload(ImageUpload upload)
         {
             Debug.WriteLine("ScreenShotReceiver.Upload entered " + DateTime.Now);
-            ImageAnalysis.Init();
+            TextAnalysis.Init();
             if (upload == null)
             {
                 Debug.WriteLine("upload is null");
                 throw new ArgumentNullException("upload is null");
             }
             //rethread here so that the client is never waiting for analysis completion.
-            new Thread(() => RethreadedUpload(upload)).Start();            
+            new Thread(() => RethreadedUpload(upload)).Start();
         }
 
-        private void RethreadedUpload(ImageUpload incomingUpload)
+        #region private methods
+
+        private void RethreadedUpload(ImageUpload upload)
         {
             Debug.WriteLine("ScreenShotReceiver.RethreadedUpload entered " + DateTime.Now);
             try
             {
-                ImageUpload upload = (ImageUpload)incomingUpload;
+                //ImageUpload upload = (ImageUpload)incomingUpload;
 
-                //TODO: connect to datalayer for triggers
-                ScreenShotActions dataLayer = new ScreenShotActions();
-                var textTriggers = dataLayer.getAllTextTriggers();
+                ScreenShotDataAdapter dataLayer = new ScreenShotDataAdapter();
 
                 //load image
                 using (MemoryStream stream = new MemoryStream(upload.ImageData))
@@ -59,16 +64,11 @@ namespace ScreenShotReceiver
                 {
                     image.Save(@"c:\temp\servicetest.png", ImageFormat.Png);
 
-                    //Analyze the image
-                    ImageAnalysis.ProcessImage((Bitmap)image, upload.CaptureTime);
+                    //Analyze the image for to see if it violates any triggers
+                    ProcessImage((Bitmap)image, upload.UserID, upload.CaptureTime, dataLayer);
 
                     //send image to database
-                    ScreenShot screenShot = new ScreenShot();
-                    screenShot.image = image;
-                    screenShot.timeStamp = DateTime.Parse(upload.CaptureTime);
-                    screenShot.user = upload.UserID;
-                    
-                    dataLayer.insertScreenShot(screenShot);
+                    dataLayer.SaveImage(image, upload.UserID, upload.CaptureTime);
                 }
             }
             catch (Exception e)
@@ -80,5 +80,52 @@ namespace ScreenShotReceiver
                 Debug.WriteLine("ScreenShotReceiver.RethreadedUpload exit " + DateTime.Now);
             }
         }
+
+        private static void ProcessImage(Bitmap image, string user, string captureTime, ScreenShotDataAdapter dataLayer)
+        {
+            Dictionary<string, List<ToneTrigger>> tonesTriggered = ToneAnalysis.ProcessTone(image, dataLayer.GetToneTriggers(user));
+            foreach (var firedToneTrigger in tonesTriggered)
+            {
+                Debug.WriteLine("ScreenShotReceiver.Upload triggered tone");
+                //construct the email
+                string emailSubject = string.Format("At {0} ScreenWatch detected a specified tone trigger.", captureTime);
+                StringBuilder emailBody = new StringBuilder();
+                emailBody.AppendLine(emailSubject);
+                Debug.WriteLine(emailSubject);
+
+                foreach (ToneTrigger badTone in firedToneTrigger.Value)
+                {
+                    Debug.WriteLine("Tone {0} triggered for {1}", badTone.id, badTone.userName);
+                }
+
+                MailUtil.SendEmail(emailSubject, emailBody.ToString(), firedToneTrigger.Key, image);
+                Debug.WriteLine("ScreenShotReceiver.Upload email sent for fault found in text");
+            }
+
+            TextAnalysisResult textResults = TextAnalysis.ProcessText(image, dataLayer.GetTextTriggers(user));
+            foreach (var emailFault in textResults.FaultedWordsByEmail)
+            {
+                Debug.WriteLine("ScreenShotReceiver.Upload trigger found in text");
+                //construct the email
+                string emailSubject = string.Format("At {0} ScreenWatch detected the following filtered words", captureTime);
+                StringBuilder emailBody = new StringBuilder();
+                emailBody.AppendLine(emailSubject);
+                Debug.WriteLine(emailSubject);
+
+                foreach (var badWord in emailFault.Value.Keys)
+                {
+                    emailBody.AppendLine(badWord);
+                    Debug.WriteLine(badWord);
+                }
+                Debug.WriteLine("In the following instances");
+                foreach (var context in emailFault.Value.Values)
+                    Debug.WriteLine(context);
+
+                MailUtil.SendEmail(emailSubject, emailBody.ToString(), emailFault.Key, image);
+                Debug.WriteLine("ScreenShotReceiver.Upload email sent for fault found in text");
+            }
+        }
+
+        #endregion
     }
 }
