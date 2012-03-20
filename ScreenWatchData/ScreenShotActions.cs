@@ -17,11 +17,39 @@ namespace ScreenWatchData
 {    
     public class ScreenShotActions: IScreenShotActions
     {
-        private const string SQL_CONNECTION_STRING = @"Data Source=HANSOLO\SQLEXPRESS;Integrated Security=True;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096";
-
-        static ScreenShotActions()
+        private Boolean USE_REMOTE = true;
+        private string SQL_CONNECTION_STRING = String.Empty;
+        private string SQL_DATA_SOURCE_REMOTE = @"146.186.87.88";
+        private string SQL_DATA_SOURCE_LOCAL = @"HANSOLO\SQLEXPRESS";
+        private string SQL_DATA_SOURCE = String.Empty;
+        private string SQL_DB_NAME_LOCAL = @"ScreenWatch";
+        private string SQL_DB_NAME_REMOTE = @"SE500S12S2";
+        private string SQL_DB_NAME = String.Empty;
+        private string SQL_TABLE_SCREENSHOT = String.Empty;
+        private string SQL_TABLE_TEXT_TRIGGER = String.Empty;
+        private string SQL_TABLE_TONE_TRIGGER = String.Empty;
+        private string SQL_TABLE_USER = String.Empty;
+        
+        public ScreenShotActions()
         {
             ScreenShotActionsLogger.init();
+
+            if (USE_REMOTE)
+            {
+                SQL_DATA_SOURCE = SQL_DATA_SOURCE_REMOTE;
+                SQL_DB_NAME = SQL_DB_NAME_REMOTE;
+                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;User Id=SE500S12S2;Password=SE500S12S2";            
+            }
+            else
+            {
+                SQL_DATA_SOURCE = SQL_DATA_SOURCE_LOCAL;
+                SQL_DB_NAME = SQL_DB_NAME_LOCAL;
+                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;Integrated Security=true";            
+            }
+            SQL_TABLE_SCREENSHOT = SQL_DB_NAME + @".[dbo].[ScreenShot]";
+            SQL_TABLE_TEXT_TRIGGER = SQL_DB_NAME + @".[dbo].[TextTrigger]";
+            SQL_TABLE_TONE_TRIGGER = SQL_DB_NAME + @".[dbo].[ToneTrigger]";
+            SQL_TABLE_USER = SQL_DB_NAME + @".[dbo].[User]";
         }
         
         /**
@@ -45,7 +73,7 @@ namespace ScreenWatchData
                 connection.Open();
 
                 SqlCommand insertCommand = new SqlCommand("", connection);
-                insertCommand.CommandText = "INSERT INTO ScreenWatch.dbo.ScreenShot (id, userName, timeStamp, image) VALUES (@id, @userName, @timeStamp, (0x))";
+                insertCommand.CommandText = "INSERT INTO " + SQL_TABLE_SCREENSHOT + " (id, userName, timeStamp, image) VALUES (@id, @userName, @timeStamp, (0x))";
                 insertCommand.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
@@ -68,7 +96,7 @@ namespace ScreenWatchData
                 SqlTransaction transaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
                 command.Transaction = transaction;
 
-                command.CommandText = "select image.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() from ScreenWatch.dbo.ScreenShot WHERE id = @id";
+                command.CommandText = "select image.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() from " + SQL_TABLE_SCREENSHOT + " WHERE id = @id";
                 command.CommandType = System.Data.CommandType.Text;
 
                 parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
@@ -139,7 +167,7 @@ namespace ScreenWatchData
 
                 SqlCommand insertCommand = new SqlCommand("", connection);
 
-                insertCommand.CommandText = "INSERT INTO ScreenWatch.dbo.TextTrigger (id, userName, triggerString) VALUES (@id, @userName, @triggerString)";
+                insertCommand.CommandText = @"INSERT INTO " + SQL_TABLE_TEXT_TRIGGER + " (id, userName, triggerString) VALUES (@id, @userName, @triggerString)";
                 insertCommand.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
@@ -174,7 +202,7 @@ namespace ScreenWatchData
 
                 SqlCommand insertCommand = new SqlCommand("", connection);
 
-                insertCommand.CommandText = @"INSERT INTO ScreenWatch.dbo.ToneTrigger (id, userName, lowerColorBound, upperColorBound, sensitivity) VALUES (@id, @userName, @lowerColorBound, @upperColorBound, @sensitivity)";
+                insertCommand.CommandText = @"INSERT INTO " + SQL_TABLE_TONE_TRIGGER + " (id, userName, lowerColorBound, upperColorBound, sensitivity) VALUES (@id, @userName, @lowerColorBound, @upperColorBound, @sensitivity)";
                 insertCommand.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
@@ -221,7 +249,7 @@ namespace ScreenWatchData
                 connection.Open();
 
                 SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = "SELECT tt.id, u.email, tt.triggerString FROM ScreenWatch.dbo.TextTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName WHERE tt.userName = @userName";
+                command.CommandText = "SELECT tt.id, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + @" u ON tt.userName = u.userName WHERE tt.userName = @userName";
                 command.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
@@ -264,7 +292,7 @@ namespace ScreenWatchData
                 connection.Open();
 
                 SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = @"SELECT tt.id, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM ScreenWatch.dbo.ToneTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName WHERE tt.userName = @userName";
+                command.CommandText = @"SELECT tt.id, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName WHERE tt.userName = @userName";
                 command.CommandType = System.Data.CommandType.Text;
 
                 SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
@@ -307,7 +335,7 @@ namespace ScreenWatchData
                 connection.Open();
 
                 SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM ScreenWatch.dbo.TextTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName";
+                command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
                 command.CommandType = System.Data.CommandType.Text;
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -341,7 +369,7 @@ namespace ScreenWatchData
                 connection.Open();
 
                 SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM ScreenWatch.dbo.ToneTrigger tt INNER JOIN ScreenWatch.dbo.[User] u ON tt.userName = u.userName";
+                command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
                 command.CommandType = System.Data.CommandType.Text;
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -440,8 +468,8 @@ namespace ScreenWatchData
         private List<String> getScreenShotIdsByDateRange(DateTime fromDate, DateTime toDate)
         {
             List<String> ids = new List<String>();
-            
-            const string query = @"SELECT ss.id FROM ScreenWatch.dbo.ScreenShot ss WHERE ss.timeStamp BETWEEN @fromDate AND @toDate";
+
+            string query = @"SELECT ss.id FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.timeStamp BETWEEN @fromDate AND @toDate";
 
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
