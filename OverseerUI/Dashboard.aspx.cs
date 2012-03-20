@@ -18,18 +18,26 @@ namespace ScreenWatchUI
         protected void Page_Load(object sender, EventArgs e)
         {
             ScreenShotActions data = new ScreenShotActions();
+            ScreenShotActions dataTone = new ScreenShotActions();
+            ScreenShotActions dataToneSubmit = new ScreenShotActions();
 
             textRepeater.DataSource = data.getAllTextTriggers();
             textRepeater.DataBind();
 
-            TextGridView.DataSource = data.getAllTextTriggers();
-            TextGridView.DataBind();
+            textSubmitRepeater.DataSource = data.getAllTextTriggers();
+            textSubmitRepeater.DataBind();
 
-            colorRepeater.DataSource = data.getAllToneTriggers();
+            //TextGridView.DataSource = data.getAllTextTriggers();
+           // TextGridView.DataBind();
+
+            colorRepeater.DataSource = dataTone.getAllToneTriggers();
             colorRepeater.DataBind();
 
-            ColorGridView.DataSource = data.getAllToneTriggers();
-            ColorGridView.DataBind();
+            colorSubmitRepeater.DataSource = dataTone.getAllToneTriggers();
+           colorSubmitRepeater.DataBind();
+
+            //ColorGridView.DataSource = data.getAllToneTriggers();
+            //colorGridView.DataBind();
         }
 
         protected void Submit(object sender, EventArgs e)
@@ -40,12 +48,9 @@ namespace ScreenWatchUI
                 if (iter.ItemType == ListItemType.Item || iter.ItemType == ListItemType.AlternatingItem)        
                 { 
                     string guid = ((HiddenField)iter.FindControl("guid")).Value.ToString();
-                    int nbExemplaires = int.Parse(((System.Web.UI.WebControls.TextBox)iter.FindControl("colorText1")).Text.ToString()); 
+                    int nbExemplaires = int.Parse(((System.Web.UI.WebControls.TextBox)iter.FindControl("txtcolorUser")).Text.ToString()); 
                 }   
             } 
-
-
-
         }
 
 
@@ -162,6 +167,8 @@ namespace ScreenWatchUI
                
             }
         }
+
+   
     }
 
 
