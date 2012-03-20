@@ -67,7 +67,7 @@
    
     <asp:Repeater ID="textRepeater" runat="server" >
       <HeaderTemplate>
-          <table border="1" width="100%">
+          <table border="1" width="100%" cellspacing="9">
               <tr>
                 <th>ID</th>
                 <th>Text</th>
@@ -78,19 +78,29 @@
       </HeaderTemplate>
 
       <ItemTemplate>
-          <table border="1" width="100%">
+          <table border="1" width="100%"  cellspacing="4">
               <tr>
                 <td><asp:Label ID="textID" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).id %>"/></td>
-                <td><asp:TextBox ID="triggerString" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).triggerString %>"/></td>
-                <td><asp:TextBox ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>"/></td>                
-                <td><asp:TextBox ID="TextBox1" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userEmail%>"/></td>                
-              </tr>
+                <td><asp:Label ID="triggerString" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).triggerString %>"/></td>
+                <td><asp:Label ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>"/></td>                
+                <td><asp:Label ID="textEmail" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userEmail%>"/></td>                
+              </tr>             
+          </table>
+      </ItemTemplate>      
+    </asp:Repeater>
+           
+     <asp:Repeater ID="textSubmitRepeater" runat="server" >      
+      <ItemTemplate>
+          <table border="1" width="100%" cellspacing="4">             
+              <tr align="right">                
+                <td><asp:TextBox ID="Label2" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).triggerString %>"/></td>
+                <td><asp:TextBox ID="Label3" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>"/></td>                
+                <td><asp:TextBox ID="Label4" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userEmail%>"/></td></tr>
           </table>
       </ItemTemplate>
     </asp:Repeater>
-
-    <asp:GridView ID="TextGridView" runat="server" />
     <br /><br /><br />
+    <asp:Button ID="Button3" runat="server" Text="Button" onclick="Submit" />
     <table>
       <tr>
         <td class="style1">Color Triggers</td>
@@ -114,18 +124,33 @@
           <table border="1" width="100%">
               <tr>
               <td><asp:Label ID="colorID" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).id %>"/></td>
-                <td><asp:TextBox ID="colorUser" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userName %>"/></td>
-                <td><asp:TextBox ID="colorEmail" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userEmail%>"/></td>                
-                <td><asp:TextBox ID="colorLB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).lowerColorBound%>"/></td> 
-                 <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="colorLB"/></td>
-                <td><asp:TextBox ID="colorUB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).upperColorBound%>"/></td> 
-                <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="colorUB"/></td
-                <td><asp:TextBox ID="colorSensitivity" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).sensitivity%>"/></td>                                                        
+                <td><asp:Label ID="colorUser" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userName %>"/></td>
+                <td><asp:Label ID="colorEmail" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userEmail%>"/></td>                
+                <td><asp:Label ID="colorLB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).lowerColorBound%>"/></td>                  
+                <td><asp:Label ID="colorUB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).upperColorBound%>"/></td>                 
+                <td><asp:Label ID="colorSensitivity" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).sensitivity%>"/></td>                                                        
               </tr>
           </table>
       </ItemTemplate>
     </asp:Repeater>
-     <asp:GridView ID="ColorGridView" runat="server" />
+
+    <asp:Repeater ID="colorSubmitRepeater" runat="server" >      
+      <ItemTemplate>
+          <table border="1" width="100%" cellspacing="4">             
+              <tr align="right">                
+                <td><asp:TextBox ID="txtcolorUser" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userName %>"/></td>
+                <td><asp:TextBox ID="txtcolorEmail" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userEmail%>"/></td>                
+                
+                <td><asp:TextBox ID="txtcolorLB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).lowerColorBound%>"/></td> 
+                 <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="txtcolorLB"/></td>
+                
+                <td><asp:TextBox ID="txtcolorUB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).upperColorBound%>"/></td> 
+                <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="txtcolorUB"/></td>
+              </tr>
+          </table>
+      </ItemTemplate>
+    </asp:Repeater>
+
     <br /><br />
  
     <asp:Button ID="Button4" runat="server" Text="Load Color" 

@@ -40,13 +40,22 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Repeater textRepeater;
         
         /// <summary>
-        /// TextGridView control.
+        /// textSubmitRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView TextGridView;
+        protected global::System.Web.UI.WebControls.Repeater textSubmitRepeater;
+        
+        /// <summary>
+        /// Button3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button3;
         
         /// <summary>
         /// colorRepeater control.
@@ -58,13 +67,13 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Repeater colorRepeater;
         
         /// <summary>
-        /// ColorGridView control.
+        /// colorSubmitRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ColorGridView;
+        protected global::System.Web.UI.WebControls.Repeater colorSubmitRepeater;
         
         /// <summary>
         /// Button4 control.
