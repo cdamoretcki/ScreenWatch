@@ -64,54 +64,68 @@
         <td class="style1">Text Triggers</td>
       </tr>
     </table>
-    <asp:Table ID="DocumentsToDownloadTable" runat="server" Width="50%" 
-        GridLines="Both" Height="16px" >
-          <asp:TableRow VerticalAlign="top"> 
-                <asp:TableCell 
-                    Height="15"                      
-                    Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">ID</asp:TableCell>    
-                         
-                <asp:TableCell 
-                     Height="15" 
-                    Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">Text Type</asp:TableCell> 
-                    
-                    <asp:TableCell 
-                     Height="25" 
-                    Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">Text Change</asp:TableCell>              
-          </asp:TableRow>
-    </asp:Table>  <br />
-    <asp:Button ID="Button3" runat="server" Text="Load Text" 
-        onclick="Button3_Click"/>
-    <br /><br />
+   
+    <asp:Repeater ID="textRepeater" runat="server" >
+      <HeaderTemplate>
+          <table border="1" width="100%">
+              <tr>
+                <th>ID</th>
+                <th>Text</th>
+                <th>User</th>
+                <th>Email Address</th>
+              </tr>
+          </table>
+      </HeaderTemplate>
 
+      <ItemTemplate>
+          <table border="1" width="100%">
+              <tr>
+                <td><asp:Label ID="textID" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).id %>"/></td>
+                <td><asp:TextBox ID="triggerString" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).triggerString %>"/></td>
+                <td><asp:TextBox ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>"/></td>                
+                <td><asp:TextBox ID="TextBox1" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userEmail%>"/></td>                
+              </tr>
+          </table>
+      </ItemTemplate>
+    </asp:Repeater>
+
+    <asp:GridView ID="TextGridView" runat="server" />
+    <br /><br /><br />
     <table>
       <tr>
         <td class="style1">Color Triggers</td>
       </tr>
     </table>
-    <asp:Table ID="DocumentsToDownloadTable1" runat="server" Width="50%" 
-        GridLines="Both" Height="16px" >
-          <asp:TableRow VerticalAlign="top"> 
-                <asp:TableCell 
-                    Height="15"                      
-                    Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">ID</asp:TableCell>    
-                         
-                <asp:TableCell 
-                     Height="15" 
-                    Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">Color Code</asp:TableCell> 
-                    
-                    <asp:TableCell 
-                     Height="25" 
-                    Width="15%" 
-                    HorizontalAlign="Center" Font-Bold="true">Color Change</asp:TableCell>              
-          </asp:TableRow>
-    </asp:Table>  
+    <asp:Repeater ID="colorRepeater" runat="server">
+      <HeaderTemplate>
+          <table border="1" width="100%">
+              <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>User E-mail</th>
+                <th>Lower Color</th>
+                <th>Upper Color</th>
+                <th>Sensitivity</th>
+              </tr>
+          </table>
+      </HeaderTemplate>
 
+      <ItemTemplate>
+          <table border="1" width="100%">
+              <tr>
+              <td><asp:Label ID="colorID" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).id %>"/></td>
+                <td><asp:TextBox ID="colorUser" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userName %>"/></td>
+                <td><asp:TextBox ID="colorEmail" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userEmail%>"/></td>                
+                <td><asp:TextBox ID="colorLB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).lowerColorBound%>"/></td> 
+                 <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="colorLB"/></td>
+                <td><asp:TextBox ID="colorUB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).upperColorBound%>"/></td> 
+                <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="colorUB"/></td
+                <td><asp:TextBox ID="colorSensitivity" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).sensitivity%>"/></td>                                                        
+              </tr>
+          </table>
+      </ItemTemplate>
+    </asp:Repeater>
+     <asp:GridView ID="ColorGridView" runat="server" />
     <br /><br />
  
     <asp:Button ID="Button4" runat="server" Text="Load Color" 

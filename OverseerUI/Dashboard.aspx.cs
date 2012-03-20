@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls; 
+using System.Web.UI.HtmlControls;
 using ScreenWatchData;
 
 
@@ -17,24 +17,38 @@ namespace ScreenWatchUI
 
         protected void Page_Load(object sender, EventArgs e)
         {
-         
+            ScreenShotActions data = new ScreenShotActions();
+
+            textRepeater.DataSource = data.getAllTextTriggers();
+            textRepeater.DataBind();
+
+            TextGridView.DataSource = data.getAllTextTriggers();
+            TextGridView.DataBind();
+
+            colorRepeater.DataSource = data.getAllToneTriggers();
+            colorRepeater.DataBind();
+
+            ColorGridView.DataSource = data.getAllToneTriggers();
+            ColorGridView.DataBind();
         }
 
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        protected void Submit(object sender, EventArgs e)
         {
+            foreach (RepeaterItem iter in colorRepeater.Items)
+            {
+                // id livre courant  
+                if (iter.ItemType == ListItemType.Item || iter.ItemType == ListItemType.AlternatingItem)        
+                { 
+                    string guid = ((HiddenField)iter.FindControl("guid")).Value.ToString();
+                    int nbExemplaires = int.Parse(((System.Web.UI.WebControls.TextBox)iter.FindControl("colorText1")).Text.ToString()); 
+                }   
+            } 
+
+
 
         }
 
-        protected void GridView1_SelectedIndexChanged1(object sender, EventArgs e)
-        {
 
-        }
-
-        protected void btnGenerate_Click(object sender, EventArgs e)
-        {
-
-        }
-        
         protected void Button3_Click(object sender, EventArgs e)
         {
             try
@@ -42,8 +56,8 @@ namespace ScreenWatchUI
                 //API CALL
                 ScreenShotActions SSA = new ScreenShotActions();
                 if (SSA != null)
-                {       
-                    List<TextTrigger> lstOftextTriggers = SSA.getTextTriggers(); //instacne to getTextTiggers
+                {
+                    List<TextTrigger> lstOftextTriggers = SSA.getAllTextTriggers(); //instacne to getTextTiggers
                     if (lstOftextTriggers != null)
                     {
 
@@ -52,24 +66,24 @@ namespace ScreenWatchUI
                         TableRow NewRow2 = null;
                         TableCell NewCell = null;
                         TextBox NewTextBox = null;
-                        TextTrigger textTrigger = null; 
+                        TextTrigger textTrigger = null;
 
                         for (int x = 0; x < lstOftextTriggers.Count; x++)
                         {
-                            textTrigger = (TextTrigger)lstOftextTriggers[x];       
+                            textTrigger = (TextTrigger)lstOftextTriggers[x];
                             if (textTrigger != null)
                             {
-                                
-                                NewRow = new TableRow();        
-                                NewCell = new TableCell();        
-                                NewCell.Text = textTrigger.tokenString;
+
+                                NewRow = new TableRow();
+                                NewCell = new TableCell();
+                                NewCell.Text = textTrigger.triggerString;
                                 NewRow.Cells.Add(NewCell);
                                 //DocumentsToDownloadTable.Rows.Add(NewRow);
                                 DocumentsToDownloadTable.Controls.Add(NewRow);
 
                                 NewRow1 = new TableRow();
                                 NewCell = new TableCell();
-                                NewCell.Text = textTrigger.tokenString;
+                                NewCell.Text = textTrigger.triggerString;
                                 NewRow.Cells.Add(NewCell);
                                 DocumentsToDownloadTable.Controls.Add(NewRow1);
 
@@ -78,7 +92,7 @@ namespace ScreenWatchUI
                                 NewTextBox = new TextBox();
                                 NewCell.Controls.Add(NewTextBox);
                                 NewRow.Cells.Add(NewCell);
-                                DocumentsToDownloadTable.Controls.Add(NewRow2);       
+                                DocumentsToDownloadTable.Controls.Add(NewRow2);
                             }     // end if
                         }        //end for 
                     } // end if              
@@ -92,69 +106,66 @@ namespace ScreenWatchUI
 
         protected void Button4_Click(object sender, EventArgs e)
         {
+            string username = "Kathy";
             try
-            {        
+            {
                 //API CALL
                 ScreenShotActions SSA = new ScreenShotActions();
                 if (SSA != null)
-                {       
-                    List<ColorTrigger> lstOfColorTriggers = SSA.getColorTriggers(); 
+                {
+                    List<ToneTrigger> lstOfColorTriggers = SSA.getToneTriggersByUser(username);
                     if (lstOfColorTriggers != null)
-                    {        
+                    {
                         TableRow NewRow = null;
                         TableRow NewRow1 = null;
-                        TableRow NewRow2 = null;      
-                        TableCell NewCell = null;                        
-                        ColorTrigger colorTrigger = null; 
+                        TableRow NewRow2 = null;
+                        TableCell NewCell = null;
+                        ToneTrigger colorTrigger = null;
 
-                        for (int x = 0; x < lstOfColorTriggers.Count; x++)
+                        foreach (var colortrigger in lstOfColorTriggers)
                         {
-                            colorTrigger = (ColorTrigger)lstOfColorTriggers[x];      
-                            if (colorTrigger != null)
-                            {
-                                NewRow = new TableRow();        
-                                NewCell = new TableCell();      
-                                NewCell.Text = colorTrigger.tokenString;
-                                NewRow.Cells.Add(NewCell);             
-                                DocumentsToDownloadTable1.Controls.Add(NewRow);
+                            NewRow = new TableRow();
+                            NewCell = new TableCell();
+                            NewCell.Text = colorTrigger.sensitivity;
+                            NewRow.Cells.Add(NewCell);
+                          //  DocumentsToDownloadTable1.Controls.Add(NewRow);
 
-                                NewRow1 = new TableRow();
-                                NewCell = new TableCell();
-                                NewCell.Text = colorTrigger.tokenString;
-                                NewRow.Cells.Add(NewCell);
-                                DocumentsToDownloadTable1.Controls.Add(NewRow1);
-                                
-                                NewRow2 = new TableRow();
-                                NewCell = new TableCell();
-                                
-                                //Create textbox
-                                TextBox txtcolorPicker = new TextBox();
-                                txtcolorPicker.ID = "colorPicker";
-                                txtcolorPicker.Attributes.Add("runat", "server");                                
-                                
-                                //Create colorpicker as an extendor to the textbox created above
-                                AjaxControlToolkit.ColorPickerExtender CPE = new AjaxControlToolkit.ColorPickerExtender();
-                                CPE.TargetControlID = "colorPicker";
-                                CPE.Enabled = true;
-                                CPE.ID = "colorPicker_ColorPickerExtender";
+                            NewRow1 = new TableRow();
+                            NewCell = new TableCell();
+                            NewCell.Text = colorTrigger.sensitivity;
+                            NewRow.Cells.Add(NewCell);
+                          //  DocumentsToDownloadTable1.Controls.Add(NewRow1);
 
-                                NewCell.Controls.Add(txtcolorPicker);
-                                NewRow.Cells.Add(NewCell);
-                                DocumentsToDownloadTable1.Controls.Add(NewRow2);  
-                            }     
-                        }        
-                    } 
+                            NewRow2 = new TableRow();
+                            NewCell = new TableCell();
+
+                            //Create textbox
+                            TextBox txtcolorPicker = new TextBox();
+                            txtcolorPicker.ID = "colorPicker";
+                            txtcolorPicker.Attributes.Add("runat", "server");
+
+                            //Create colorpicker as an extendor to the textbox created above
+                            AjaxControlToolkit.ColorPickerExtender CPE = new AjaxControlToolkit.ColorPickerExtender();
+                            CPE.TargetControlID = "colorPicker";
+                            CPE.Enabled = true;
+                            CPE.ID = "colorPicker_ColorPickerExtender";
+                            
+                            NewCell.Controls.Add(txtcolorPicker);
+                            NewRow.Cells.Add(NewCell);
+                           // DocumentsToDownloadTable1.Controls.Add(NewRow2);
+                        }
+                    }
                 }
             }
             catch (Exception x1)
             {
-                //MessageBox.Show(x1.Message,"Problem"); 
+               
             }
-        }       
         }
-      
+    }
+
 
 }
 
-                                  
-    
+
+
