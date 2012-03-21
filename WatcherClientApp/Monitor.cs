@@ -74,13 +74,13 @@ namespace WatcherClient
                 using (Graphics gfx = Graphics.FromImage(screenShot))
                 {
                     gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
-                    //screenShot.Save(@"c:\temp\clienttest.png", ImageFormat.Png);
                     ImageUpload image = new ImageUpload();
                     using (MemoryStream stream = new MemoryStream())
                     {
                         screenShot.Save(stream, ImageFormat.Png);
                         image.ImageData = stream.ToArray();
                     }
+                    image.UserID = "TESTUSER";
                     image.CaptureTime = DateTime.Now.ToString();
                     new ScreenShotReceiverClient().Upload(image);
                 }
