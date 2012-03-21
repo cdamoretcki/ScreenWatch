@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OverseerUI {
+namespace ScreenWatchUI {
     
     
     public partial class Administration {

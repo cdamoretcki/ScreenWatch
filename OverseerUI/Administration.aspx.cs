@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace OverseerUI
+namespace ScreenWatchUI
 {
     public partial class Administration : System.Web.UI.Page
     {
