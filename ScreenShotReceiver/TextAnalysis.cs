@@ -36,6 +36,15 @@ namespace ScreenShotReceiver
 
         public static TextAnalysisResult ProcessText(Bitmap bmp, List<TextTrigger> filters)
         {
+            TextAnalysisResult analysisResult = new TextAnalysisResult();
+
+            //if there aren't any triggers, don't do anything, this stuff is busy
+            if (filters.Count == 0)
+            {
+                Debug.WriteLine("TextAnalysis.ProcessText no text triggers");
+                return analysisResult;
+            }
+
             double confidenceFilter = double.Parse(ConfigurationManager.AppSettings["textFilterConfidence"]);
 
             List<Word> results;
@@ -54,7 +63,6 @@ namespace ScreenShotReceiver
             watch.Stop();
             Debug.WriteLine("TextAnalysis.ProcessText OCR took {0}ms", watch.ElapsedMilliseconds);
 
-            TextAnalysisResult analysisResult = new TextAnalysisResult();
             //lower number for confidence is greater certainty, don't ask, i don't know why.
             foreach (var resultWord in results.Where(word => word.Confidence < confidenceFilter))
             {

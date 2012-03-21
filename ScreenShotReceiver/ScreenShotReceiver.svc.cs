@@ -54,8 +54,6 @@ namespace ScreenShotReceiver
             Debug.WriteLine("ScreenShotReceiver.RethreadedUpload entered " + DateTime.Now);
             try
             {
-                //ImageUpload upload = (ImageUpload)incomingUpload;
-
                 ScreenShotDataAdapter dataLayer = new ScreenShotDataAdapter();
 
                 //load image

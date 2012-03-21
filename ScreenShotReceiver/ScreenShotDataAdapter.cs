@@ -90,14 +90,14 @@ namespace ScreenShotReceiver
                     id = Guid.Parse("00000000-0000-0000-0000-000000000123"),
                     triggerString = "bad",
                     userEmail = "jared.tait@gmail.com",
-                    userName = "TEST"
+                    userName = "Jared"
                 });
                 triggers.Add(new TextTrigger()
                 {
                     id = Guid.Parse("00000000-0000-0000-0000-000000004567"),
                     triggerString = "test",
                     userEmail = "jared.tait@gmail.com",
-                    userName = "TEST"
+                    userName = "Jared"
                 });
                 return triggers;
             }
@@ -111,7 +111,7 @@ namespace ScreenShotReceiver
                     lowerColorBound = Color.FromArgb(-3637420), 
                     upperColorBound = Color.FromArgb(-1150171), 
                     userEmail = "jared.tait@gmail.com",
-                    userName = "TEST"
+                    userName = "Jared"
                 });
                 return triggers;
             }
