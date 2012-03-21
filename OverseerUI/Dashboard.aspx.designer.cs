@@ -40,15 +40,6 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Repeater textRepeater;
         
         /// <summary>
-        /// textSubmitRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater textSubmitRepeater;
-        
-        /// <summary>
         /// Button3 control.
         /// </summary>
         /// <remarks>
@@ -56,6 +47,33 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button3;
+        
+        /// <summary>
+        /// txtTriggerTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTriggerTB;
+        
+        /// <summary>
+        /// txtUserNameTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUserNameTB;
+        
+        /// <summary>
+        /// txtUserEmailTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUserEmailTB;
         
         /// <summary>
         /// colorRepeater control.
@@ -67,13 +85,58 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Repeater colorRepeater;
         
         /// <summary>
-        /// colorSubmitRepeater control.
+        /// txtcolorUserTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater colorSubmitRepeater;
+        protected global::System.Web.UI.WebControls.TextBox txtcolorUserTB;
+        
+        /// <summary>
+        /// txtcolorEmailTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtcolorEmailTB;
+        
+        /// <summary>
+        /// txtcolorLBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtcolorLBTB;
+        
+        /// <summary>
+        /// ColorPickerExtender3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ColorPickerExtender ColorPickerExtender3;
+        
+        /// <summary>
+        /// txtcolorUBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtcolorUBTB;
+        
+        /// <summary>
+        /// ColorPickerExtender4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ColorPickerExtender ColorPickerExtender4;
         
         /// <summary>
         /// Button4 control.
