@@ -80,7 +80,7 @@ namespace WatcherClient
                         screenShot.Save(stream, ImageFormat.Png);
                         image.ImageData = stream.ToArray();
                     }
-                    image.UserID = "TESTUSER";
+                    image.UserID = Environment.UserName;
                     image.CaptureTime = DateTime.Now.ToString();
                     new ScreenShotReceiverClient().Upload(image);
                 }
