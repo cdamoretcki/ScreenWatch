@@ -311,9 +311,9 @@ namespace ScreenWatchData
                         toneTrigger.id = reader.GetGuid(0);
                         toneTrigger.userEmail = reader.GetString(1);
                         color = reader.GetInt32(2);
-                        toneTrigger.lowerColorBound = Color.FromArgb(color, color, color);
+                        toneTrigger.lowerColorBound = Color.FromArgb(color);
                         color = reader.GetInt32(3);
-                        toneTrigger.upperColorBound = Color.FromArgb(color, color, color);
+                        toneTrigger.upperColorBound = Color.FromArgb(color);
                         toneTrigger.sensitivity = reader.GetString(4);
                         toneTriggers.Add(toneTrigger);
                     }
@@ -384,9 +384,9 @@ namespace ScreenWatchData
                         toneTrigger.userName = reader.GetString(1);
                         toneTrigger.userEmail = reader.GetString(2);
                         color = reader.GetInt32(3);
-                        toneTrigger.lowerColorBound = Color.FromArgb(color, color, color);
+                        toneTrigger.lowerColorBound = Color.FromArgb(color);
                         color = reader.GetInt32(4);
-                        toneTrigger.upperColorBound = Color.FromArgb(color, color, color);
+                        toneTrigger.upperColorBound = Color.FromArgb(color);
                         toneTrigger.sensitivity = reader.GetString(5);
                         toneTriggers.Add(toneTrigger);
                     }
