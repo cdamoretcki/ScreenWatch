@@ -52,7 +52,8 @@ namespace ScreenWatchUI
             ToneTrigger toneTrigger = new ToneTrigger()
             {
                 userName = txtcolorUserTB.Text,
-                userEmail = txtcolorEmailTB.Text,
+                userEmail = txtcolorEmailTB.Text, 
+                sensitivity = txtcolorSensitivity.Text,
                 lowerColorBound = Color.FromArgb(Convert.ToInt32(txtcolorLBTB.Text, 16)),
                 upperColorBound = Color.FromArgb(Convert.ToInt32(txtcolorUBTB.Text, 16))
             };
@@ -64,6 +65,7 @@ namespace ScreenWatchUI
             //clear text boxes for a new trigger to be entered
             Clear(txtcolorUserTB);
             Clear(txtcolorEmailTB);
+            Clear(txtcolorSensitivity);
             Clear(txtcolorLBTB);
             Clear(txtcolorUBTB);
         }

@@ -101,13 +101,13 @@
             <table border="1" width="100%">
                 <tr>                    
                     <asp:HiddenField ID="textID" runat="server" Value="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).id %>" />                    
-                    <td char="60">
+                    <td>
                         <asp:Label ID="triggerString" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).triggerString %>" />
                     </td>
-                    <td char="60">
+                    <td>
                         <asp:Label ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>" />
                     </td>
-                    <td char="60">
+                    <td>
                         <asp:Label ID="textEmail" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userEmail%>" />
                     </td>
                 </tr>
@@ -115,8 +115,8 @@
         </ItemTemplate>
     </asp:Repeater>
     <table border="1" width="100%" cellspacing="4">
-        <tr align="right">
-            <td>   <asp:Button ID="Button3" runat="server" Text="Button" OnClick="SubmitNewText" /></td>
+        <tr>
+        <td><asp:Button ID="Button3" runat="server" Text="Submit" OnClick="SubmitNewText" /></td>            
             <td>
                 <asp:TextBox ID="txtTriggerTB" runat="server" />
             </td>
@@ -187,6 +187,7 @@
     </asp:Repeater>
     <table border="1" width="100%" cellspacing="4">
         <tr align="right">
+            <td><asp:Button ID="Button4" runat="server" Text="Submit" OnClick="SubmitNewTone" /></td>
             <td>
                 <asp:TextBox ID="txtcolorUserTB" runat="server" />
             </td>
@@ -197,19 +198,18 @@
                 <asp:TextBox ID="txtcolorLBTB" runat="server" />
             </td>
             <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="txtcolorLBTB" />
-            </td>
+            
             <td>
                 <asp:TextBox ID="txtcolorUBTB" runat="server" />
             </td>
             <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="txtcolorUBTB" />
+            <td>
+                <asp:TextBox ID="txtcolorSensitivity" runat="server" />
             </td>
         </tr>
     </table>
     <br />
-    <br />
-    <asp:Button ID="Button4" runat="server" Text="Button" OnClick="SubmitNewTone" />
-    <br />
-    <br />
+    <br />   
     <table id="tblSSFreq" border="1" cellpadding="3">
         <tr>
             <td class="style4">

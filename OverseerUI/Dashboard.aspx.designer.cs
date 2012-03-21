@@ -85,6 +85,15 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Repeater colorRepeater;
         
         /// <summary>
+        /// Button4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button4;
+        
+        /// <summary>
         /// txtcolorUserTB control.
         /// </summary>
         /// <remarks>
@@ -139,13 +148,13 @@ namespace ScreenWatchUI {
         protected global::AjaxControlToolkit.ColorPickerExtender ColorPickerExtender4;
         
         /// <summary>
-        /// Button4 control.
+        /// txtcolorSensitivity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button4;
+        protected global::System.Web.UI.WebControls.TextBox txtcolorSensitivity;
         
         /// <summary>
         /// RadioButton0 control.
