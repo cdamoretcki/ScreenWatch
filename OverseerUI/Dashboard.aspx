@@ -90,10 +90,7 @@
                     </th>
                     <th>
                         User
-                    </th>
-                    <th>
-                        Email Address
-                    </th>
+                    </th>                   
                 </tr>
             </table>
         </HeaderTemplate>
@@ -106,10 +103,7 @@
                     </td>
                     <td>
                         <asp:Label ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>" />
-                    </td>
-                    <td>
-                        <asp:Label ID="textEmail" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userEmail%>" />
-                    </td>
+                    </td>                    
                 </tr>
             </table>
         </ItemTemplate>
@@ -122,10 +116,7 @@
             </td>
             <td>
                 <asp:TextBox ID="txtUserNameTB" runat="server" />
-            </td>
-            <td>
-                <asp:TextBox ID="txtUserEmailTB" runat="server" />
-            </td>
+            </td>            
         </tr>
     </table>
     <br />
@@ -145,10 +136,7 @@
                 <tr>                  
                     <th>
                         User Name
-                    </th>
-                    <th>
-                        User E-mail
-                    </th>
+                    </th>                 
                     <th>
                         Lower Color
                     </th>
@@ -168,10 +156,7 @@
                     <asp:HiddenField ID="colorID" runat="server" Value="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).id %>" />                                                      
                     <td>
                         <asp:Label ID="colorUser" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userName %>" />
-                    </td>
-                    <td>
-                        <asp:Label ID="colorEmail" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).userEmail%>" />
-                    </td>
+                    </td>                    
                     <td>
                         <asp:Label ID="colorLB" runat="server" Text="<%# ((ScreenWatchData.ToneTrigger)Container.DataItem).lowerColorBound%>" />
                     </td>
@@ -190,10 +175,7 @@
             <td><asp:Button ID="Button4" runat="server" Text="Submit" OnClick="SubmitNewTone" /></td>
             <td>
                 <asp:TextBox ID="txtcolorUserTB" runat="server" />
-            </td>
-            <td>
-                <asp:TextBox ID="txtcolorEmailTB" runat="server" />
-            </td>
+            </td>            
             <td>
                 <asp:TextBox ID="txtcolorLBTB" runat="server" />
             </td>

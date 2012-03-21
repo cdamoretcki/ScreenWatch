@@ -31,8 +31,7 @@ namespace ScreenWatchUI
             TextTrigger textTrigger = new TextTrigger()
             {
                 triggerString = txtTriggerTB.Text,
-                userName = txtUserNameTB.Text,
-                userEmail = txtUserEmailTB.Text
+                userName = txtUserNameTB.Text,                
             };
             data.insertTextTrigger(textTrigger);
 
@@ -40,8 +39,7 @@ namespace ScreenWatchUI
             RefreshTriggers(data);
 
             //clear text boxes for a new trigger to be entered
-            Clear(txtTriggerTB);
-            Clear(txtUserEmailTB);
+            Clear(txtTriggerTB);          
             Clear(txtUserNameTB);
         }
 
@@ -51,9 +49,9 @@ namespace ScreenWatchUI
             ScreenShotActions data = new ScreenShotActions();
             ToneTrigger toneTrigger = new ToneTrigger()
             {
-                userName = txtcolorUserTB.Text,
-                userEmail = txtcolorEmailTB.Text, 
+                userName = txtcolorUserTB.Text,                
                 sensitivity = txtcolorSensitivity.Text,
+                //System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml("#FFCC66"); 
                 lowerColorBound = Color.FromArgb(Convert.ToInt32(txtcolorLBTB.Text, 16)),
                 upperColorBound = Color.FromArgb(Convert.ToInt32(txtcolorUBTB.Text, 16))
             };
@@ -63,8 +61,7 @@ namespace ScreenWatchUI
             RefreshTriggers(data);
 
             //clear text boxes for a new trigger to be entered
-            Clear(txtcolorUserTB);
-            Clear(txtcolorEmailTB);
+            Clear(txtcolorUserTB);            
             Clear(txtcolorSensitivity);
             Clear(txtcolorLBTB);
             Clear(txtcolorUBTB);

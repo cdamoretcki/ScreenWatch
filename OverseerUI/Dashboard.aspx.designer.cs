@@ -67,15 +67,6 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.TextBox txtUserNameTB;
         
         /// <summary>
-        /// txtUserEmailTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUserEmailTB;
-        
-        /// <summary>
         /// colorRepeater control.
         /// </summary>
         /// <remarks>
@@ -101,15 +92,6 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtcolorUserTB;
-        
-        /// <summary>
-        /// txtcolorEmailTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtcolorEmailTB;
         
         /// <summary>
         /// txtcolorLBTB control.
