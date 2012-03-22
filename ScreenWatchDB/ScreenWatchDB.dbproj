@@ -152,4 +152,9 @@
       <SubType>Code</SubType>
     </Build>
   </ItemGroup>
+  <ItemGroup>
+    <NotInBuild Include="create_screenwatch.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+  </ItemGroup>
 </Project>
