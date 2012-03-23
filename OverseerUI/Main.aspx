@@ -18,10 +18,14 @@
         <div id="tabs" style="width: 100%; height: 100%">
             <ul>
                 <li><a href="#tab_BrowserHistory">Browser History</a></li>
+                <li><a href="#tab_Dashboard">Dashboard</a></li>
                 <li><a href="#tab_Administration">Administration</a></li>
             </ul>
             <div id="tab_BrowserHistory">
                 <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+            </div>
+            <div id="tab_Dashboard">
+                <iframe id="Dashboard" src="Dashboard.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
             </div>
             <div id="tab_Administration">
                 <iframe id="Administration" src="Administration.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>

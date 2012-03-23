@@ -60,6 +60,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Administration.aspx" />
     <Content Include="BrowseHistory.aspx" />
+    <Content Include="Dashboard.aspx" />
     <Content Include="Libraries\AjaxControlToolkit.dll" />
     <Content Include="Main.aspx" />
     <Content Include="Styles\Site.css" />
@@ -117,6 +118,13 @@
     </Compile>
     <Compile Include="BrowseHistory.aspx.designer.cs">
       <DependentUpon>BrowseHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
