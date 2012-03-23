@@ -113,9 +113,35 @@
         <td><asp:Button ID="Button3" runat="server" Text="Submit" OnClick="SubmitNewText" /></td>            
             <td>
                 <asp:TextBox ID="txtTriggerTB" runat="server" />
+                
+                <asp:RequiredFieldValidator 
+                id="RFV1" runat="server" 
+                BackColor="DarkGray"
+                BorderColor="Black"
+                BorderStyle="Solid"
+                BorderWidth="1px"
+                ForeColor="White"
+                Font-Bold="true"
+                Font-Names="Verdana"
+                 ErrorMessage="Text is Required!"
+                ControlToValidate="txtTriggerTB">
+              </asp:RequiredFieldValidator>
             </td>
             <td>
                 <asp:TextBox ID="txtUserNameTB" runat="server" />
+                
+                <asp:RequiredFieldValidator 
+                id="RFV2" runat="server" 
+                BackColor="DarkGray"
+                BorderColor="Black"
+                BorderStyle="Solid"
+                BorderWidth="1px"
+                ForeColor="White"
+                Font-Bold="true"
+                Font-Names="Verdana"
+                 ErrorMessage="Required!"
+                ControlToValidate="txtUserNameTB">
+              </asp:RequiredFieldValidator>
             </td>            
         </tr>
     </table>
@@ -175,18 +201,69 @@
             <td><asp:Button ID="Button4" runat="server" Text="Submit" OnClick="SubmitNewTone" /></td>
             <td>
                 <asp:TextBox ID="txtcolorUserTB" runat="server" />
+
+                <asp:RequiredFieldValidator 
+                id="RFV3" runat="server" 
+                BackColor="DarkGray"
+                BorderColor="Black"
+                BorderStyle="Solid"
+                BorderWidth="1px"
+                ForeColor="White"
+                Font-Bold="true"
+                Font-Names="Verdana"
+                 ErrorMessage="Required!"
+                ControlToValidate="txtcolorUserTB">
+                </asp:RequiredFieldValidator>
             </td>            
             <td>
                 <asp:TextBox ID="txtcolorLBTB" runat="server" />
+
+                 <asp:RequiredFieldValidator 
+                id="RFV4" runat="server" 
+                BackColor="DarkGray"
+                BorderColor="Black"
+                BorderStyle="Solid"
+                BorderWidth="1px"
+                ForeColor="White"
+                Font-Bold="true"
+                Font-Names="Verdana"
+                 ErrorMessage="Required!"
+                ControlToValidate="txtcolorLBTB">
+                </asp:RequiredFieldValidator>
             </td>
             <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="txtcolorLBTB" />
             
             <td>
                 <asp:TextBox ID="txtcolorUBTB" runat="server" />
+
+                 <asp:RequiredFieldValidator 
+                id="RFV5" runat="server" 
+                BackColor="DarkGray"
+                BorderColor="Black"
+                BorderStyle="Solid"
+                BorderWidth="1px"
+                ForeColor="White"
+                Font-Bold="true"
+                Font-Names="Verdana"
+                 ErrorMessage="Required!"
+                ControlToValidate="txtcolorUBTB">
+                </asp:RequiredFieldValidator>
             </td>
             <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="txtcolorUBTB" />
             <td>
                 <asp:TextBox ID="txtcolorSensitivity" runat="server" />
+                  <asp:RequiredFieldValidator 
+                id="RFV6" runat="server" 
+                BackColor="DarkGray"
+                BorderColor="Black"
+                BorderStyle="Solid"
+                BorderWidth="1px"
+                ForeColor="White"
+                Font-Bold="true"
+                Font-Names="Verdana"
+                 ErrorMessage="Required!"
+                ControlToValidate="txtcolorSensitivity">
+              </asp:RequiredFieldValidator>
             </td>
         </tr>
     </table>

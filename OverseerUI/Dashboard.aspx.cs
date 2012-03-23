@@ -52,8 +52,10 @@ namespace ScreenWatchUI
                 userName = txtcolorUserTB.Text,                
                 sensitivity = txtcolorSensitivity.Text,
                 //System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml("#FFCC66"); 
-                lowerColorBound = Color.FromArgb(Convert.ToInt32(txtcolorLBTB.Text, 16)),
-                upperColorBound = Color.FromArgb(Convert.ToInt32(txtcolorUBTB.Text, 16))
+                
+                lowerColorBound = System.Drawing.ColorTranslator.FromHtml(txtcolorLBTB.Text),               
+                upperColorBound = System.Drawing.ColorTranslator.FromHtml(txtcolorUBTB.Text) 
+                
             };
             data.insertToneTrigger(toneTrigger);
 
