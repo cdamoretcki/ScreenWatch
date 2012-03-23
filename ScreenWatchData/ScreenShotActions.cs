@@ -14,8 +14,8 @@ using System.Drawing.Drawing2D;
 using System.Diagnostics;
 
 namespace ScreenWatchData
-{    
-    public class ScreenShotActions: IScreenShotActions
+{
+    public class ScreenShotActions : IScreenShotActions
     {
         private bool unitTest = false;
         private Boolean USE_REMOTE = false;
@@ -30,8 +30,9 @@ namespace ScreenWatchData
         private string SQL_TABLE_TEXT_TRIGGER = String.Empty;
         private string SQL_TABLE_TONE_TRIGGER = String.Empty;
         private string SQL_TABLE_USER = String.Empty;
-        
-        public ScreenShotActions(bool unit) : this() 
+
+        public ScreenShotActions(bool unit)
+            : this()
         {
             unitTest = unit;
         }
@@ -44,20 +45,20 @@ namespace ScreenWatchData
             {
                 SQL_DATA_SOURCE = SQL_DATA_SOURCE_REMOTE;
                 SQL_DB_NAME = SQL_DB_NAME_REMOTE;
-                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;User Id=SE500S12S2;Password=SE500S12S2";            
+                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;User Id=SE500S12S2;Password=SE500S12S2";
             }
             else
             {
                 SQL_DATA_SOURCE = SQL_DATA_SOURCE_LOCAL;
                 SQL_DB_NAME = SQL_DB_NAME_LOCAL;
-                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;Integrated Security=true";            
+                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;Integrated Security=true";
             }
             SQL_TABLE_SCREENSHOT = SQL_DB_NAME + @".[dbo].[ScreenShot]";
             SQL_TABLE_TEXT_TRIGGER = SQL_DB_NAME + @".[dbo].[TextTrigger]";
             SQL_TABLE_TONE_TRIGGER = SQL_DB_NAME + @".[dbo].[ToneTrigger]";
             SQL_TABLE_USER = SQL_DB_NAME + @".[dbo].[User]";
         }
-        
+
         /**
          * ScreenShot API
          */
@@ -71,87 +72,87 @@ namespace ScreenWatchData
                 throw new System.ArgumentException("Input to method cannot be null", "screenShot");
             }
 
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
 
-                SqlCommand insertCommand = new SqlCommand("", connection);
-                insertCommand.CommandText = "INSERT INTO " + SQL_TABLE_SCREENSHOT + " (id, userName, timeStamp, image) VALUES (@id, @userName, @timeStamp, (0x))";
-                insertCommand.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
-                Guid id = Guid.NewGuid();
-                parameter.Value = id;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = screenShot.user;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@timeStamp", System.Data.SqlDbType.DateTime);
-                parameter.Value = screenShot.timeStamp;
-                insertCommand.Parameters.Add(parameter);
-
-                insertCommand.ExecuteNonQuery();
-
-                SqlCommand command = new SqlCommand("", connection);
-
-                SqlTransaction transaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
-                command.Transaction = transaction;
-
-                command.CommandText = "select image.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() from " + SQL_TABLE_SCREENSHOT + " WHERE id = @id";
-                command.CommandType = System.Data.CommandType.Text;
-
-                parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
-                parameter.Value = id;
-                command.Parameters.Add(parameter);
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand insertCommand = new SqlCommand("", connection))
                 {
-                    while (reader.Read())
-                    {
-                        // Get the pointer for file 
-                        string path = reader.GetString(0);
-                        byte[] transactionContext = reader.GetSqlBytes(1).Buffer;
+                    insertCommand.CommandText = "INSERT INTO " + SQL_TABLE_SCREENSHOT + " (id, userName, timeStamp, image) VALUES (@id, @userName, @timeStamp, (0x))";
+                    insertCommand.CommandType = System.Data.CommandType.Text;
 
-                        const int BlockSize = 1024 * 512;
-                        String clientPath = @"c:\temp\temp.png";
-                        screenShot.image.Save(clientPath, ImageFormat.Png);
-                        using (FileStream source = new FileStream(clientPath, FileMode.Open, FileAccess.Read))
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                    Guid id = Guid.NewGuid();
+                    parameter.Value = id;
+                    insertCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                    parameter.Value = screenShot.user;
+                    insertCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@timeStamp", System.Data.SqlDbType.DateTime);
+                    parameter.Value = screenShot.timeStamp;
+                    insertCommand.Parameters.Add(parameter);
+
+                    insertCommand.ExecuteNonQuery();
+
+                    using (SqlCommand command = new SqlCommand("", connection))
+                    using (SqlTransaction transaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                    {
+                        command.Transaction = transaction;
+
+                        command.CommandText = "select image.PathName(), GET_FILESTREAM_TRANSACTION_CONTEXT() from " + SQL_TABLE_SCREENSHOT + " WHERE id = @id";
+                        command.CommandType = System.Data.CommandType.Text;
+
+                        parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                        parameter.Value = id;
+                        command.Parameters.Add(parameter);
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            using (SqlFileStream dest = new SqlFileStream(path, (byte[])reader.GetValue(1), FileAccess.Write))
+                            while (reader.Read())
                             {
-                                byte[] buffer = new byte[BlockSize];
-                                int bytesRead;
-                                while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                                // Get the pointer for file 
+                                string path = reader.GetString(0);
+                                byte[] transactionContext = reader.GetSqlBytes(1).Buffer;
+
+                                const int BlockSize = 1024 * 512;
+                                String clientPath = @"c:\temp\temp.png";
+                                screenShot.image.Save(clientPath, ImageFormat.Png);
+                                using (FileStream source = new FileStream(clientPath, FileMode.Open, FileAccess.Read))
                                 {
-                                    dest.Write(buffer, 0, bytesRead);
-                                    dest.Flush();
+                                    using (SqlFileStream dest = new SqlFileStream(path, (byte[])reader.GetValue(1), FileAccess.Write))
+                                    {
+                                        byte[] buffer = new byte[BlockSize];
+                                        int bytesRead;
+                                        while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                                        {
+                                            dest.Write(buffer, 0, bytesRead);
+                                            dest.Flush();
+                                        }
+                                        dest.Close();
+                                    }
+                                    source.Close();
                                 }
-                                dest.Close();
                             }
-                            source.Close();
                         }
+                        transaction.Commit();
+                        return id;
                     }
                 }
-                transaction.Commit();
-                return id;
             }
         }
 
         // This is a test implementation - When the final implemetation is finished, the code will be
         // part of this method - See the _IMPL method the current state of the final implementation
         public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
-        {            
+        {
             List<String> ids = getScreenShotIdsByDateRange(fromDate, toDate);
             List<ScreenShot> screenShots = new List<ScreenShot>();
             foreach (String id in ids)
             {
                 screenShots.Add(getScreenShotById(new Guid(id)));
             }
-            
+
             return screenShots;
         }
 
@@ -171,30 +172,32 @@ namespace ScreenWatchData
             {
                 connection.Open();
 
-                SqlCommand insertCommand = new SqlCommand("", connection);
+                using (SqlCommand insertCommand = new SqlCommand("", connection))
+                {
 
-                insertCommand.CommandText = @"INSERT INTO " + SQL_TABLE_TEXT_TRIGGER + " (id, userName, triggerString) VALUES (@id, @userName, @triggerString)";
-                insertCommand.CommandType = System.Data.CommandType.Text;
+                    insertCommand.CommandText = @"INSERT INTO " + SQL_TABLE_TEXT_TRIGGER + " (id, userName, triggerString) VALUES (@id, @userName, @triggerString)";
+                    insertCommand.CommandType = System.Data.CommandType.Text;
 
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
-                Guid id = Guid.NewGuid();
-                parameter.Value = id;
-                insertCommand.Parameters.Add(parameter);
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                    Guid id = Guid.NewGuid();
+                    parameter.Value = id;
+                    insertCommand.Parameters.Add(parameter);
 
-                parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = textTrigger.userName;
-                insertCommand.Parameters.Add(parameter);
+                    parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                    parameter.Value = textTrigger.userName;
+                    insertCommand.Parameters.Add(parameter);
 
-                parameter = new System.Data.SqlClient.SqlParameter("@triggerString", System.Data.SqlDbType.VarChar, 2048);
-                parameter.Value = textTrigger.triggerString;
-                insertCommand.Parameters.Add(parameter);
+                    parameter = new System.Data.SqlClient.SqlParameter("@triggerString", System.Data.SqlDbType.VarChar, 2048);
+                    parameter.Value = textTrigger.triggerString;
+                    insertCommand.Parameters.Add(parameter);
 
-                insertCommand.ExecuteNonQuery();
+                    insertCommand.ExecuteNonQuery();
 
-                return id;
+                    return id;
+                }
             }
         }
-        
+
         public Guid insertToneTrigger(ToneTrigger toneTrigger)
         {
             if (toneTrigger == null)
@@ -219,11 +222,11 @@ namespace ScreenWatchData
                 parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
                 parameter.Value = toneTrigger.userName;
                 insertCommand.Parameters.Add(parameter);
-                
+
                 parameter = new System.Data.SqlClient.SqlParameter("@lowerColorBound", System.Data.SqlDbType.Int);
                 parameter.Value = toneTrigger.lowerColorBound.ToArgb();
                 insertCommand.Parameters.Add(parameter);
-                
+
                 parameter = new System.Data.SqlClient.SqlParameter("@upperColorBound", System.Data.SqlDbType.Int);
                 parameter.Value = toneTrigger.upperColorBound.ToArgb();
                 insertCommand.Parameters.Add(parameter);
@@ -244,39 +247,37 @@ namespace ScreenWatchData
             {
                 throw new System.ArgumentException("Input to method cannot be null", "user");
             }
-            
+
             List<TextTrigger> textTriggers = new List<TextTrigger>();
 
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = "SELECT tt.id, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + @" u ON tt.userName = u.userName WHERE tt.userName = @userName";
-                command.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = user;
-                command.Parameters.Add(parameter);
-                
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = new SqlCommand("", connection))
                 {
-                    TextTrigger textTrigger = new TextTrigger();
+                    command.CommandText = "SELECT tt.id, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + @" u ON tt.userName = u.userName WHERE tt.userName = @userName";
+                    command.CommandType = System.Data.CommandType.Text;
 
-                    while (reader.Read())
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                    parameter.Value = user;
+                    command.Parameters.Add(parameter);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        textTrigger = new TextTrigger();
-                        textTrigger.userName = user;
-                        textTrigger.id = reader.GetGuid(0);
-                        textTrigger.userEmail = reader.GetString(1);
-                        textTrigger.triggerString = reader.GetString(2);
-                        textTriggers.Add(textTrigger);
+                        TextTrigger textTrigger = new TextTrigger();
+
+                        while (reader.Read())
+                        {
+                            textTrigger = new TextTrigger();
+                            textTrigger.userName = user;
+                            textTrigger.id = reader.GetGuid(0);
+                            textTrigger.userEmail = reader.GetString(1);
+                            textTrigger.triggerString = reader.GetString(2);
+                            textTriggers.Add(textTrigger);
+                        }
                     }
                 }
-
                 return textTriggers;
             }
         }
@@ -287,44 +288,42 @@ namespace ScreenWatchData
             {
                 throw new System.ArgumentException("Input to method cannot be null", "user");
             }
-            
+
             List<ToneTrigger> toneTriggers = new List<ToneTrigger>();
 
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = @"SELECT tt.id, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName WHERE tt.userName = @userName";
-                command.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = user;
-                command.Parameters.Add(parameter);
-                
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = new SqlCommand("", connection))
                 {
-                    ToneTrigger toneTrigger = new ToneTrigger();
-                    int color = 0;
-                    
-                    while (reader.Read())
+                    command.CommandText = @"SELECT tt.id, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName WHERE tt.userName = @userName";
+                    command.CommandType = System.Data.CommandType.Text;
+
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                    parameter.Value = user;
+                    command.Parameters.Add(parameter);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        toneTrigger = new ToneTrigger();
-                        toneTrigger.userName = user;
-                        toneTrigger.id = reader.GetGuid(0);
-                        toneTrigger.userEmail = reader.GetString(1);
-                        color = reader.GetInt32(2);
-                        toneTrigger.lowerColorBound = Color.FromArgb(color);
-                        color = reader.GetInt32(3);
-                        toneTrigger.upperColorBound = Color.FromArgb(color);
-                        toneTrigger.sensitivity = reader.GetString(4);
-                        toneTriggers.Add(toneTrigger);
+                        ToneTrigger toneTrigger = new ToneTrigger();
+                        int color = 0;
+
+                        while (reader.Read())
+                        {
+                            toneTrigger = new ToneTrigger();
+                            toneTrigger.userName = user;
+                            toneTrigger.id = reader.GetGuid(0);
+                            toneTrigger.userEmail = reader.GetString(1);
+                            color = reader.GetInt32(2);
+                            toneTrigger.lowerColorBound = Color.FromArgb(color);
+                            color = reader.GetInt32(3);
+                            toneTrigger.upperColorBound = Color.FromArgb(color);
+                            toneTrigger.sensitivity = reader.GetString(4);
+                            toneTriggers.Add(toneTrigger);
+                        }
                     }
                 }
-
                 return toneTriggers;
             }
         }
@@ -332,33 +331,31 @@ namespace ScreenWatchData
         public List<TextTrigger> getAllTextTriggers()
         {
             List<TextTrigger> textTriggers = new List<TextTrigger>();
-
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+                        
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
-                command.CommandType = System.Data.CommandType.Text;
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = new SqlCommand("", connection))
                 {
-                    TextTrigger textTrigger = new TextTrigger();
+                    command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
+                    command.CommandType = System.Data.CommandType.Text;
 
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        textTrigger = new TextTrigger();
-                        textTrigger.id = reader.GetGuid(0);
-                        textTrigger.userName = reader.GetString(1);
-                        textTrigger.userEmail = reader.GetString(2);
-                        textTrigger.triggerString = reader.GetString(3);
-                        textTriggers.Add(textTrigger);
+                        TextTrigger textTrigger = new TextTrigger();
+
+                        while (reader.Read())
+                        {
+                            textTrigger = new TextTrigger();
+                            textTrigger.id = reader.GetGuid(0);
+                            textTrigger.userName = reader.GetString(1);
+                            textTrigger.userEmail = reader.GetString(2);
+                            textTrigger.triggerString = reader.GetString(3);
+                            textTriggers.Add(textTrigger);
+                        }
                     }
                 }
-
                 return textTriggers;
             }
         }
@@ -367,37 +364,35 @@ namespace ScreenWatchData
         {
             List<ToneTrigger> toneTriggers = new List<ToneTrigger>();
 
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
-                command.CommandType = System.Data.CommandType.Text;
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = new SqlCommand("", connection))
                 {
-                    ToneTrigger toneTrigger = new ToneTrigger();
-                    int color = 0;
+                    command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
+                    command.CommandType = System.Data.CommandType.Text;
 
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        toneTrigger = new ToneTrigger();
-                        toneTrigger.id = reader.GetGuid(0);
-                        toneTrigger.userName = reader.GetString(1);
-                        toneTrigger.userEmail = reader.GetString(2);
-                        color = reader.GetInt32(3);
-                        toneTrigger.lowerColorBound = Color.FromArgb(color);
-                        color = reader.GetInt32(4);
-                        toneTrigger.upperColorBound = Color.FromArgb(color);
-                        toneTrigger.sensitivity = reader.GetString(5);
-                        toneTriggers.Add(toneTrigger);
+                        ToneTrigger toneTrigger = new ToneTrigger();
+                        int color = 0;
+
+                        while (reader.Read())
+                        {
+                            toneTrigger = new ToneTrigger();
+                            toneTrigger.id = reader.GetGuid(0);
+                            toneTrigger.userName = reader.GetString(1);
+                            toneTrigger.userEmail = reader.GetString(2);
+                            color = reader.GetInt32(3);
+                            toneTrigger.lowerColorBound = Color.FromArgb(color);
+                            color = reader.GetInt32(4);
+                            toneTrigger.upperColorBound = Color.FromArgb(color);
+                            toneTrigger.sensitivity = reader.GetString(5);
+                            toneTriggers.Add(toneTrigger);
+                        }
                     }
                 }
-
                 return toneTriggers;
             }
         }
@@ -439,8 +434,7 @@ namespace ScreenWatchData
                         }
                     }
 
-                    using (SqlFileStream sfs =
-                      new SqlFileStream(serverPath, serverTxn, FileAccess.Read))
+                    using (SqlFileStream sfs = new SqlFileStream(serverPath, serverTxn, FileAccess.Read))
                     {
                         screenShot.image = Image.FromStream(sfs);
                         sfs.Close();
@@ -476,8 +470,8 @@ namespace ScreenWatchData
                 graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
                 screenShot.thumbnail = (Image)bitmap;
                 screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
-            }     
-            
+            }
+
             return screenShot;
         }
 
@@ -498,7 +492,7 @@ namespace ScreenWatchData
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             ids.Add(reader.GetSqlString(0).Value);
                         }
@@ -516,7 +510,8 @@ namespace ScreenWatchData
     {
         private const string APP_NAME = "ScreenShotActions";
 
-        public static void init(){
+        public static void init()
+        {
             Debug.Listeners.Add(new TextWriterTraceListener(@"C:\temp\" + APP_NAME + ".log", APP_NAME));
             Debug.AutoFlush = true;
         }
