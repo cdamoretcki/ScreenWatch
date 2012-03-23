@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using ScreenWatchData;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 
 namespace ScreenWatchUI
@@ -30,8 +31,8 @@ namespace ScreenWatchUI
             ScreenShotActions data = new ScreenShotActions();
             TextTrigger textTrigger = new TextTrigger()
             {
-                triggerString = txtTriggerTB.Text,
-                userName = txtUserNameTB.Text,                
+                triggerString = TriggerTB.Text,
+                userName = UserNameTB.Text,                
             };
             data.insertTextTrigger(textTrigger);
 
@@ -39,8 +40,8 @@ namespace ScreenWatchUI
             RefreshTriggers(data);
 
             //clear text boxes for a new trigger to be entered
-            Clear(txtTriggerTB);          
-            Clear(txtUserNameTB);
+            Clear(TriggerTB);          
+            Clear(UserNameTB);
         }
 
         protected void SubmitNewTone(object sender, EventArgs e)
@@ -49,12 +50,12 @@ namespace ScreenWatchUI
             ScreenShotActions data = new ScreenShotActions();
             ToneTrigger toneTrigger = new ToneTrigger()
             {
-                userName = txtcolorUserTB.Text,                
-                sensitivity = txtcolorSensitivity.Text,
+                userName = colorUserTB.Text,
+                sensitivity = colorSensitivity.Text,
                 //System.Drawing.Color col = System.Drawing.ColorTranslator.FromHtml("#FFCC66"); 
                 
-                lowerColorBound = System.Drawing.ColorTranslator.FromHtml(txtcolorLBTB.Text),               
-                upperColorBound = System.Drawing.ColorTranslator.FromHtml(txtcolorUBTB.Text) 
+                lowerColorBound = System.Drawing.ColorTranslator.FromHtml(colorLBTB.Text),
+                upperColorBound = System.Drawing.ColorTranslator.FromHtml(colorUBTB.Text) 
                 
             };
             data.insertToneTrigger(toneTrigger);
@@ -63,10 +64,10 @@ namespace ScreenWatchUI
             RefreshTriggers(data);
 
             //clear text boxes for a new trigger to be entered
-            Clear(txtcolorUserTB);            
-            Clear(txtcolorSensitivity);
-            Clear(txtcolorLBTB);
-            Clear(txtcolorUBTB);
+            Clear(colorUserTB);            
+            Clear(colorSensitivity);
+            Clear(colorLBTB);
+            Clear(colorUBTB);
         }
 
         private void RefreshTriggers(ScreenShotActions data)

@@ -49,31 +49,40 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Button Button3;
         
         /// <summary>
-        /// txtTriggerTB control.
+        /// TriggerTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTriggerTB;
+        protected global::System.Web.UI.WebControls.TextBox TriggerTB;
         
         /// <summary>
-        /// RFV1 control.
+        /// RequiredFieldValidator1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV1;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
-        /// txtUserNameTB control.
+        /// RXTriggerTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUserNameTB;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXTriggerTB;
+        
+        /// <summary>
+        /// UserNameTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox UserNameTB;
         
         /// <summary>
         /// RFV2 control.
@@ -83,6 +92,15 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV2;
+        
+        /// <summary>
+        /// RXUserNameTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXUserNameTB;
         
         /// <summary>
         /// colorRepeater control.
@@ -103,13 +121,13 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Button Button4;
         
         /// <summary>
-        /// txtcolorUserTB control.
+        /// colorUserTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtcolorUserTB;
+        protected global::System.Web.UI.WebControls.TextBox colorUserTB;
         
         /// <summary>
         /// RFV3 control.
@@ -121,13 +139,22 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV3;
         
         /// <summary>
-        /// txtcolorLBTB control.
+        /// RXcolorUserTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtcolorLBTB;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorUserTB;
+        
+        /// <summary>
+        /// colorLBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox colorLBTB;
         
         /// <summary>
         /// RFV4 control.
@@ -139,6 +166,15 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV4;
         
         /// <summary>
+        /// RXcolorLBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorLBTB;
+        
+        /// <summary>
         /// ColorPickerExtender3 control.
         /// </summary>
         /// <remarks>
@@ -148,13 +184,13 @@ namespace ScreenWatchUI {
         protected global::AjaxControlToolkit.ColorPickerExtender ColorPickerExtender3;
         
         /// <summary>
-        /// txtcolorUBTB control.
+        /// colorUBTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtcolorUBTB;
+        protected global::System.Web.UI.WebControls.TextBox colorUBTB;
         
         /// <summary>
         /// RFV5 control.
@@ -166,6 +202,15 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV5;
         
         /// <summary>
+        /// RXcolorUBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorUBTB;
+        
+        /// <summary>
         /// ColorPickerExtender4 control.
         /// </summary>
         /// <remarks>
@@ -175,13 +220,13 @@ namespace ScreenWatchUI {
         protected global::AjaxControlToolkit.ColorPickerExtender ColorPickerExtender4;
         
         /// <summary>
-        /// txtcolorSensitivity control.
+        /// colorSensitivity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtcolorSensitivity;
+        protected global::System.Web.UI.WebControls.TextBox colorSensitivity;
         
         /// <summary>
         /// RFV6 control.
@@ -191,6 +236,15 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV6;
+        
+        /// <summary>
+        /// RXcolorSensitivity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorSensitivity;
         
         /// <summary>
         /// RadioButton0 control.

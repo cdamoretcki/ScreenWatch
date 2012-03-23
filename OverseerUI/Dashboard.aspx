@@ -112,10 +112,10 @@
         <tr>
         <td><asp:Button ID="Button3" runat="server" Text="Submit" OnClick="SubmitNewText" /></td>            
             <td>
-                <asp:TextBox ID="txtTriggerTB" runat="server" />
+                <asp:TextBox ID="TriggerTB" runat="server" />
                 
-                <asp:RequiredFieldValidator 
-                id="RFV1" runat="server" 
+              <asp:RequiredFieldValidator 
+                id="RequiredFieldValidator1" runat="server" 
                 BackColor="DarkGray"
                 BorderColor="Black"
                 BorderStyle="Solid"
@@ -123,12 +123,17 @@
                 ForeColor="White"
                 Font-Bold="true"
                 Font-Names="Verdana"
-                 ErrorMessage="Text is Required!"
-                ControlToValidate="txtTriggerTB">
-              </asp:RequiredFieldValidator>
+                 ErrorMessage="Required!"
+                ControlToValidate="TriggerTB"/>
+              
+              <asp:RegularExpressionValidator ID="RXTriggerTB" runat="server"     
+                ErrorMessage="This expression does not validate." 
+                ControlToValidate="TriggerTB"     
+                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
+
             </td>
             <td>
-                <asp:TextBox ID="txtUserNameTB" runat="server" />
+                <asp:TextBox ID="UserNameTB" runat="server" />
                 
                 <asp:RequiredFieldValidator 
                 id="RFV2" runat="server" 
@@ -140,8 +145,12 @@
                 Font-Bold="true"
                 Font-Names="Verdana"
                  ErrorMessage="Required!"
-                ControlToValidate="txtUserNameTB">
-              </asp:RequiredFieldValidator>
+                ControlToValidate="UserNameTB"/>
+              
+                 <asp:RegularExpressionValidator ID="RXUserNameTB" runat="server"     
+                ErrorMessage="This expression does not validate." 
+                ControlToValidate="UserNameTB"     
+                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
             </td>            
         </tr>
     </table>
@@ -200,7 +209,7 @@
         <tr align="right">
             <td><asp:Button ID="Button4" runat="server" Text="Submit" OnClick="SubmitNewTone" /></td>
             <td>
-                <asp:TextBox ID="txtcolorUserTB" runat="server" />
+                <asp:TextBox ID="colorUserTB" runat="server" />
 
                 <asp:RequiredFieldValidator 
                 id="RFV3" runat="server" 
@@ -212,11 +221,15 @@
                 Font-Bold="true"
                 Font-Names="Verdana"
                  ErrorMessage="Required!"
-                ControlToValidate="txtcolorUserTB">
-                </asp:RequiredFieldValidator>
+                ControlToValidate="colorUserTB"/>
+                
+                 <asp:RegularExpressionValidator ID="RXcolorUserTB" runat="server"     
+                ErrorMessage="This expression does not validate." 
+                ControlToValidate="colorUserTB"     
+                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
             </td>            
             <td>
-                <asp:TextBox ID="txtcolorLBTB" runat="server" />
+                <asp:TextBox ID="colorLBTB" runat="server" />
 
                  <asp:RequiredFieldValidator 
                 id="RFV4" runat="server" 
@@ -228,13 +241,17 @@
                 Font-Bold="true"
                 Font-Names="Verdana"
                  ErrorMessage="Required!"
-                ControlToValidate="txtcolorLBTB">
-                </asp:RequiredFieldValidator>
+                ControlToValidate="colorLBTB"/>
+                
+                  <asp:RegularExpressionValidator ID="RXcolorLBTB" runat="server"     
+                ErrorMessage="This expression does not validate." 
+                ControlToValidate="colorLBTB"     
+                ValidationExpression="^[a-zA-Z0-9'.\s]{6}$" />
             </td>
-            <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="txtcolorLBTB" />
+            <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="colorLBTB" />
             
             <td>
-                <asp:TextBox ID="txtcolorUBTB" runat="server" />
+                <asp:TextBox ID="colorUBTB" runat="server" />
 
                  <asp:RequiredFieldValidator 
                 id="RFV5" runat="server" 
@@ -246,12 +263,16 @@
                 Font-Bold="true"
                 Font-Names="Verdana"
                  ErrorMessage="Required!"
-                ControlToValidate="txtcolorUBTB">
-                </asp:RequiredFieldValidator>
+                ControlToValidate="colorUBTB"/>
+                
+                 <asp:RegularExpressionValidator ID="RXcolorUBTB" runat="server"     
+                ErrorMessage="This expression does not validate." 
+                ControlToValidate="colorUBTB"     
+               ValidationExpression="^[a-zA-Z0-9'.\s]{6}$" />
             </td>
-            <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="txtcolorUBTB" />
+            <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="colorUBTB" />
             <td>
-                <asp:TextBox ID="txtcolorSensitivity" runat="server" />
+                <asp:TextBox ID="colorSensitivity" runat="server" />
                   <asp:RequiredFieldValidator 
                 id="RFV6" runat="server" 
                 BackColor="DarkGray"
@@ -262,8 +283,12 @@
                 Font-Bold="true"
                 Font-Names="Verdana"
                  ErrorMessage="Required!"
-                ControlToValidate="txtcolorSensitivity">
-              </asp:RequiredFieldValidator>
+                ControlToValidate="colorSensitivity"/>
+              
+               <asp:RegularExpressionValidator ID="RXcolorSensitivity" runat="server"     
+                ErrorMessage="This expression does not validate." 
+                ControlToValidate="colorSensitivity"     
+                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
             </td>
         </tr>
     </table>
