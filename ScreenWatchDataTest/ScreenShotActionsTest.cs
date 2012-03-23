@@ -71,7 +71,7 @@ namespace ScreenWatchDataTest
         [DeploymentItem("ScreenWatchData.dll")]
         public void insertScreenShotNullInputTest()
         {
-            ScreenShotActions_Accessor target = new ScreenShotActions_Accessor();
+            ScreenShotActions_Accessor target = new ScreenShotActions_Accessor(true);
             ScreenShot screenShot = null;
             try
             {
@@ -92,7 +92,7 @@ namespace ScreenWatchDataTest
         [DeploymentItem("ScreenWatchData.dll")]
         public void insertScreenShotValidInputTest()
         {
-            ScreenShotActions_Accessor target = new ScreenShotActions_Accessor(); // TODO: Initialize to an appropriate value
+            ScreenShotActions_Accessor target = new ScreenShotActions_Accessor(true); // TODO: Initialize to an appropriate value
             ScreenShot screenShot = new ScreenShot();
             screenShot.timeStamp = DateTime.Now;
             screenShot.user = insertedUser;
@@ -119,7 +119,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void getScreenShotsByDateRangeTest()
         {
-            ScreenShotActions target = new ScreenShotActions();
+            ScreenShotActions target = new ScreenShotActions(true);
             DateTime fromDate = new DateTime(); // TODO: Initialize to an appropriate value
             DateTime toDate = new DateTime(); // TODO: Initialize to an appropriate value
             List<ScreenShot> expected = new List<ScreenShot>();
@@ -138,7 +138,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void getToneTriggersByUserTest()
         {
-            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            ScreenShotActions target = new ScreenShotActions(true); // TODO: Initialize to an appropriate value
             string user = "TESTUSER"; // TODO: Initialize to an appropriate value
             List<ToneTrigger> expected = null; // TODO: Initialize to an appropriate value
             List<ToneTrigger> actual;
@@ -153,7 +153,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void insertTextTriggerTest()
         {
-            ScreenShotActions target = new ScreenShotActions();
+            ScreenShotActions target = new ScreenShotActions(true);
             TextTrigger textTrigger = new TextTrigger();
             textTrigger.userName = "TESTUSER";
             textTrigger.userEmail = "TEST@";
@@ -168,7 +168,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void insertToneTriggerTest()
         {
-            ScreenShotActions target = new ScreenShotActions();
+            ScreenShotActions target = new ScreenShotActions(true);
             ToneTrigger toneTrigger = new ToneTrigger();
             toneTrigger.userName = "TESTUSER";
             toneTrigger.userEmail = "TEST@";
@@ -185,7 +185,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void getTextTriggersByUserTest()
         {
-            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            ScreenShotActions target = new ScreenShotActions(true); // TODO: Initialize to an appropriate value
             string user = "TESTUSER"; // TODO: Initialize to an appropriate value
             List<TextTrigger> expected = null; // TODO: Initialize to an appropriate value
             List<TextTrigger> actual;
@@ -200,7 +200,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void getAllToneTriggersTest()
         {
-            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            ScreenShotActions target = new ScreenShotActions(true); // TODO: Initialize to an appropriate value
             List<ToneTrigger> actual;
             actual = target.getAllToneTriggers();
             Assert.IsNotNull(actual);
@@ -212,7 +212,7 @@ namespace ScreenWatchDataTest
         [TestMethod()]
         public void getAllTextTriggersTest()
         {
-            ScreenShotActions target = new ScreenShotActions(); // TODO: Initialize to an appropriate value
+            ScreenShotActions target = new ScreenShotActions(true); // TODO: Initialize to an appropriate value
             List<TextTrigger> actual;
             actual = target.getAllTextTriggers();
             Assert.IsNotNull(actual);

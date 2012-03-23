@@ -17,10 +17,11 @@ namespace ScreenWatchData
 {    
     public class ScreenShotActions: IScreenShotActions
     {
-        private Boolean USE_REMOTE = true;
+        private bool unitTest = false;
+        private Boolean USE_REMOTE = false;
         private string SQL_CONNECTION_STRING = String.Empty;
         private string SQL_DATA_SOURCE_REMOTE = @"146.186.87.88";
-        private string SQL_DATA_SOURCE_LOCAL = @"HANSOLO\SQLEXPRESS";
+        private string SQL_DATA_SOURCE_LOCAL = @"JAREDSTOY\SQLEXPRESS";
         private string SQL_DATA_SOURCE = String.Empty;
         private string SQL_DB_NAME_LOCAL = @"ScreenWatch";
         private string SQL_DB_NAME_REMOTE = @"SE500S12S2";
@@ -30,6 +31,11 @@ namespace ScreenWatchData
         private string SQL_TABLE_TONE_TRIGGER = String.Empty;
         private string SQL_TABLE_USER = String.Empty;
         
+        public ScreenShotActions(bool unit) : this() 
+        {
+            unitTest = unit;
+        }
+
         public ScreenShotActions()
         {
             ScreenShotActionsLogger.init();
@@ -446,21 +452,31 @@ namespace ScreenWatchData
 
             // Create temporary image info
             screenShot.filePath = @"~/ScreenWatchImageCache/images/" + id.ToString() + @".png";
-            //String absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
-            String absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
-            ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
-            screenShot.image.Save(absolutePath, ImageFormat.Png);
             screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnails/" + id.ToString() + @".png";
-            absolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
-            ScreenShotActionsLogger.log("the thumbnail absolute path is: " + absolutePath);
-            
+            String absolutePath;
+            String thumbAbsolutePath;
+            if (!unitTest)
+            {
+                absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
+                thumbAbsolutePath = HttpContext.Current.Request.MapPath(screenShot.thumbnailFilePath);
+            }
+            else
+            {
+                absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
+                thumbAbsolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
+            }
+            ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
+            ScreenShotActionsLogger.log("the thumbnail absolute path is: " + thumbAbsolutePath);
+            screenShot.image.Save(absolutePath, ImageFormat.Png);
+
             Bitmap bitmap = new Bitmap(128, 128);
-            Graphics graphics = Graphics.FromImage((Image) bitmap);
-            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
-            graphics.Dispose();
-            screenShot.thumbnail = (Image) bitmap;
-            screenShot.thumbnail.Save(absolutePath, ImageFormat.Png);
+            using (Graphics graphics = Graphics.FromImage((Image)bitmap))
+            {
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
+                screenShot.thumbnail = (Image)bitmap;
+                screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
+            }     
             
             return screenShot;
         }
