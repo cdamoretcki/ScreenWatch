@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="ParentsEyes.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="ScreenWatchUI.Global" Language="C#" %>
