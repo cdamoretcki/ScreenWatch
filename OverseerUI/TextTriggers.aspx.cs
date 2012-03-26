@@ -22,7 +22,7 @@ namespace ScreenWatchUI
             }
         }
 
-        protected void SubmitNewText(object sender, EventArgs e)
+            protected void SubmitNewText(object sender, EventArgs e)
         {
             //insert trigger
             ScreenShotActions data = new ScreenShotActions();
