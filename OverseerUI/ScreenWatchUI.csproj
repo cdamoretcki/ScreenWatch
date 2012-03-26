@@ -148,12 +148,14 @@
     </Compile>
     <Compile Include="TextTriggers.aspx.cs">
       <DependentUpon>TextTriggers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TextTriggers.aspx.designer.cs">
       <DependentUpon>TextTriggers.aspx</DependentUpon>
     </Compile>
     <Compile Include="ToneTriggers.aspx.cs">
       <DependentUpon>ToneTriggers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ToneTriggers.aspx.designer.cs">
       <DependentUpon>ToneTriggers.aspx</DependentUpon>

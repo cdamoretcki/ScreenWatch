@@ -207,7 +207,7 @@
                <asp:RegularExpressionValidator ID="RXcolorSensitivity" runat="server"     
                 ErrorMessage="This expression does not validate." 
                 ControlToValidate="colorSensitivity"     
-                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
+                ValidationExpression="^[0-9'.\s]{1,3}$" />
             </td>
         </tr>
     </table>                           

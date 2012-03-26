@@ -29,9 +29,8 @@ namespace ScreenWatchUI
             ToneTrigger toneTrigger = new ToneTrigger()
             {
                 userName = colorUserTB.Text,
-                sensitivity = colorSensitivity.Text,
-               
-
+                sensitivity = int.Parse(colorSensitivity.Text),
+              
                 lowerColorBound = ColorTranslator.FromHtml(colorLBTB.Text),
                 upperColorBound = ColorTranslator.FromHtml(colorUBTB.Text)
 
