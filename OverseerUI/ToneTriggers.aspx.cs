@@ -31,6 +31,7 @@ namespace ScreenWatchUI
                 userName = colorUserTB.Text,
                 sensitivity = colorSensitivity.Text,
                
+
                 lowerColorBound = ColorTranslator.FromHtml(colorLBTB.Text),
                 upperColorBound = ColorTranslator.FromHtml(colorUBTB.Text)
 
