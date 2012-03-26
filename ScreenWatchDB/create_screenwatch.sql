@@ -43,7 +43,7 @@ CREATE TABLE [dbo].[ToneTrigger]
 	userName VARCHAR(256) NOT NULL,
 	lowerColorBound INT NOT NULL,
 	upperColorBound INT NOT NULL,
-	sensitivity VARCHAR(128)
+	sensitivity INT NOT NULL
 )
 GO
 

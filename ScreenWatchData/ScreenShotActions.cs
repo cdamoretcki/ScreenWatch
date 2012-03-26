@@ -319,7 +319,7 @@ namespace ScreenWatchData
                             toneTrigger.lowerColorBound = Color.FromArgb(color);
                             color = reader.GetInt32(3);
                             toneTrigger.upperColorBound = Color.FromArgb(color);
-                            toneTrigger.sensitivity = reader.GetString(4);
+                            toneTrigger.sensitivity = reader.GetInt32(4);
                             toneTriggers.Add(toneTrigger);
                         }
                     }
@@ -388,7 +388,7 @@ namespace ScreenWatchData
                             toneTrigger.lowerColorBound = Color.FromArgb(color);
                             color = reader.GetInt32(4);
                             toneTrigger.upperColorBound = Color.FromArgb(color);
-                            toneTrigger.sensitivity = reader.GetString(5);
+                            toneTrigger.sensitivity = reader.GetInt32(5);
                             toneTriggers.Add(toneTrigger);
                         }
                     }

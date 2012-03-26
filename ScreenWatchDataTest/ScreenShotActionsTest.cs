@@ -174,7 +174,7 @@ namespace ScreenWatchDataTest
             toneTrigger.userEmail = "TEST@";
             toneTrigger.lowerColorBound = Color.AliceBlue;
             toneTrigger.upperColorBound = Color.Azure;
-            toneTrigger.sensitivity = "sensitive";
+            toneTrigger.sensitivity = 80;
             Guid actual = target.insertToneTrigger(toneTrigger);
             Assert.IsNotNull(actual);
         }

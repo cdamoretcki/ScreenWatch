@@ -37,7 +37,7 @@ namespace ScreenWatchData
         public String userEmail { get; set; }
         public Color lowerColorBound { get; set; }
         public Color upperColorBound { get; set; }
-        public String sensitivity { get; set; }
+        public int sensitivity { get; set; }
     }
 
     public interface IScreenShotActions
