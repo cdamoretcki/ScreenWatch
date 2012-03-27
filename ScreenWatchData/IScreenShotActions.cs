@@ -48,6 +48,8 @@ namespace ScreenWatchData
         Guid insertToneTrigger(ToneTrigger toneTrigger);
         void updateTextTrigger(TextTrigger textTrigger);
         void updateToneTrigger(ToneTrigger toneTrigger);
+        void deleteTextTrigger(Guid id);
+        void deleteToneTrigger(Guid id);
         List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate);
         List<TextTrigger> getTextTriggersByUser(String user);
         List<ToneTrigger> getToneTriggersByUser(String user);
