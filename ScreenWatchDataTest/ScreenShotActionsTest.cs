@@ -1,6 +1,7 @@
 ﻿using ScreenWatchData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -120,16 +121,24 @@ namespace ScreenWatchDataTest
         public void getScreenShotsByDateRangeTest()
         {
             ScreenShotActions target = new ScreenShotActions(true);
-            DateTime fromDate = new DateTime(); // TODO: Initialize to an appropriate value
-            DateTime toDate = new DateTime(); // TODO: Initialize to an appropriate value
-            List<ScreenShot> expected = new List<ScreenShot>();
-            for (int i = 0; i < 8; i++)
-            {
-                expected.Add(new ScreenShot());
-            }
+            DateTime fromDate = DateTime.Now.AddMonths(-1); 
+            DateTime toDate = DateTime.Now; 
             List<ScreenShot> actual = new List<ScreenShot>();
-            //actual = target.getScreenShotsByDateRange(fromDate, toDate);
-            //Assert.AreEqual(expected.Count, actual.Count);
+            //actual = target.getScreenShotsByDateRange(fromDate, toDate); TODO: fix after we get the database working again
+            //Assert.AreNotEqual(0, actual.Count);
+        }
+
+        /// <summary>
+        ///A test for getToneTriggersByUser
+        ///</summary>
+        [TestMethod()]
+        public void getUsersTest()
+        {
+            ScreenShotActions target = new ScreenShotActions(true);
+            string expected = "TESTUSER"; 
+            List<string> users;
+            users = target.getUsers();
+            Assert.IsTrue(users.Contains(expected));
         }
 
         /// <summary>
@@ -163,6 +172,36 @@ namespace ScreenWatchDataTest
         }
 
         /// <summary>
+        ///A test for the text trigger lifecycle
+        ///</summary>
+        [TestMethod()]
+        public void textTriggerFullTest()
+        {
+            //insert
+            ScreenShotActions target = new ScreenShotActions(true);
+            TextTrigger textTrigger = new TextTrigger();
+            textTrigger.userName = "TESTUSER";
+            textTrigger.userEmail = "TEST@";
+            textTrigger.triggerString = "TEST";
+            Guid id = target.insertTextTrigger(textTrigger);
+            Assert.IsNotNull(id);            
+
+            //update
+            string newVal = "BAYAD WERDS";
+            var allTriggers = target.getAllTextTriggers();
+            TextTrigger outTrigger = allTriggers.First(t => t.id.Equals(id));
+            outTrigger.triggerString = newVal;
+            target.updateTextTrigger(outTrigger);
+            allTriggers = target.getAllTextTriggers();
+            outTrigger = allTriggers.First(t => t.id.Equals(id));
+            Assert.AreEqual(newVal, outTrigger.triggerString);
+
+            //delete
+            target.deleteTextTrigger(outTrigger.id);
+            Assert.AreEqual(target.getAllTextTriggers().Count(t => t.id.Equals(id)), 0);
+        }
+
+        /// <summary>
         ///A test for insertToneTrigger
         ///</summary>
         [TestMethod()]
@@ -177,6 +216,37 @@ namespace ScreenWatchDataTest
             toneTrigger.sensitivity = 80;
             Guid actual = target.insertToneTrigger(toneTrigger);
             Assert.IsNotNull(actual);
+        }
+        /// <summary>
+        ///A test for the text trigger lifecycle
+        ///</summary>
+        [TestMethod()]
+        public void toneTriggerFullTest()
+        {
+            //insert
+            ScreenShotActions target = new ScreenShotActions(true);
+            ToneTrigger toneTrigger = new ToneTrigger();
+            toneTrigger.userName = "TESTUSER";
+            toneTrigger.userEmail = "TEST@";
+            toneTrigger.lowerColorBound = Color.AliceBlue;
+            toneTrigger.upperColorBound = Color.Azure;
+            toneTrigger.sensitivity = 80;
+            Guid id = target.insertToneTrigger(toneTrigger);
+            Assert.IsNotNull(id);
+
+            //update
+            int newVal = 70;
+            var allTriggers = target.getAllToneTriggers();
+            ToneTrigger outTrigger = allTriggers.First(t => t.id.Equals(id));
+            outTrigger.sensitivity = newVal;
+            target.updateToneTrigger(outTrigger);
+            allTriggers = target.getAllToneTriggers();
+            outTrigger = allTriggers.First(t => t.id.Equals(id));
+            Assert.AreEqual(newVal, outTrigger.sensitivity);
+
+            //delete
+            target.deleteToneTrigger(outTrigger.id);
+            Assert.AreEqual(target.getAllToneTriggers().Count(t => t.id.Equals(id)), 0);
         }
 
         /// <summary>

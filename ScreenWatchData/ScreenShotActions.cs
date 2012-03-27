@@ -21,11 +21,8 @@ namespace ScreenWatchData
         private Boolean USE_REMOTE = false;
         private string SQL_CONNECTION_STRING = String.Empty;
         private string SQL_DATA_SOURCE_REMOTE = @"146.186.87.88";
-        private string SQL_DATA_SOURCE_LOCAL = @"JAREDSTOY\SQLEXPRESS";
-        private string SQL_DATA_SOURCE = String.Empty;
         private string SQL_DB_NAME_LOCAL = @"ScreenWatch";
         private string SQL_DB_NAME_REMOTE = @"SE500S12S2";
-        private string SQL_DB_NAME = String.Empty;
         private string SQL_TABLE_SCREENSHOT = String.Empty;
         private string SQL_TABLE_TEXT_TRIGGER = String.Empty;
         private string SQL_TABLE_TONE_TRIGGER = String.Empty;
@@ -40,23 +37,21 @@ namespace ScreenWatchData
         public ScreenShotActions()
         {
             ScreenShotActionsLogger.init();
-
+            string sqlDbName;
             if (USE_REMOTE)
             {
-                SQL_DATA_SOURCE = SQL_DATA_SOURCE_REMOTE;
-                SQL_DB_NAME = SQL_DB_NAME_REMOTE;
-                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;User Id=SE500S12S2;Password=SE500S12S2";
+                sqlDbName = SQL_DB_NAME_REMOTE;
+                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE_REMOTE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;User Id=SE500S12S2;Password=SE500S12S2";
             }
             else
             {
-                SQL_DATA_SOURCE = SQL_DATA_SOURCE_LOCAL;
-                SQL_DB_NAME = SQL_DB_NAME_LOCAL;
-                SQL_CONNECTION_STRING = @"Data Source=" + SQL_DATA_SOURCE + @";Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;Integrated Security=true";
+                sqlDbName = SQL_DB_NAME_LOCAL;
+                SQL_CONNECTION_STRING = @"Data Source=" + Environment.MachineName + @"\SQLEXPRESS;Pooling=False;MultipleActiveResultSets=False;Packet Size=4096;Integrated Security=true";
             }
-            SQL_TABLE_SCREENSHOT = SQL_DB_NAME + @".[dbo].[ScreenShot]";
-            SQL_TABLE_TEXT_TRIGGER = SQL_DB_NAME + @".[dbo].[TextTrigger]";
-            SQL_TABLE_TONE_TRIGGER = SQL_DB_NAME + @".[dbo].[ToneTrigger]";
-            SQL_TABLE_USER = SQL_DB_NAME + @".[dbo].[User]";
+            SQL_TABLE_SCREENSHOT = sqlDbName + @".[dbo].[ScreenShot]";
+            SQL_TABLE_TEXT_TRIGGER = sqlDbName + @".[dbo].[TextTrigger]";
+            SQL_TABLE_TONE_TRIGGER = sqlDbName + @".[dbo].[ToneTrigger]";
+            SQL_TABLE_USER = sqlDbName + @".[dbo].[User]";
         }
 
         /**
@@ -146,21 +141,51 @@ namespace ScreenWatchData
         // part of this method - See the _IMPL method the current state of the final implementation
         public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
         {
-            List<String> ids = getScreenShotIdsByDateRange(fromDate, toDate);
+            List<Guid> ids = getScreenShotIdsByDateRange(fromDate, toDate);
             List<ScreenShot> screenShots = new List<ScreenShot>();
-            foreach (String id in ids)
+            foreach (var id in ids)
             {
-                screenShots.Add(getScreenShotById(new Guid(id)));
+                screenShots.Add(getScreenShotById(id));
             }
 
             return screenShots;
         }
 
-        /**
-         * Triggers API
-         * 
-         */
+        # region Users API
 
+        /// <summary>
+        /// I am your father
+        /// </summary>
+        /// <returns></returns>
+        public List<string> getUsers()
+        {
+            List<string> users = new List<string>();
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(@"SELECT u.userName FROM " + SQL_TABLE_USER + " u", connection))
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        users.Add(reader.GetString(0));
+                    }
+                    reader.Close();
+                }
+                connection.Close();
+            }
+            return users;
+        }
+
+        # endregion
+
+        # region Triggers API
+
+        /// <summary>
+        /// inserts a new text trigger
+        /// </summary>
+        /// <param name="textTrigger"></param>
+        /// <returns></returns>
         public Guid insertTextTrigger(TextTrigger textTrigger)
         {
             if (textTrigger == null)
@@ -198,6 +223,11 @@ namespace ScreenWatchData
             }
         }
 
+        /// <summary>
+        /// inserts a new tone trigger
+        /// </summary>
+        /// <param name="toneTrigger"></param>
+        /// <returns></returns>
         public Guid insertToneTrigger(ToneTrigger toneTrigger)
         {
             if (toneTrigger == null)
@@ -241,6 +271,144 @@ namespace ScreenWatchData
             }
         }
 
+        /// updates a text trigger based on its guid
+        public void updateTextTrigger(TextTrigger textTrigger)
+        {
+            if (textTrigger == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "textTrigger");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand updateCommand = new SqlCommand(@"UPDATE " + SQL_TABLE_TEXT_TRIGGER
+                    + " SET userName=@userName, triggerString=@triggerString WHERE (id=@id)"
+                    , connection))
+                {
+                    updateCommand.CommandType = System.Data.CommandType.Text;
+
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                    parameter.Value = textTrigger.id;
+                    updateCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                    parameter.Value = textTrigger.userName;
+                    updateCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@triggerString", System.Data.SqlDbType.VarChar, 2048);
+                    parameter.Value = textTrigger.triggerString;
+                    updateCommand.Parameters.Add(parameter);
+
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// updates a tone trigger based on its guid
+        /// </summary>
+        /// <param name="toneTrigger"></param>
+        public void updateToneTrigger(ToneTrigger toneTrigger)
+        {
+            if (toneTrigger == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "toneTrigger");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand updateCommand = new SqlCommand(@"UPDATE " + SQL_TABLE_TONE_TRIGGER
+                    + " SET userName=@userName, lowerColorBound=@lowerColorBound, upperColorBound=@upperColorBound, sensitivity=@sensitivity WHERE (id=@id)"
+                    , connection))
+                {
+                    updateCommand.CommandType = System.Data.CommandType.Text;
+
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                    parameter.Value = toneTrigger.id;
+                    updateCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                    parameter.Value = toneTrigger.userName;
+                    updateCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@lowerColorBound", System.Data.SqlDbType.Int);
+                    parameter.Value = toneTrigger.lowerColorBound.ToArgb();
+                    updateCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@upperColorBound", System.Data.SqlDbType.Int);
+                    parameter.Value = toneTrigger.upperColorBound.ToArgb();
+                    updateCommand.Parameters.Add(parameter);
+
+                    parameter = new System.Data.SqlClient.SqlParameter("@sensitivity", System.Data.SqlDbType.VarChar, 128);
+                    parameter.Value = toneTrigger.sensitivity;
+                    updateCommand.Parameters.Add(parameter);
+
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// kills it dead
+        /// </summary>
+        /// <param name="id"></param>
+        public void deleteTextTrigger(Guid id)
+        {
+            if (id == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", id.ToString());
+            }
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand updateCommand = new SqlCommand(@"DELETE FROM " + SQL_TABLE_TEXT_TRIGGER + " WHERE (id=@id)", connection))
+                {
+                    updateCommand.CommandType = System.Data.CommandType.Text;
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                    parameter.Value = id;
+                    updateCommand.Parameters.Add(parameter);
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// if find your lack of faith... disturbing
+        /// </summary>
+        /// <param name="toneTrigger"></param>
+        public void deleteToneTrigger(Guid id)
+        {
+            if (id == null)
+            {
+                throw new System.ArgumentException("Input to method cannot be null", "toneTrigger");
+            }
+
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+
+                using (SqlCommand updateCommand = new SqlCommand(@"DELETE FROM " + SQL_TABLE_TONE_TRIGGER + " WHERE (id=@id)", connection))
+                {
+                    updateCommand.CommandType = System.Data.CommandType.Text;
+                    SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                    parameter.Value = id;
+                    updateCommand.Parameters.Add(parameter);
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns a list of text triggers associated to a user that is being watched
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public List<TextTrigger> getTextTriggersByUser(String user)
         {
             if (user == null)
@@ -282,6 +450,11 @@ namespace ScreenWatchData
             }
         }
 
+        /// <summary>
+        /// returns a list of tone triggers associated to a user that is being watched
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public List<ToneTrigger> getToneTriggersByUser(String user)
         {
             if (user == null)
@@ -328,10 +501,14 @@ namespace ScreenWatchData
             }
         }
 
+        /// <summary>
+        /// returns all text triggers in the system, this is meant for an admin
+        /// </summary>
+        /// <returns></returns>
         public List<TextTrigger> getAllTextTriggers()
         {
             List<TextTrigger> textTriggers = new List<TextTrigger>();
-                        
+
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
@@ -360,6 +537,10 @@ namespace ScreenWatchData
             }
         }
 
+        /// <summary>
+        /// returns all text triggers in the system, this is meant for an admin
+        /// </summary>
+        /// <returns></returns>
         public List<ToneTrigger> getAllToneTriggers()
         {
             List<ToneTrigger> toneTriggers = new List<ToneTrigger>();
@@ -396,6 +577,8 @@ namespace ScreenWatchData
                 return toneTriggers;
             }
         }
+
+        #endregion
 
         private ScreenShot getScreenShotById(Guid id)
         {
@@ -475,9 +658,9 @@ namespace ScreenWatchData
             return screenShot;
         }
 
-        private List<String> getScreenShotIdsByDateRange(DateTime fromDate, DateTime toDate)
+        private List<Guid> getScreenShotIdsByDateRange(DateTime fromDate, DateTime toDate)
         {
-            List<String> ids = new List<String>();
+            List<Guid> ids = new List<Guid>();
 
             string query = @"SELECT ss.id FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.timeStamp BETWEEN @fromDate AND @toDate";
 
@@ -494,7 +677,7 @@ namespace ScreenWatchData
                     {
                         while (reader.Read())
                         {
-                            ids.Add(reader.GetSqlString(0).Value);
+                            ids.Add(reader.GetGuid(0));
                         }
                         reader.Close();
                     }

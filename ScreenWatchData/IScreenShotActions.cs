@@ -43,8 +43,11 @@ namespace ScreenWatchData
     public interface IScreenShotActions
     {
         Guid insertScreenShot(ScreenShot screenShot);
+        List<string> getUsers()
         Guid insertTextTrigger(TextTrigger textTrigger);
         Guid insertToneTrigger(ToneTrigger toneTrigger);
+        void updateTextTrigger(TextTrigger textTrigger);
+        void updateToneTrigger(ToneTrigger toneTrigger);
         List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate);
         List<TextTrigger> getTextTriggersByUser(String user);
         List<ToneTrigger> getToneTriggersByUser(String user);
