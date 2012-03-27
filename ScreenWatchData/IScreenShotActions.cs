@@ -43,7 +43,7 @@ namespace ScreenWatchData
     public interface IScreenShotActions
     {
         Guid insertScreenShot(ScreenShot screenShot);
-        List<string> getUsers()
+        List<string> getUsers();
         Guid insertTextTrigger(TextTrigger textTrigger);
         Guid insertToneTrigger(ToneTrigger toneTrigger);
         void updateTextTrigger(TextTrigger textTrigger);
