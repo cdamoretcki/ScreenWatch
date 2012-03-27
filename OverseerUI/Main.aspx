@@ -15,17 +15,21 @@
 </head>
 <body>
     <div class="content">
-        <div id="tabs" style="width: 100%; height: 100%">
+        <div id="tabs" style="width: 100%; height: 300%">
             <ul>
                 <li><a href="#tab_BrowserHistory">Browser History</a></li>
-                <li><a href="#tab_Dashboard">Dashboard</a></li>
+                <li><a href="#tab_TextTriggers">Text Triggers</a></li>
+                <li><a href="#tab_ToneTriggers">Tone Triggers</a></li>
                 <li><a href="#tab_Administration">Administration</a></li>
             </ul>
             <div id="tab_BrowserHistory">
                 <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
             </div>
-            <div id="tab_Dashboard">
-                <iframe id="Dashboard" src="Dashboard.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+            <div id="tab_TextTriggers">
+                <iframe id="Dashboard" src="TextTriggers.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+            </div>
+            <div id="tab_ToneTriggers">
+                <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
             </div>
             <div id="tab_Administration">
                 <iframe id="Administration" src="Administration.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
