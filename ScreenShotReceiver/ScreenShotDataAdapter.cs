@@ -67,12 +67,37 @@ namespace ScreenShotReceiver
                 return Guid.Empty;
             }
 
+            public List<string> getUsers()
+            {
+                throw new NotImplementedException();
+            }
+
             public Guid insertTextTrigger(TextTrigger textTrigger)
             {
                 throw new NotImplementedException();
             }
 
             public Guid insertToneTrigger(ToneTrigger toneTrigger)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void updateTextTrigger(TextTrigger textTrigger)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void updateToneTrigger(ToneTrigger toneTrigger)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void deleteTextTrigger(Guid textTrigger)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void deleteToneTrigger(Guid toneTrigger)
             {
                 throw new NotImplementedException();
             }
@@ -111,7 +136,8 @@ namespace ScreenShotReceiver
                     lowerColorBound = Color.FromArgb(-3637420), 
                     upperColorBound = Color.FromArgb(-1150171), 
                     userEmail = "jared.tait@gmail.com",
-                    userName = "Jared"
+                    userName = "Jared",
+                    sensitivity = 80
                 });
                 return triggers;
             }
