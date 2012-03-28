@@ -138,7 +138,15 @@ namespace ScreenWatchDataTest
             string expected = "TESTUSER"; 
             List<string> users;
             users = target.getUsers();
-            Assert.IsTrue(users.Contains(expected));
+            if (users.Count() > 1)
+            {
+                Assert.IsTrue(users.Contains(expected));
+            }
+            else
+            {
+                Console.WriteLine("No users found in database - expected can't be checked for");
+                Assert.IsNotNull(users);
+            }
         }
 
         /// <summary>
@@ -184,7 +192,7 @@ namespace ScreenWatchDataTest
             textTrigger.userEmail = "TEST@";
             textTrigger.triggerString = "TEST";
             Guid id = target.insertTextTrigger(textTrigger);
-            Assert.IsNotNull(id);            
+            Assert.IsNotNull(id);
 
             //update
             string newVal = "BAYAD WERDS";
@@ -286,6 +294,38 @@ namespace ScreenWatchDataTest
             List<TextTrigger> actual;
             actual = target.getAllTextTriggers();
             Assert.IsNotNull(actual);
+        }
+
+        /// <summary>
+        ///A test for user db operations
+        ///</summary>
+        [TestMethod()]
+        public void userFullTest()
+        {
+            string testUser = "UNITTESTUSER";
+            string testEmail = "unit@test";
+            string updatedEmail = "unit@testNewEmail";
+            ScreenShotActions target = new ScreenShotActions();
+            User insertedUser = new User();
+            insertedUser.userName = testUser;
+            insertedUser.email = testEmail;
+            insertedUser.isAdmin = false;
+            insertedUser.isMonitored = false;
+            target.insertUser(insertedUser);
+            // Test if the user is there
+            User returnedUser = target.getUserByUserName(testUser);
+            Assert.IsNotNull(returnedUser);
+            Assert.AreEqual(returnedUser.userName, testUser);
+            returnedUser.email = updatedEmail;
+            target.updateUser(returnedUser);
+            // Test if the update worked
+            User updatedUser = target.getUserByUserName(testUser);
+            Assert.IsNotNull(updatedUser);
+            Assert.AreEqual(updatedUser.email, updatedEmail);
+            target.deleteUser(testUser);
+            User deletedUser = target.getUserByUserName(testUser);
+            // Test that the user was deleted
+            Assert.IsNull(deletedUser);
         }
     }
 }

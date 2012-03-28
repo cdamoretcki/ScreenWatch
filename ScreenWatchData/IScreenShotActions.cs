@@ -40,6 +40,14 @@ namespace ScreenWatchData
         public int sensitivity { get; set; }
     }
 
+    public class User
+    {
+        public String userName { get; set; }
+        public String email { get; set; }
+        public Boolean isMonitored { get; set; }
+        public Boolean isAdmin { get; set; }
+    }
+
     public interface IScreenShotActions
     {
         Guid insertScreenShot(ScreenShot screenShot);
@@ -53,5 +61,9 @@ namespace ScreenWatchData
         List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate);
         List<TextTrigger> getTextTriggersByUser(String user);
         List<ToneTrigger> getToneTriggersByUser(String user);
+        void insertUser(User user);
+        void updateUser(User user);
+        void deleteUser(String userName);
+        User getUserByUserName(String userName);
     }
 }
