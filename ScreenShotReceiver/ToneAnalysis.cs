@@ -24,9 +24,18 @@ namespace ScreenShotReceiver
             var firedTriggers = new Dictionary<string, List<ToneTrigger>>();
             foreach (var trigger in triggers)
             {
-                var averages = CalculateAverageColor(img);
+                //get the average tones represented in the screenshot
+                List<Color> averages = CalculateAverageColor(img);
+                // count the number of cells caught by the trigger
                 int cellsTriggered = averages.Count(color => IsBetween(trigger.lowerColorBound, color, trigger.upperColorBound));
-                if ((cellsTriggered / averages.Count) > 1 - trigger.sensitivity)
+                //correct the range of sensitivity
+                if (trigger.sensitivity > 100)
+                    trigger.sensitivity = 100;
+                else if (trigger.sensitivity < 0)
+                    trigger.sensitivity = 0;
+
+                //if the percentage of cells exceeds the percentage stated in the sensitivity, set the trigger is set.
+                if ((cellsTriggered / averages.Count) >= 100 - trigger.sensitivity)
                 {
                     string email = trigger.userEmail.ToUpper();
                     if (!firedTriggers.ContainsKey(email))
