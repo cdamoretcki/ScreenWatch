@@ -60,53 +60,7 @@ namespace ScreenWatchUI
 			}
 		}
 
-		/*{
-
-		   DateTime  getDate2;
-		   DateTime getDate3; 
-
-		   DateTime.TryParse(TextBox2.Text,out getDate2);
-		   DateTime.TryParse(TextBox3.Text, out getDate3);
-
-		   ScreenShotActions SSA = new ScreenShotActions();
-
-			//instance of screenshot
-		   List<ScreenShot> lstOfScreenShots = new List<ScreenShot>();
-
-			//assign the return screenshots to lstOfScreenshots array
-		   lstOfScreenShots=SSA.getScreenShotsByDateRange(getDate2, getDate3);
-
-			//Stringbuilder - dynamically build thumbnail img tags
-		   StringBuilder ThumbeNailBuilder = new StringBuilder();
-		   
-		   StringWriter stringWriter = new StringWriter();
-		   
-			//dynamically build thumbnail img tags
-			// Put HtmlTextWriter in using block because it needs to call Dispose.
-		   using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
-		   for(int i=0 ; i < lstOfScreenShots.Count ;i++)
-		   {
-			   string urlValue = lstOfScreenShots[i].thumbnailFilePath;        
-			   writer.RenderBeginTag(HtmlTextWriterTag.Img);
-			   writer.AddAttribute(HtmlTextWriterAttribute.Src, urlValue);               
-			   writer.AddAttribute(HtmlTextWriterAttribute.Height, "60px");
-			   writer.AddAttribute(HtmlTextWriterAttribute.Width, "168px");
-			   writer.AddAttribute(HtmlTextWriterAttribute.Id, "ImgThumb" + i.ToString());
-			   writer.RenderEndTag();
-			   //ThumbeNailBuilder.Append(@"<asp:ImageButton ID='ThumbNail' + i.ToString() + "' runat='server' ImageUrl='" + lstOfScreenShots[i].filePath + "' Height='60px' Width='163px' OnClick='ThumbNail" + i.ToString() + "_Click'/>");
-			   //ThumbeNailBuilder.Append(@"<br />");              
-			   ThumbeNailBuilder.Append(stringWriter);              
-			   ImageButton btn=new ImageButton();
-			   btn.ImageUrl=lstOfScreenShots[i].filePath;
-			   
-		   }
-		   ThumbNailHeader.InnerHtml = ThumbeNailBuilder.ToString();
-		   //DisplayImage.get = lstOfScreenShots[0].image;
-		   DisplayImage.Width = lstOfScreenShots[0].image.Width;
-		   DisplayImage.Height = lstOfScreenShots[0].image.Height;                                                    
-		}*/
-
-		 
+			 
 	   
 		protected void ClearDates_Click(object sender, EventArgs e)
 		{

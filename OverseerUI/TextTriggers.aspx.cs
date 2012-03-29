@@ -15,10 +15,17 @@ namespace ScreenWatchUI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+
             if (!IsPostBack)
             {
                 ScreenShotActions data = new ScreenShotActions();
                 RefreshTriggers(data);
+                
+                UserNameTB.DataSource = data.getUsers();           
+                UserNameTB.DataTextField = UserNameTB.Text;
+                UserNameTB.DataBind();
+                
             }
         }
 
@@ -38,8 +45,28 @@ namespace ScreenWatchUI
 
             //clear text boxes for a new trigger to be entered
             Clear(TriggerTB);
-            Clear(UserNameTB);
         }
+
+        protected void UpdateText(object sender, EventArgs e)
+            {
+                ScreenShotActions updateData = new ScreenShotActions();
+                TextTrigger textTrigger = new TextTrigger()
+                {
+                    triggerString = TriggerTB.Text,
+                    userName = UserNameTB.Text
+                };
+               updateData.updateTextTrigger(textTrigger);
+            }
+
+        protected void DeleteText(object sender, EventArgs e)
+        {
+            ScreenShotActions deleteData = new ScreenShotActions();
+            TextTrigger textTrigger = new TextTrigger();
+          
+            deleteData.deleteTextTrigger(textTrigger.id);
+            
+        }
+
         private void RefreshTriggers(ScreenShotActions data)
         {
             textRepeater.DataSource = data.getAllTextTriggers();

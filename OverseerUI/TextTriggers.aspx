@@ -59,10 +59,10 @@
         }
     </style>
 </head>
-<body>
+<body style="height: 697px">
     <form id="form1" runat="server" clientidmode="Inherit" style="border-style: ridge;
     font-family: Arial; font-size: medium; font-weight: normal; font-style: normal; background-color: #CCCCCC;
-    width: 1003px; height: 1147px;" enableviewstate="True">
+    width: 1003px; height: 871px;" enableviewstate="True">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <table>
         <tr>
@@ -70,8 +70,7 @@
                 ScreenWatcher - Dashboard - Text Triggers
             </td>
         </tr>
-    </table>
-    <asp:LinkButton ID="LinkButton3" runat="server">Home</asp:LinkButton> &nbsp;&nbsp;&nbsp;&nbsp;<asp:LinkButton ID="LinkButton4" runat="server">Tone Trigger</asp:LinkButton>    
+    </table>  
     <br />
     <br />
     <br />
@@ -104,7 +103,13 @@
                     </td>
                     <td>
                         <asp:Label ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>" />
-                    </td>                    
+                    </td>
+                    <td>
+                        <asp:Button ID="btnUpdate" runat="server" Text="Update" onclick="UpdateText"/>
+                    </td>
+                    <td>
+                        <asp:Button ID="btnDelete" runat="server" Text="Delete" onclick="DeleteText"/>
+                    </td>                      
                 </tr>
             </table>
         </ItemTemplate>
@@ -133,9 +138,9 @@
                 ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
 
             </td>
-            <td>
-                <asp:TextBox ID="UserNameTB" runat="server" CausesValidation="false" />
-                
+            <td>                
+                <asp:DropDownList ID="UserNameTB" runat="server" />                
+             
                 <asp:RequiredFieldValidator 
                 id="RFV2" runat="server" 
                 BackColor="DarkGray"

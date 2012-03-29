@@ -40,24 +40,6 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// LinkButton3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton3;
-        
-        /// <summary>
-        /// LinkButton4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton4;
-        
-        /// <summary>
         /// textRepeater control.
         /// </summary>
         /// <remarks>
@@ -109,7 +91,7 @@ namespace ScreenWatchUI {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox UserNameTB;
+        protected global::System.Web.UI.WebControls.DropDownList UserNameTB;
         
         /// <summary>
         /// RFV2 control.
