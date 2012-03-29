@@ -72,6 +72,26 @@ namespace ScreenShotReceiver
                 throw new NotImplementedException();
             }
 
+            void IScreenShotActions.insertUser(User user)
+            {
+                throw new NotImplementedException();
+            }
+
+            void IScreenShotActions.updateUser(User user)
+            {
+                throw new NotImplementedException();
+            }
+
+            void IScreenShotActions.deleteUser(string userName)
+            {
+                throw new NotImplementedException();
+            }
+
+            User IScreenShotActions.getUserByUserName(string userName)
+            {
+                throw new NotImplementedException();
+            }
+
             public Guid insertTextTrigger(TextTrigger textTrigger)
             {
                 throw new NotImplementedException();
@@ -141,7 +161,8 @@ namespace ScreenShotReceiver
                 });
                 return triggers;
             }
-        }
+
+}
 
 #endregion
     }
