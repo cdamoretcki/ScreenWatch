@@ -90,12 +90,14 @@ namespace ScreenWatchData
                     insertCommand.Parameters.Add(parameter);
 
                     parameter = new System.Data.SqlClient.SqlParameter("@image", System.Data.SqlDbType.VarBinary);
-                    MemoryStream memoryStream = new MemoryStream();
-                    screenShot.image.Save(memoryStream, ImageFormat.Png);
-                    Byte[] imageBytes = memoryStream.ToArray();
-                    memoryStream.Close();
-                    parameter.Value = imageBytes;
-                    insertCommand.Parameters.Add(parameter);
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        screenShot.image.Save(memoryStream, ImageFormat.Png);
+                        Byte[] imageBytes = memoryStream.ToArray();
+                        memoryStream.Close();
+                        parameter.Value = imageBytes;
+                        insertCommand.Parameters.Add(parameter);
+                    }
 
                     insertCommand.ExecuteNonQuery();
 
