@@ -29,13 +29,16 @@ namespace ScreenShotReceiver
                 // count the number of cells caught by the trigger
                 int cellsTriggered = averages.Count(color => IsBetween(trigger.lowerColorBound, color, trigger.upperColorBound));
                 //correct the range of sensitivity
+
+                Debug.WriteLine("ToneAnalysis.ProcessTone sensitivity={0}", trigger.sensitivity);
                 if (trigger.sensitivity > 100)
                     trigger.sensitivity = 100;
                 else if (trigger.sensitivity < 0)
                     trigger.sensitivity = 0;
 
                 //if the percentage of cells exceeds the percentage stated in the sensitivity, set the trigger is set.
-                if ((cellsTriggered / averages.Count) >= 100 - trigger.sensitivity)
+                Debug.WriteLine("ToneAnalysis.ProcessTone triggered {0} out of {1}, sensitivity={2}", cellsTriggered, averages.Count, trigger.sensitivity);
+                if ((cellsTriggered / averages.Count) >= trigger.sensitivity)
                 {
                     string email = trigger.userEmail.ToUpper();
                     if (!firedTriggers.ContainsKey(email))
@@ -57,8 +60,9 @@ namespace ScreenShotReceiver
 
         private static bool IsBetween(byte limit1, byte mid, byte limit2)
         {
-            Debug.WriteLine("ToneAnalysis.IsBetween(limit1={0} image={1} limit2={2})", limit1, mid, limit2);
-            return (limit1 <= mid && mid <= limit2) || (limit2 <= mid && mid <= limit1);
+            bool returnVal = (limit1 <= mid && mid <= limit2) || (limit2 <= mid && mid <= limit1);
+            Debug.WriteLine("ToneAnalysis.IsBetween(limit1={0} image={1} limit2={2}) = {3}", limit1, mid, limit2, returnVal);
+            return returnVal;
         }
 
         public static List<Color> CalculateAverageColor(Bitmap img)
