@@ -15,35 +15,15 @@ namespace ScreenWatchUI
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			//DisplayImage.ImageUrl = "C:\\ScreenWatch\\Images\notFound.jpg";
-			//TextBox3.Focus();
-		}
-
-		protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
-		{
 			
-
 		}
 
-		protected void ThumbNail1_Click(object sender, EventArgs e)
-        {
-
-
-        }
-		protected void Button1_Click(object sender, EventArgs e)
+        protected void SelectDate(object sender, EventArgs e)
 		{
-
-			DateTime getDate2;
-			DateTime getDate3;
-
-			DateTime.TryParse(TextBox2.Text, out getDate2);
-			DateTime.TryParse(TextBox3.Text, out getDate3);
-
-			ScreenShotActions SSA = new ScreenShotActions();
-
-			List<ScreenShot> lstOfScreenShots = new List<ScreenShot>();
-
-			lstOfScreenShots = SSA.getScreenShotsByDateRange(getDate2, getDate3);
+            DateTime date;
+            DateTime.TryParse(DateTextBox.Text, out date);
+			ScreenShotActions data = new ScreenShotActions();
+			List<ScreenShot> lstOfScreenShots = data.getScreenShotsByDateRange(date, date.AddDays(1));
 
 			for (int i = 0; i < lstOfScreenShots.Count; i++)
 			{
@@ -60,29 +40,9 @@ namespace ScreenWatchUI
 			}
 		}
 
-			 
-	   
-		protected void ClearDates_Click(object sender, EventArgs e)
-		{
-			TextBox2.Text = "";
-			TextBox3.Text = "";
-		
-		}
+        protected void ThumbNail1_Click(object sender, EventArgs e)
+        {
 
-		protected void TextBox3_TextChanged(object sender, EventArgs e)
-		{
-
-		}
-
-		protected void TextBox2_TextChanged(object sender, EventArgs e)
-		{
-			
-		}
-
-		protected void ThumbNail1_Click(object sender, ImageClickEventArgs e)
-		{
-		   
-
-		}
+        }
 	}
 }

@@ -8,7 +8,6 @@ using System.Web.UI.HtmlControls;
 using ScreenWatchData;
 using System.Drawing;
 using System.Text.RegularExpressions;
-using System.Drawing;
 
 namespace ScreenWatchUI
 {
@@ -28,12 +27,10 @@ namespace ScreenWatchUI
             ScreenShotActions data = new ScreenShotActions();
             ToneTrigger toneTrigger = new ToneTrigger()
             {
-                userName = colorUserTB.Text,
-                sensitivity = int.Parse(colorSensitivity.Text),
-              
-                lowerColorBound = ColorTranslator.FromHtml(colorLBTB.Text),
-                upperColorBound = ColorTranslator.FromHtml(colorUBTB.Text)
-
+                userName = UserDropDownList.Text,
+                sensitivity = int.Parse(colorSensitivity.Text),              
+                lowerColorBound = ColorTranslator.FromHtml('#' + colorLBTB.Text),
+                upperColorBound = ColorTranslator.FromHtml('#' + colorUBTB.Text)
             };
             data.insertToneTrigger(toneTrigger);
 
@@ -41,14 +38,15 @@ namespace ScreenWatchUI
             RefreshTriggers(data);
 
             //clear text boxes for a new trigger to be entered
-            Clear(colorUserTB);
             Clear(colorSensitivity);
             Clear(colorLBTB);
             Clear(colorUBTB);
         }
         private void RefreshTriggers(ScreenShotActions data)
         {
-         
+            UserDropDownList.DataSource = data.getUsers();
+            UserDropDownList.DataBind();
+
             colorRepeater.DataSource = data.getAllToneTriggers();
             colorRepeater.DataBind();
         }

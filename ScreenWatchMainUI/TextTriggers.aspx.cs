@@ -21,10 +21,9 @@ namespace ScreenWatchUI
             {
                 ScreenShotActions data = new ScreenShotActions();
                 RefreshTriggers(data);
-                
-                UserNameTB.DataSource = data.getUsers();           
-                UserNameTB.DataTextField = UserNameTB.Text;
-                UserNameTB.DataBind();
+
+                UserDropDownList.DataSource = data.getUsers();
+                UserDropDownList.DataBind();
                 
             }
         }
@@ -36,7 +35,7 @@ namespace ScreenWatchUI
             TextTrigger textTrigger = new TextTrigger()
             {
                 triggerString = TriggerTB.Text,
-                userName = UserNameTB.Text,
+                userName = UserDropDownList.Text,
             };
             data.insertTextTrigger(textTrigger);
 
@@ -53,7 +52,7 @@ namespace ScreenWatchUI
                 TextTrigger textTrigger = new TextTrigger()
                 {
                     triggerString = TriggerTB.Text,
-                    userName = UserNameTB.Text
+                    userName = UserDropDownList.Text
                 };
                updateData.updateTextTrigger(textTrigger);
             }

@@ -6,51 +6,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>PCWatcher Dashboard</title>
+    <title>Text Triggers</title>
     <style type="text/css">
-        .rg_i
-        {
-            border: 0;
-            -ms-interpolation-mode: bicubic;
-            display: block;
-        }
-        .rg_i
-        {
-            border: 0;
-            -ms-interpolation-mode: bicubic;
-            display: block;
-        }
-        .rg_hi
-        {
-            border: 0;
-            display: block;
-            margin: 0 auto 4px;
-        }
-        .rg_hi
-        {
-            border: 0;
-            display: block;
-            margin: 0 auto 4px;
-        }
-        .style1
-        {
-            font-family: Calibri;
-            font-size: large;
-            text-decoration: underline;
-        }
-        .style3
-        {
-            font-family: Calibri;
-            text-decoration: underline;
-        }
-        .style4
-        {
-            width: 478px;
-        }
-        .style5
-        {
-            font-size: small;
-        }
         .style7
         {
             font-family: Calibri;
@@ -62,7 +19,7 @@
 <body style="height: 697px">
     <form id="form1" runat="server" clientidmode="Inherit" style="border-style: ridge;
     font-family: Arial; font-size: medium; font-weight: normal; font-style: normal; background-color: #CCCCCC;
-    width: 1003px; height: 871px;" enableviewstate="True">
+    width: 1003px" enableviewstate="True">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <table>
         <tr>
@@ -70,34 +27,37 @@
                 ScreenWatcher - Dashboard - Text Triggers
             </td>
         </tr>
-    </table>  
-    <br />
-    <br />
-    <br />
-    <table>
-        <tr>
-            <td class="style1">
-                Text Triggers
-            </td>
-        </tr>
     </table>
+    <br />
+    <span>
+        <asp:Button ID="Button3" runat="server" Text="Add" OnClick="SubmitNewText" />
+        User to Monitor:
+        <asp:DropDownList ID="UserDropDownList" runat="server" />
+        Text to Filter:
+        <asp:TextBox ID="TriggerTB" runat="server" CausesValidation="true" />
+    </span><span>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" BackColor="DarkGray"
+            BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" ForeColor="White" Font-Bold="true"
+            Font-Names="Verdana" ErrorMessage="Please enter a regular expression for a word to scan for"
+            ControlToValidate="TriggerTB" />
+    </span>
     <asp:Repeater ID="textRepeater" runat="server">
         <HeaderTemplate>
             <table border="1" width="100%">
-                <tr>                    
+                <tr>
                     <th>
                         Text
                     </th>
                     <th>
                         User
-                    </th>                   
+                    </th>
                 </tr>
             </table>
         </HeaderTemplate>
         <ItemTemplate>
             <table border="1" width="100%">
-                <tr>                    
-                    <asp:HiddenField ID="textID" runat="server" Value="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).id %>" />                    
+                <tr>
+                    <asp:HiddenField ID="textID" runat="server" Value="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).id %>" />
                     <td>
                         <asp:Label ID="triggerString" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).triggerString %>" />
                     </td>
@@ -105,61 +65,15 @@
                         <asp:Label ID="textUser" runat="server" Text="<%# ((ScreenWatchData.TextTrigger)Container.DataItem).userName%>" />
                     </td>
                     <td>
-                        <asp:Button ID="btnUpdate" runat="server" Text="Update" onclick="UpdateText"/>
+                        <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="UpdateText" />
                     </td>
                     <td>
-                        <asp:Button ID="btnDelete" runat="server" Text="Delete" onclick="DeleteText"/>
-                    </td>                      
+                        <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="DeleteText" />
+                    </td>
                 </tr>
             </table>
         </ItemTemplate>
     </asp:Repeater>
-    <table border="1" width="100%" cellspacing="4">
-        <tr>
-        <td><asp:Button ID="Button3" runat="server" Text="Submit" OnClick="SubmitNewText" /></td>            
-            <td>
-                <asp:TextBox ID="TriggerTB" runat="server" CausesValidation="true" />
-                
-              <asp:RequiredFieldValidator 
-                id="RequiredFieldValidator1" runat="server" 
-                BackColor="DarkGray"
-                BorderColor="Black"
-                BorderStyle="Solid"
-                BorderWidth="1px"
-                ForeColor="White"
-                Font-Bold="true"
-                Font-Names="Verdana"
-                 ErrorMessage="Required!"
-                ControlToValidate="TriggerTB"/>
-              
-              <asp:RegularExpressionValidator ID="RXTriggerTB" runat="server"     
-                ErrorMessage="This expression does not validate." 
-                ControlToValidate="TriggerTB"     
-                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
-
-            </td>
-            <td>                
-                <asp:DropDownList ID="UserNameTB" runat="server" />                
-             
-                <asp:RequiredFieldValidator 
-                id="RFV2" runat="server" 
-                BackColor="DarkGray"
-                BorderColor="Black"
-                BorderStyle="Solid"
-                BorderWidth="1px"
-                ForeColor="White"
-                Font-Bold="true"
-                Font-Names="Verdana"
-                 ErrorMessage="Required!"
-                ControlToValidate="UserNameTB"/>
-              
-                 <asp:RegularExpressionValidator ID="RXUserNameTB" runat="server"     
-                ErrorMessage="This expression does not validate." 
-                ControlToValidate="UserNameTB"     
-                ValidationExpression="^[a-zA-Z'.\s]{1,40}$" />
-            </td>            
-        </tr>
-    </table> 
-    </form>   
+    </form>
 </body>
 </html>

@@ -40,33 +40,6 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// LinkButton3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton3;
-        
-        /// <summary>
-        /// LinkButton4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton4;
-        
-        /// <summary>
-        /// colorRepeater control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater colorRepeater;
-        
-        /// <summary>
         /// Button4 control.
         /// </summary>
         /// <remarks>
@@ -76,31 +49,13 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.Button Button4;
         
         /// <summary>
-        /// colorUserTB control.
+        /// UserDropDownList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox colorUserTB;
-        
-        /// <summary>
-        /// RFV3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV3;
-        
-        /// <summary>
-        /// RXcolorUserTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorUserTB;
+        protected global::System.Web.UI.WebControls.DropDownList UserDropDownList;
         
         /// <summary>
         /// colorLBTB control.
@@ -110,24 +65,6 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox colorLBTB;
-        
-        /// <summary>
-        /// RFV4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV4;
-        
-        /// <summary>
-        /// RXcolorLBTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorLBTB;
         
         /// <summary>
         /// ColorPickerExtender3 control.
@@ -148,24 +85,6 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.TextBox colorUBTB;
         
         /// <summary>
-        /// RFV5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV5;
-        
-        /// <summary>
-        /// RXcolorUBTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorUBTB;
-        
-        /// <summary>
         /// ColorPickerExtender4 control.
         /// </summary>
         /// <remarks>
@@ -184,6 +103,42 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.WebControls.TextBox colorSensitivity;
         
         /// <summary>
+        /// RFV4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV4;
+        
+        /// <summary>
+        /// RXcolorLBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorLBTB;
+        
+        /// <summary>
+        /// RFV5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV5;
+        
+        /// <summary>
+        /// RXcolorUBTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorUBTB;
+        
+        /// <summary>
         /// RFV6 control.
         /// </summary>
         /// <remarks>
@@ -200,5 +155,14 @@ namespace ScreenWatchUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RXcolorSensitivity;
+        
+        /// <summary>
+        /// colorRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater colorRepeater;
     }
 }

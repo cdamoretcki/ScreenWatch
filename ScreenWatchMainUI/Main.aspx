@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="content">
-        <div id="tabs" style="width: 100%; height: 300%">
+        <div id="tabs" style="width: 100%; height: 100%">
             <ul>
                 <li><a href="#tab_BrowserHistory">Browser History</a></li>
                 <li><a href="#tab_TextTriggers">Text Triggers</a></li>
@@ -23,16 +23,16 @@
                 <li><a href="#tab_Administration">Administration</a></li>
             </ul>
             <div id="tab_BrowserHistory">
-                <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+                <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 500px"></iframe>
             </div>
             <div id="tab_TextTriggers">
-                <iframe id="Dashboard" src="TextTriggers.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+                <iframe id="Dashboard" src="TextTriggers.aspx" style="width: 100%; height: 500px"></iframe>
             </div>
             <div id="tab_ToneTriggers">
-                <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+                <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 500px"></iframe>
             </div>
             <div id="tab_Administration">
-                <iframe id="Administration" src="User/" style="width: 100%; height: 100%; overflow: hidden"></iframe>
+                <iframe id="Administration" src="User/" style="width: 100%; height: 500px"></iframe>
             </div>
         </div>
     </div>
