@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenWatchMainUI", "ScreenWatchMainUI\ScreenWatchMainUI.csproj", "{D53E87B8-A30C-4F96-AD0E-D5FC2E04F59B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenWatchData", "ScreenWatchData\ScreenWatchData.csproj", "{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D53E87B8-A30C-4F96-AD0E-D5FC2E04F59B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D53E87B8-A30C-4F96-AD0E-D5FC2E04F59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D53E87B8-A30C-4F96-AD0E-D5FC2E04F59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D53E87B8-A30C-4F96-AD0E-D5FC2E04F59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
