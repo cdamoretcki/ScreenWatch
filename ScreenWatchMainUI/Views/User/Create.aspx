@@ -1,10 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<ScreenWatchUI.Models.User>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+<asp:Content ID="TitleContent" ContentPlaceHolderID="TitleContent" runat="server">
 	Create
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2>Add New User</h2>
 
@@ -12,7 +12,6 @@
         <%: Html.ValidationSummary(true) %>
 
         <fieldset>
-            <legend>Fields</legend>
             
             <div class="editor-label">
                 <%: Html.LabelFor(model => model.userName) %>
@@ -34,7 +33,8 @@
                 <%: Html.LabelFor(model => model.isMonitored) %>
             </div>
             <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.isMonitored) %>
+                <%: Html.RadioButtonFor(model => model.isMonitored, "true", ViewData["isMonitored"] == "true")%> Yes
+                <%: Html.RadioButtonFor(model => model.isMonitored, "false", ViewData["isMonitored"] == "false")%> No
                 <%: Html.ValidationMessageFor(model => model.isMonitored) %>
             </div>
             
@@ -42,12 +42,13 @@
                 <%: Html.LabelFor(model => model.isAdmin) %>
             </div>
             <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.isAdmin) %>
+                <%: Html.RadioButtonFor(model => model.isAdmin, "true", ViewData["isAdmin"] == "true") %> Yes
+                <%: Html.RadioButtonFor(model => model.isAdmin, "false", ViewData["isAdmin"] == "false") %> No
                 <%: Html.ValidationMessageFor(model => model.isAdmin) %>
             </div>
             
             <p>
-                <input type="submit" value="Create" />
+                <input type="submit" value="Add" />
             </p>
         </fieldset>
 

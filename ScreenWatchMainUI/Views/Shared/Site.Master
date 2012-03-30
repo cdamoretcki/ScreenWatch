@@ -6,7 +6,6 @@
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
-<a href="../../App_Data/">../../App_Data/</a>
 <body>
     <div class="page">
 

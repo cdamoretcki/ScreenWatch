@@ -13,7 +13,7 @@
     </div>
 
     <div>
-        <p><a href="/User">Return to users</a></p>
+        <p><a href="/User">Return to ScreenWatch Users</a></p>
     </div>
 
 </asp:Content>

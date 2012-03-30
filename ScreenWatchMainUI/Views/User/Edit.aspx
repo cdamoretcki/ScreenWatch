@@ -26,7 +26,8 @@
                 <%: Html.LabelFor(model => model.isMonitored) %>
             </div>
             <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.isMonitored) %>
+                <%: Html.RadioButtonFor(model => model.isMonitored, "true", ViewData["isMonitored"] == "true")%> Yes
+                <%: Html.RadioButtonFor(model => model.isMonitored, "false", ViewData["isMonitored"] == "false")%> No
                 <%: Html.ValidationMessageFor(model => model.isMonitored) %>
             </div>
             
@@ -34,7 +35,8 @@
                 <%: Html.LabelFor(model => model.isAdmin) %>
             </div>
             <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.isAdmin) %>
+                <%: Html.RadioButtonFor(model => model.isAdmin, "true", ViewData["isAdmin"] == "true") %> Yes
+                <%: Html.RadioButtonFor(model => model.isAdmin, "false", ViewData["isAdmin"] == "false") %> No
                 <%: Html.ValidationMessageFor(model => model.isAdmin) %>
             </div>
             

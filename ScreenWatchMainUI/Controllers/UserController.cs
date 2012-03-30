@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ScreenWatchUI.Models;
+using System.Text.RegularExpressions;
 
 namespace ScreenWatchUI.Controllers
 {
@@ -43,21 +44,35 @@ namespace ScreenWatchUI.Controllers
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(string id, FormCollection formValues)
-        
-         {   User user = userRepository.getUser(id);
+        {   
+            User user = userRepository.getUser(id);
             try
             {
+                if (ModelState.IsValid)
+                {
                 user.email = Request.Form["email"];
                 string isMonitored = Request.Form["isMonitored"];
                 user.isMonitored = isMonitored == "true" ? true : false;
                 string isAdmin = Request.Form["isAdmin"];
                 user.isAdmin = isAdmin == "true" ? true : false;
 
+                    // Validation
+                    if (!Regex.IsMatch(user.email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"))
+                    {
+                        ModelState.AddModelError("email", "Not a valid E-Mail Address");
+                    }
+                    if (!ModelState.IsValid)
+                    {
+                        return View(user);
+                    }
+
                 //UpdateModel(user);
 
                 userRepository.save(user);
+                    return RedirectToAction("Details", new { id = user.userName });
+                }
 
-                return RedirectToAction("Details", new { id = user.userName });
+                return View(user);
             }
             catch
             {

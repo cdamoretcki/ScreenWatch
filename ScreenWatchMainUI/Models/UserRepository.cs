@@ -33,6 +33,17 @@ namespace ScreenWatchUI.Models
             return user;
         }
 
+        private ScreenWatchData.User ridiculousMapper(User user)
+        {
+            ScreenWatchData.User sUser = new ScreenWatchData.User();
+            sUser.userName = user.userName;
+            sUser.email = user.email;
+            sUser.isAdmin = user.isAdmin;
+            sUser.isMonitored = user.isMonitored;
+
+            return sUser;
+        }
+
         public User getUser(String user)
         {
             return ridiculousMapper(screenShotActions.getUserByUserName(user));
@@ -40,7 +51,7 @@ namespace ScreenWatchUI.Models
 
         public void addUser(User user)
         {
-            screenShotActions.insertUser((ScreenWatchData.User) user);
+            screenShotActions.insertUser(ridiculousMapper(user));
         }
 
         public void deleteUser(User user)
@@ -50,7 +61,7 @@ namespace ScreenWatchUI.Models
 
         public void save(User user)
         {
-            screenShotActions.updateUser(user);
+            screenShotActions.updateUser(ridiculousMapper(user));
         }
     }
 }

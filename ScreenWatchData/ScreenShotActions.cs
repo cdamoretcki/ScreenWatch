@@ -54,12 +54,9 @@ namespace ScreenWatchData
             SQL_TABLE_USER = sqlDbName + @".[dbo].[User]";
         }
 
-        /**
-         * ScreenShot API
-         */
+        # region ScreenShot API
 
-        // This is a test implementation - When the final implemetation is finished, the code will be
-        // part of this method - See the _IMPL method the current state of the final implementation
+
         public Guid insertScreenShot(ScreenShot screenShot)
         {
             if (screenShot == null)
@@ -106,8 +103,6 @@ namespace ScreenWatchData
             }
         }
 
-        // This is a test implementation - When the final implemetation is finished, the code will be
-        // part of this method - See the _IMPL method the current state of the final implementation
         public List<ScreenShot> getScreenShotsByDateRange(DateTime fromDate, DateTime toDate)
         {
             List<Guid> ids = getScreenShotIdsByDateRange(fromDate, toDate);
@@ -120,194 +115,96 @@ namespace ScreenWatchData
             return screenShots;
         }
 
-        # region Users API
-
-        /// <summary>
-        /// Persist user object in db
-        /// </summary>
-        /// <param name="user"></param>
-        public void insertUser(User user)
+        private ScreenShot getScreenShotById(Guid id)
         {
-            if (user == null)
+            ScreenShot screenShot = new ScreenShot();
+
+            string SelectTSql = @"SELECT ss.userName, ss.timeStamp, ss.image FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.id = @id";
+
+            using (SqlConnection conn = new SqlConnection(SQL_CONNECTION_STRING))
             {
-                throw new System.ArgumentException("Input to method cannot be null", "user");
-            }
+                conn.Open();
 
-            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
-            {
-                connection.Open();
-
-                SqlCommand insertCommand = new SqlCommand("", connection);
-
-                insertCommand.CommandText = @"INSERT INTO " + SQL_TABLE_USER + " (userName, email, isMonitored, isAdmin) VALUES (@userName, @email, @isMonitored, @isAdmin)";
-                insertCommand.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = user.userName;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@email", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = user.email;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@isMonitored", System.Data.SqlDbType.Bit);
-                parameter.Value = user.isMonitored;
-                insertCommand.Parameters.Add(parameter);
-
-                parameter = new System.Data.SqlClient.SqlParameter("@isAdmin", System.Data.SqlDbType.Bit);
-                parameter.Value = user.isAdmin;
-                insertCommand.Parameters.Add(parameter);
-
-                insertCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Update user in db
-        /// </summary>
-        /// <param name="user"></param>
-        public void updateUser(User user)
+                using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
         {
-            deleteUser(user.userName);
-            insertUser(user);
-        }
+                    cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
 
-        /// <summary>
-        /// Delete user from db
-        /// </summary>
-        /// <param name="userName"></param>
-        public void deleteUser(String userName)
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
         {
-            if (userName == null)
+                        rdr.Read();
+                        screenShot.user = rdr.GetSqlString(0).Value;
+                        screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
+                        Byte[] imageBytes = rdr.GetSqlBytes(2).Value;
+                        using (MemoryStream memoryStream = new MemoryStream(imageBytes))
             {
-                throw new System.ArgumentException("Input to method cannot be null", "userName");
-            }
-
-            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
-            {
-                connection.Open();
-
-                SqlCommand deleteCommand = new SqlCommand("", connection);
-
-                deleteCommand.CommandText = @"DELETE FROM " + SQL_TABLE_USER + " WHERE userName = @userName";
-                deleteCommand.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = userName;
-                deleteCommand.Parameters.Add(parameter);
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Get a user object based on passed username
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns></returns>
-        public User getUserByUserName(String userName)
-        {
-            ScreenShotActionsLogger.log("" + userName);
-
-            if (userName == null || userName == String.Empty)
-            {
-                throw new System.ArgumentException("Input to method cannot be null or an empty string: " + userName, "userName");
-            }
-
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = "SELECT u.userName, u.email, u.isMonitored, u.isAdmin FROM " + SQL_TABLE_USER + " u WHERE u.userName = @userName";
-                command.CommandType = System.Data.CommandType.Text;
-
-                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
-                parameter.Value = userName;
-                command.Parameters.Add(parameter);
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    User user = null;
-                    
-                    if (reader.Read())
-                    {
-                        String queriedUserName = (String) reader["userName"];
-                        if (!queriedUserName.Equals(null) && !queriedUserName.Equals(String.Empty))
-                        {
-                            user = new User();
-                            user.userName = queriedUserName;
-                            user.email = (String) reader["email"];
-                            user.isMonitored = (Boolean) reader["isMonitored"];
-                            user.isAdmin = (Boolean)reader["isAdmin"];
+                            screenShot.image = Image.FromStream(memoryStream);
                         }
-                    }
-                    reader.Close();
-                    return user;
-                }
+                        rdr.Close();
             }
+            }
+        }
+
+
+            // Create temporary image info
+            screenShot.filePath = @"~/ScreenWatchImageCache/images/" + id.ToString() + @".png";
+            screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnails/" + id.ToString() + @".png";
+            String absolutePath;
+            String thumbAbsolutePath;
+            if (!unitTest)
+            {
+                absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
+                thumbAbsolutePath = HttpContext.Current.Request.MapPath(screenShot.thumbnailFilePath);
+            }
+            else
+            {
+                absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
+                thumbAbsolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
+            }
+            ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
+            ScreenShotActionsLogger.log("the thumbnail absolute path is: " + thumbAbsolutePath);
+            screenShot.image.Save(absolutePath, ImageFormat.Png);
+
+            Bitmap bitmap = new Bitmap(128, 128);
+            using (Graphics graphics = Graphics.FromImage((Image)bitmap))
+                {
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
+                screenShot.thumbnail = (Image)bitmap;
+                screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
         }    
 
-        /// <summary>
-        /// I am your father
-        /// </summary>
-        /// <returns></returns>
-        public List<string> getUsers()
+            return screenShot;
+        }
+
+        private List<Guid> getScreenShotIdsByDateRange(DateTime fromDate, DateTime toDate)
         {
-            List<string> users = new List<string>();
+            List<Guid> ids = new List<Guid>();
+
+            string query = @"SELECT ss.id FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.timeStamp BETWEEN @fromDate AND @toDate";
+
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
-                using (SqlCommand cmd = new SqlCommand(@"SELECT u.userName FROM " + SQL_TABLE_USER + " u", connection))
-                using (SqlDataReader reader = cmd.ExecuteReader())
+
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.Add("@fromDate", SqlDbType.DateTime).Value = fromDate;
+                    cmd.Parameters.Add("@toDate", SqlDbType.DateTime).Value = toDate;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        users.Add(reader.GetString(0));
+                            ids.Add(reader.GetGuid(0));
                     }
-                    reader.Close();
+                        reader.Close();
                 }
+            }
                 connection.Close();
-            }
-            return users;
-        }
-
-        public List<User> getAllUsers()
-        {
-            List<User> users = new List<User>();
-
-            StringBuilder connectionString = new StringBuilder();
-            connectionString.Append(SQL_CONNECTION_STRING);
-
-            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand("", connection);
-                command.CommandText = "SELECT u.userName, u.email, u.isMonitored, u.isAdmin FROM " + SQL_TABLE_USER + " u";
-                command.CommandType = System.Data.CommandType.Text;
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    User user;
-                    while (reader.Read())
-                    {
-                        user = new User();
-                        user.userName = (String)reader["userName"];
-                        user.email = (String)reader["email"];
-                        user.isMonitored = (Boolean)reader["isMonitored"];
-                        user.isAdmin = (Boolean)reader["isAdmin"];
-                        users.Add(user);
-                    }
-                }
-
-                return users;
-            }
         }
     
+            return ids;
+        }
 
         # endregion
 
@@ -712,96 +609,196 @@ namespace ScreenWatchData
 
         #endregion
 
-        private ScreenShot getScreenShotById(Guid id)
+        # region Users API
+
+        /// <summary>
+        /// Persist user object in db
+        /// </summary>
+        /// <param name="user"></param>
+        public void insertUser(User user)
         {
-            ScreenShot screenShot = new ScreenShot();
-
-            string SelectTSql = @"SELECT ss.userName, ss.timeStamp, ss.image FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.id = @id";
-
-            using (SqlConnection conn = new SqlConnection(SQL_CONNECTION_STRING))
+            if (user == null)
             {
-                conn.Open();
-
-                using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
-                {
-                    cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
-
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
-                    {
-                        rdr.Read();
-                        screenShot.user = rdr.GetSqlString(0).Value;
-                        screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
-                        Byte[] imageBytes = rdr.GetSqlBytes(2).Value;
-                        using (MemoryStream memoryStream = new MemoryStream(imageBytes))
-                        {
-                            screenShot.image = Image.FromStream(memoryStream);
-                        }
-                        rdr.Close();
-                    }
-                }
+                throw new System.ArgumentException("Input to method cannot be null", "user");
             }
 
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+        {
+                connection.Open();
 
-            // Create temporary image info
-            screenShot.filePath = @"~/ScreenWatchImageCache/images/" + id.ToString() + @".png";
-            screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnails/" + id.ToString() + @".png";
-            String absolutePath;
-            String thumbAbsolutePath;
-            if (!unitTest)
-            {
-                absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
-                thumbAbsolutePath = HttpContext.Current.Request.MapPath(screenShot.thumbnailFilePath);
-            }
-            else
-            {
-                absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
-                thumbAbsolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
-            }
-            ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
-            ScreenShotActionsLogger.log("the thumbnail absolute path is: " + thumbAbsolutePath);
-            screenShot.image.Save(absolutePath, ImageFormat.Png);
+                SqlCommand insertCommand = new SqlCommand("", connection);
 
-            Bitmap bitmap = new Bitmap(128, 128);
-            using (Graphics graphics = Graphics.FromImage((Image)bitmap))
-            {
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
-                screenShot.thumbnail = (Image)bitmap;
-                screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
-            }
+                insertCommand.CommandText = @"INSERT INTO " + SQL_TABLE_USER + " (userName, email, isMonitored, isAdmin) VALUES (@userName, @email, @isMonitored, @isAdmin)";
+                insertCommand.CommandType = System.Data.CommandType.Text;
 
-            return screenShot;
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = user.userName;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@email", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = user.email;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@isMonitored", System.Data.SqlDbType.Bit);
+                parameter.Value = user.isMonitored;
+                insertCommand.Parameters.Add(parameter);
+
+                parameter = new System.Data.SqlClient.SqlParameter("@isAdmin", System.Data.SqlDbType.Bit);
+                parameter.Value = user.isAdmin;
+                insertCommand.Parameters.Add(parameter);
+
+                insertCommand.ExecuteNonQuery();
+            }
         }
 
-        private List<Guid> getScreenShotIdsByDateRange(DateTime fromDate, DateTime toDate)
-        {
-            List<Guid> ids = new List<Guid>();
+        /// <summary>
+        /// Update user in db
+        /// </summary>
+        /// <param name="user"></param>
+        public void updateUser(User user)
+                {
+            deleteUser(user.userName);
+            insertUser(user);
+        }
 
-            string query = @"SELECT ss.id FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.timeStamp BETWEEN @fromDate AND @toDate";
+        /// <summary>
+        /// Delete user from db
+        /// </summary>
+        /// <param name="userName"></param>
+        public void deleteUser(String userName)
+                    {
+            if (userName == null)
+                        {
+                throw new System.ArgumentException("Input to method cannot be null", "userName");
+                        }
 
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
-                {
-                    cmd.Parameters.Add("@fromDate", SqlDbType.DateTime).Value = fromDate;
-                    cmd.Parameters.Add("@toDate", SqlDbType.DateTime).Value = toDate;
+                SqlCommand deleteCommand = new SqlCommand("", connection);
 
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ids.Add(reader.GetGuid(0));
-                        }
-                        reader.Close();
+                deleteCommand.CommandText = @"DELETE FROM " + SQL_TABLE_USER + " WHERE userName = @userName";
+                deleteCommand.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = userName;
+                deleteCommand.Parameters.Add(parameter);
+
+                deleteCommand.ExecuteNonQuery();
                     }
+                }
+
+        /// <summary>
+        /// Get a user object based on passed username
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public User getUserByUserName(String userName)
+        {
+            ScreenShotActionsLogger.log("" + userName);
+
+            if (userName == null || userName == String.Empty)
+            {
+                throw new System.ArgumentException("Input to method cannot be null or an empty string: " + userName, "userName");
+            }
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = "SELECT u.userName, u.email, u.isMonitored, u.isAdmin FROM " + SQL_TABLE_USER + " u WHERE u.userName = @userName";
+                command.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@userName", System.Data.SqlDbType.VarChar, 256);
+                parameter.Value = userName;
+                command.Parameters.Add(parameter);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    User user = null;
+                    
+                    if (reader.Read())
+                    {
+                        String queriedUserName = (String) reader["userName"];
+                        if (!queriedUserName.Equals(null) && !queriedUserName.Equals(String.Empty))
+            {
+                            user = new User();
+                            user.userName = queriedUserName;
+                            user.email = (String) reader["email"];
+                            user.isMonitored = (Boolean) reader["isMonitored"];
+                            user.isAdmin = (Boolean)reader["isAdmin"];
+                        }
+                    }
+                    reader.Close();
+                    return user;
+                }
+            }
+            }
+
+        /// <summary>
+        /// I am your father
+        /// </summary>
+        /// <returns></returns>
+        public List<string> getUsers()
+        {
+            List<string> users = new List<string>();
+            using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(@"SELECT u.userName FROM " + SQL_TABLE_USER + " u", connection))
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+            {
+                        users.Add(reader.GetString(0));
+                    }
+                    reader.Close();
                 }
                 connection.Close();
             }
-
-            return ids;
+            return users;
         }
+
+        public List<User> getAllUsers()
+        {
+            List<User> users = new List<User>();
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = "SELECT u.userName, u.email, u.isMonitored, u.isAdmin FROM " + SQL_TABLE_USER + " u";
+                command.CommandType = System.Data.CommandType.Text;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                    User user;
+                        while (reader.Read())
+                        {
+                        user = new User();
+                        user.userName = (String)reader["userName"];
+                        user.email = (String)reader["email"];
+                        user.isMonitored = (Boolean)reader["isMonitored"];
+                        user.isAdmin = (Boolean)reader["isAdmin"];
+                        users.Add(user);
+                        }
+                    }
+
+                return users;
+                }
+            }
+
+
+        # endregion
     }
 
     internal class ScreenShotActionsLogger
@@ -816,7 +813,7 @@ namespace ScreenWatchData
 
         public static void log(string message)
         {
-            Debug.WriteLine(string.Format("{0}, {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), message));
+            //Debug.WriteLine(string.Format("{0}, {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), message));
         }
     }
 }

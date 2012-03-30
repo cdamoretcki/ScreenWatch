@@ -6,22 +6,21 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Details</h2>
+    <h2>User Settings For <%: Model.userName %></h2>
 
     <fieldset>
-        <legend>Fields</legend>
         
-        <div class="display-label">Username</div>
+        <div class="display-label">User Name</div>
         <div class="display-field"><%: Model.userName %></div>
         
         <div class="display-label">E-Mail Address</div>
         <div class="display-field"><%: Model.email %></div>
         
-        <div class="display-label">Is The User Monitored?</div>
-        <div class="display-field"><%: Model.isMonitored %></div>
+        <div class="display-label">Is This User Monitored?</div>
+        <div class="display-field"><%: Model.isMonitored == true ? "Yes" : "No"%> </div>
         
-        <div class="display-label">Is the User An Administrator?</div>
-        <div class="display-field"><%: Model.isAdmin %></div>
+        <div class="display-label">Is This User An Administrator?</div>
+        <div class="display-field"><%: Model.isAdmin == true ? "Yes": "No"%> </div>
         
     </fieldset>
     <p>
