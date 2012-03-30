@@ -126,52 +126,71 @@ namespace ScreenWatchData
                 conn.Open();
 
                 using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
-        {
+                {
                     cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
 
                     using (SqlDataReader rdr = cmd.ExecuteReader())
-        {
+                    {
                         rdr.Read();
                         screenShot.user = rdr.GetSqlString(0).Value;
                         screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
                         Byte[] imageBytes = rdr.GetSqlBytes(2).Value;
                         using (MemoryStream memoryStream = new MemoryStream(imageBytes))
-            {
+                         {
                             screenShot.image = Image.FromStream(memoryStream);
                         }
                         rdr.Close();
+                    }
+                }
             }
-            }
-        }
 
 
             // Create temporary image info
-            screenShot.filePath = @"~/ScreenWatchImageCache/images/" + id.ToString() + @".png";
-            screenShot.thumbnailFilePath = @"~/ScreenWatchImageCache/thumbnails/" + id.ToString() + @".png";
-            String absolutePath;
-            String thumbAbsolutePath;
+
+            String dir, thumbDir, absolutePath, thumbAbsolutePath;
             if (!unitTest)
             {
+                dir = @"~/ScreenWatchImageCache/images/";
+                thumbDir = @"~/ScreenWatchImageCache/thumbnails/";
+                screenShot.filePath = dir + id.ToString() + @".png";
+                screenShot.thumbnailFilePath = thumbDir + id.ToString() + @".png";
                 absolutePath = HttpContext.Current.Request.MapPath(screenShot.filePath);
                 thumbAbsolutePath = HttpContext.Current.Request.MapPath(screenShot.thumbnailFilePath);
+                dir = HttpContext.Current.Request.MapPath(dir);
+                thumbDir = HttpContext.Current.Request.MapPath(thumbDir);
             }
             else
             {
-                absolutePath = @"C:\temp\test\ScreenWatchImageCache\images\" + id.ToString() + @".png";
-                thumbAbsolutePath = @"C:\temp\test\ScreenWatchImageCache\thumbnails\" + id.ToString() + @".png";
+                dir = @"C:\temp\test\ScreenWatchImageCache\images\";
+                thumbDir = @"C:\temp\test\ScreenWatchImageCache\thumbnails\";
+                screenShot.filePath = dir + id.ToString() + @".png";
+                screenShot.thumbnailFilePath = thumbDir + id.ToString() + @".png";
+                absolutePath = screenShot.filePath;
+                thumbAbsolutePath = screenShot.thumbnailFilePath;
             }
+
+            //Make sure the paths exists, else create them
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            if (!Directory.Exists(thumbDir))
+            {
+                Directory.CreateDirectory(thumbDir);
+            }
+
             ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
             ScreenShotActionsLogger.log("the thumbnail absolute path is: " + thumbAbsolutePath);
             screenShot.image.Save(absolutePath, ImageFormat.Png);
 
             Bitmap bitmap = new Bitmap(128, 128);
             using (Graphics graphics = Graphics.FromImage((Image)bitmap))
-                {
+            {
                 graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
                 screenShot.thumbnail = (Image)bitmap;
                 screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
-        }    
+            }    
 
             return screenShot;
         }
