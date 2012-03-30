@@ -65,5 +65,6 @@ namespace ScreenWatchData
         void updateUser(User user);
         void deleteUser(String userName);
         User getUserByUserName(String userName);
+        List<User> getAllUsers();
     }
 }

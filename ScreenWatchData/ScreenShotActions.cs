@@ -273,6 +273,40 @@ namespace ScreenWatchData
             return users;
         }
 
+        public List<User> getAllUsers()
+        {
+            List<User> users = new List<User>();
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = "SELECT u.userName, u.email, u.isMonitored, u.isAdmin FROM " + SQL_TABLE_USER + " u";
+                command.CommandType = System.Data.CommandType.Text;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    User user;
+                    while (reader.Read())
+                    {
+                        user = new User();
+                        user.userName = (String)reader["userName"];
+                        user.email = (String)reader["email"];
+                        user.isMonitored = (Boolean)reader["isMonitored"];
+                        user.isAdmin = (Boolean)reader["isAdmin"];
+                        users.Add(user);
+                    }
+                }
+
+                return users;
+            }
+        }
+    
+
         # endregion
 
         # region Triggers API
