@@ -1,3 +1,0 @@
-This is here so that we can add the folder to the repository
-
-This folder needs to exist since it is where ScreenShot images are locally cached.
