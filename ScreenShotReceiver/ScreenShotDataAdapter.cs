@@ -72,6 +72,11 @@ namespace ScreenShotReceiver
                 throw new NotImplementedException();
             }
 
+            public List<User> getAllUsers()
+            {
+                throw new NotImplementedException();
+            }
+
             void IScreenShotActions.insertUser(User user)
             {
                 throw new NotImplementedException();
