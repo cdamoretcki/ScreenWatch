@@ -95,7 +95,6 @@
                 &nbsp;&nbsp;&nbsp;
                 <ajaxtoolkit:calendarextender runat="server" ID="Calendarextender1"
                     PopupButtonID="btnDate2"
-                    CssClass="AjaxCalendar"
                     TargetControlID="TextBox2" 
                     Format="MM/dd/yyyy" />
                 <br />
@@ -104,7 +103,6 @@
                 &nbsp;&nbsp;&nbsp;
                 <ajaxtoolkit:calendarextender runat="server" ID="calExtender2"
                     PopupButtonID="btnDate3"
-                    CssClass="AjaxCalendar"
                     TargetControlID="TextBox3" 
                     Format="MM/dd/yyyy" />
                 <br />

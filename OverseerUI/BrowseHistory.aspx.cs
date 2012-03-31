@@ -53,8 +53,8 @@ namespace ScreenWatchUI
 				btn.ImageUrl = lstOfScreenShots[i].thumbnailFilePath;
 				btn.Attributes.Add("runat", "server");
 				btn.ID = MyId;                
-				btn.Height = Unit.Pixel(60);
-				btn.Width = Unit.Pixel(140);
+				//btn.Height = Unit.Pixel(60);
+				//btn.Width = Unit.Pixel(140);
 				btn.Attributes.Add("OnClick", MyEvent);
 				ThumbNailHeader.Controls.Add(btn);
 			}
