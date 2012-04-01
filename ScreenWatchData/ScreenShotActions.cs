@@ -183,11 +183,11 @@ namespace ScreenWatchData
             ScreenShotActionsLogger.log("the thumbnail absolute path is: " + thumbAbsolutePath);
             screenShot.image.Save(absolutePath, ImageFormat.Png);
 
-            Bitmap bitmap = new Bitmap(128, 128);
+            Bitmap bitmap = new Bitmap(160, 90);
             using (Graphics graphics = Graphics.FromImage((Image)bitmap))
             {
                 graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.DrawImage(screenShot.image, 0, 0, 128, 128);
+                graphics.DrawImage(screenShot.image, 0, 0, 160, 90);
                 screenShot.thumbnail = (Image)bitmap;
                 screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
             }    
