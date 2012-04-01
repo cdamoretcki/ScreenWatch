@@ -76,6 +76,7 @@
       <DependentUpon>BrowseHistory.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TextTriggerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -89,6 +90,8 @@
       <DependentUpon>Main.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\TextTriggerRepository.cs" />
+    <Compile Include="Models\TextTriggerModels.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,10 +124,16 @@
     <Content Include="BrowseHistory.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Main.aspx" />
-    <Content Include="Scripts\jquery.ad-gallery.js" />
-    <Content Include="Scripts\jquery.ad-gallery.pack.js" />
     <Content Include="TextTriggers.aspx" />
     <Content Include="ToneTriggers.aspx" />
+    <Content Include="Views\TextTrigger\Create.aspx" />
+    <Content Include="Views\TextTrigger\Delete.aspx" />
+    <Content Include="Views\TextTrigger\Deleted.aspx" />
+    <Content Include="Views\TextTrigger\Details.aspx" />
+    <Content Include="Views\TextTrigger\Edit.aspx" />
+    <Content Include="Views\TextTrigger\Error.aspx" />
+    <Content Include="Views\TextTrigger\Index.aspx" />
+    <Content Include="Views\TextTrigger\NotFound.aspx" />
     <Content Include="Views\User\Create.aspx" />
     <Content Include="Views\User\Delete.aspx" />
     <Content Include="Views\User\Deleted.aspx" />
@@ -141,12 +150,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\jquery-1.4.1.js" />
-    <Content Include="Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.js" />
@@ -166,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\jquery\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

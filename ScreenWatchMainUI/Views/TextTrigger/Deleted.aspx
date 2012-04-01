@@ -6,14 +6,14 @@
 
 <asp:Content ID="Main" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>User Deleted</h2>
+    <h2>Trigger Deleted</h2>
 
     <div>
-        <p>The user was successfully deleted.</p>
+        <p>The text trigger was successfully deleted.</p>
     </div>
 
     <div>
-        <p><%: Html.ActionLink("Back to ScreenWatch Users", "Index") %></p>
+        <p><%: Html.ActionLink("Back to Text Triggers", "Index") %></p>
     </div>
 
 </asp:Content>

@@ -5,9 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>ScreenWatch - The Woodstock to your Snoopy</title>
-    <link type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/start/jquery-ui.css" rel="Stylesheet" />
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.js"></script>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.min.js"></script>
+    <link type="text/css" href="Scripts/jquery/css/start/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+    <script type="text/javascript" src="Scripts/jquery/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
     <script type="text/javascript">
         $(function () { $("#tabs").tabs(); });
         $("#tabs").tabs({ fx: { opacity: "toggle"} });
@@ -26,7 +26,7 @@
                 <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_TextTriggers">
-                <iframe id="Dashboard" src="TextTriggers.aspx" style="width: 100%; height: 550px"></iframe>
+                <iframe id="Dashboard" src="TextTrigger/" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_ToneTriggers">
                 <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 550px"></iframe>

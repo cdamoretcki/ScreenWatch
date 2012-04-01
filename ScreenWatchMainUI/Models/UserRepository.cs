@@ -16,13 +16,35 @@ namespace ScreenWatchUI.Models
             List<ScreenWatchUI.Models.User> users = new List<ScreenWatchUI.Models.User>();
             ScreenWatchUI.Models.User user;
             foreach (ScreenWatchData.User sUser in sUsers){
-                user = ridiculousMapper(sUser);
+                user = userMapper(sUser);
                 users.Add(user);
             }
             return users;
         }
 
-        private User ridiculousMapper(ScreenWatchData.User sUser)
+        public User getUser(String user)
+        {
+            return userMapper(screenShotActions.getUserByUserName(user));
+        }
+
+        public void addUser(User user)
+        {
+            screenShotActions.insertUser(userMapper(user));
+        }
+
+        public void deleteUser(User user)
+        {
+            screenShotActions.deleteUser(user.userName);
+        }
+
+        public void save(User user)
+        {
+            screenShotActions.updateUser(userMapper(user));
+        }
+
+        #region mappers
+
+                private User userMapper(ScreenWatchData.User sUser)
         {
             ScreenWatchUI.Models.User user = new ScreenWatchUI.Models.User();
             user.userName = sUser.userName;
@@ -33,7 +55,7 @@ namespace ScreenWatchUI.Models
             return user;
         }
 
-        private ScreenWatchData.User ridiculousMapper(User user)
+        private ScreenWatchData.User userMapper(User user)
         {
             ScreenWatchData.User sUser = new ScreenWatchData.User();
             sUser.userName = user.userName;
@@ -44,24 +66,7 @@ namespace ScreenWatchUI.Models
             return sUser;
         }
 
-        public User getUser(String user)
-        {
-            return ridiculousMapper(screenShotActions.getUserByUserName(user));
-        }
+        #endregion
 
-        public void addUser(User user)
-        {
-            screenShotActions.insertUser(ridiculousMapper(user));
-        }
-
-        public void deleteUser(User user)
-        {
-            screenShotActions.deleteUser(user.userName);
-        }
-
-        public void save(User user)
-        {
-            screenShotActions.updateUser(ridiculousMapper(user));
-        }
     }
 }

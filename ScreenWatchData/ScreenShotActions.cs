@@ -626,6 +626,57 @@ namespace ScreenWatchData
             }
         }
 
+        /// <summary>
+        /// Get a user object based on passed username
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public TextTrigger getTextTriggerById(String input)
+        {
+            if (input == null || input == String.Empty)
+            {
+                throw new System.ArgumentException("Input to method cannot be null or an empty string: " + input, "id");
+            }
+
+            Guid id = new Guid(input);
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName WHERE tt.id = @id";
+                command.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                parameter.Value = id;
+                command.Parameters.Add(parameter);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    TextTrigger textTrigger = null;
+
+                    if (reader.Read())
+                    {
+                        Guid queriedId = (Guid)reader["id"];
+                        if (!queriedId.Equals(null))
+                        {
+                            textTrigger = new TextTrigger();
+                            textTrigger.id = queriedId;
+                            textTrigger.userName = (String)reader["userName"];
+                            textTrigger.userEmail = (String)reader["email"];
+                            textTrigger.triggerString = (String)reader["triggerString"];
+                        }
+                    }
+                    reader.Close();
+                    return textTrigger;
+                }
+            }
+        }
+
         #endregion
 
         # region Users API
@@ -745,7 +796,7 @@ namespace ScreenWatchData
                     {
                         String queriedUserName = (String) reader["userName"];
                         if (!queriedUserName.Equals(null) && !queriedUserName.Equals(String.Empty))
-            {
+                        {
                             user = new User();
                             user.userName = queriedUserName;
                             user.email = (String) reader["email"];
@@ -757,7 +808,7 @@ namespace ScreenWatchData
                     return user;
                 }
             }
-            }
+        }
 
         /// <summary>
         /// I am your father
