@@ -21,23 +21,19 @@
     font-family: Arial; font-size: medium; font-weight: normal; font-style: normal; background-color: #CCCCCC;
     width: 1003px" enableviewstate="True">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <table>
-        <tr>
-            <td class="style7">
-                ScreenWatcher - Dashboard - Tone Triggers
-            </td>
-        </tr>
-    </table>
+    <div class="style7">
+        ScreenWatcher - Dashboard - Tone Triggers
+    </div>
     <br />
     <span>
         <asp:Button ID="Button4" runat="server" Text="Add" OnClick="SubmitNewTone" />
         User to Monitor:
         <asp:DropDownList ID="UserDropDownList" runat="server" />
         Color:
-        <asp:TextBox ID="colorLBTB" runat="server"  Width="60px" />
+        <asp:TextBox ID="colorLBTB" runat="server" Width="60px" />
         <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender3" runat="server" TargetControlID="colorLBTB" />
         Color:
-        <asp:TextBox ID="colorUBTB" runat="server"  Width="60px" />
+        <asp:TextBox ID="colorUBTB" runat="server" Width="60px" />
         <ajaxtoolkit:ColorPickerExtender ID="ColorPickerExtender4" runat="server" TargetControlID="colorUBTB" />
         Percentage of screen:
         <asp:TextBox ID="colorSensitivity" runat="server" Width="50px" />

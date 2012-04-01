@@ -78,13 +78,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Dashboard.aspx.cs">
-      <DependentUpon>Dashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Dashboard.aspx.designer.cs">
-      <DependentUpon>Dashboard.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -115,11 +108,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.ad-gallery.css" />
+    <Content Include="Images\ad_next.png" />
+    <Content Include="Images\ad_prev.png" />
+    <Content Include="Images\ad_scroll_back.png" />
+    <Content Include="Images\ad_scroll_forward.png" />
+    <Content Include="Images\loader.gif" />
+    <Content Include="Images\opa75.png" />
     <Content Include="Libraries\AjaxControlToolkit.dll" />
     <Content Include="BrowseHistory.aspx" />
-    <Content Include="Dashboard.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Main.aspx" />
+    <Content Include="Scripts\jquery.ad-gallery.js" />
+    <Content Include="Scripts\jquery.ad-gallery.pack.js" />
     <Content Include="TextTriggers.aspx" />
     <Content Include="ToneTriggers.aspx" />
     <Content Include="Views\User\Create.aspx" />

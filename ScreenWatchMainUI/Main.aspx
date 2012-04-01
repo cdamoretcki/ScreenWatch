@@ -23,16 +23,16 @@
                 <li><a href="#tab_Administration">Administration</a></li>
             </ul>
             <div id="tab_BrowserHistory">
-                <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 500px"></iframe>
+                <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_TextTriggers">
-                <iframe id="Dashboard" src="TextTriggers.aspx" style="width: 100%; height: 500px"></iframe>
+                <iframe id="Dashboard" src="TextTriggers.aspx" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_ToneTriggers">
-                <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 500px"></iframe>
+                <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_Administration">
-                <iframe id="Administration" src="User/" style="width: 100%; height: 500px"></iframe>
+                <iframe id="Administration" src="User/" style="width: 100%; height: 550px"></iframe>
             </div>
         </div>
     </div>

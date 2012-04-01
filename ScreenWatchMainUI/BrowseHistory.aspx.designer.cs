@@ -31,15 +31,6 @@ namespace ScreenWatchUI {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        /// <summary>
         /// DateTextBox control.
         /// </summary>
         /// <remarks>
@@ -58,21 +49,30 @@ namespace ScreenWatchUI {
         protected global::AjaxControlToolkit.CalendarExtender Calendarextender1;
         
         /// <summary>
-        /// DisplayImage control.
+        /// SearchButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image DisplayImage;
+        protected global::System.Web.UI.WebControls.Button SearchButton;
         
         /// <summary>
-        /// ThumbNailHeader control.
+        /// RequireDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell ThumbNailHeader;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequireDate;
+        
+        /// <summary>
+        /// ThumbNailRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater ThumbNailRepeater;
     }
 }
