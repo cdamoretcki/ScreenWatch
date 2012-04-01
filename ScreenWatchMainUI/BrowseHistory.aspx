@@ -106,12 +106,6 @@
         {
             display: block;
         }
-        .style7
-        {
-            font-family: Calibri;
-            font-size: x-large;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -119,23 +113,20 @@
     font-family: Arial; font-size: medium; font-weight: normal; font-style: normal; background-color: #CCCCCC;
     width: 1003px" enableviewstate="True">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <div class="style7">
-        ScreenWatch - Browse History
-    </div>
     <div id="container">
         <div id="gallery" class="ad-gallery">
-            <div class="ad-image-wrapper">
-            </div>
-            <div class="ad-controls">
-        Date:
-            <asp:TextBox ID="DateTextBox" runat="server" OnTextChanged="SelectDate" />
+            Date:
+            <asp:TextBox ID="DateTextBox" runat="server" OnTextChanged="SelectDate" Width="110" />
             <ajaxtoolkit:CalendarExtender runat="server" ID="Calendarextender1" PopupButtonID="btnDate2"
                 TargetControlID="DateTextBox" Format="MM/dd/yyyy" />
             <asp:Button ID="SearchButton" runat="server" OnClick="SelectDate" Text="Search" />
             <asp:RequiredFieldValidator ID="RequireDate" runat="server" ErrorMessage="Please enter a date"
                 ControlToValidate="DateTextBox" />
+            <div class="ad-image-wrapper">
             </div>
-            <div class="ad-nav">
+            <div class="ad-controls">
+            </div>
+            <div class="ad-nav" >
                 <div class="ad-thumbs">
                     <ul class="ad-thumb-list">
                         <asp:Repeater ID="ThumbNailRepeater" runat="server">

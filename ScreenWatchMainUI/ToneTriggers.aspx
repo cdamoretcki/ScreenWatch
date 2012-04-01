@@ -7,14 +7,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>Tone Triggers</title>
-    <style type="text/css">
-        .style7
-        {
-            font-family: Calibri;
-            font-size: x-large;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <form id="form1" runat="server" clientidmode="Inherit" style="border-style: ridge;

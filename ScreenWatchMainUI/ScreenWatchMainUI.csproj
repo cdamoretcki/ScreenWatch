@@ -108,7 +108,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\jquery.ad-gallery.css" />
+    <Content Include="Content\jquery.ad-gallery.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\ad_next.png" />
     <Content Include="Images\ad_prev.png" />
     <Content Include="Images\ad_scroll_back.png" />
