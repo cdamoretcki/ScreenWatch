@@ -119,7 +119,7 @@
             <asp:TextBox ID="DateTextBox" runat="server" OnTextChanged="SelectDate" Width="110" />
             <ajaxtoolkit:CalendarExtender runat="server" ID="Calendarextender1" PopupButtonID="btnDate2"
                 TargetControlID="DateTextBox" Format="MM/dd/yyyy" />
-            <asp:Button ID="SearchButton" runat="server" OnClick="SelectDate" Text="Search" />
+            <asp:LinkButton ID="SearchButton" runat="server" OnClick="SelectDate" Text="SEARCH" />
             <asp:RequiredFieldValidator ID="RequireDate" runat="server" ErrorMessage="Please enter a date"
                 ControlToValidate="DateTextBox" />
             <div class="ad-image-wrapper">
