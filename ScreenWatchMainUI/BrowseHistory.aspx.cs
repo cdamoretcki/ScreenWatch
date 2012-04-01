@@ -30,6 +30,11 @@ namespace ScreenWatchUI
 
             ThumbNailRepeater.DataSource = lstOfScreenShots;
             ThumbNailRepeater.DataBind();
+            foreach (var screenShot in lstOfScreenShots)
+            {
+                screenShot.image.Dispose();
+                screenShot.thumbnail.Dispose();
+            }
 		}
 	}
 }
