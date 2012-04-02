@@ -9,14 +9,10 @@
 <head runat="server">
     <title>Browse Schreen Shot History</title>
     <link rel="stylesheet" type="text/css" href="Content/jquery.ad-gallery.css" />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery/js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="Scripts/jquery/js/jquery.ad-gallery.js"></script>    
     <script type="text/javascript">
         $(function () {
-            $('img.image1').data('ad-desc', 'Whoa! This description is set through elm.data("ad-desc") instead of using the longdesc attribute.<br>And it contains <strong>H</strong>ow <strong>T</strong>o <strong>M</strong>eet <strong>L</strong>adies... <em>What?</em> That aint what HTML stands for? Man...');
-            $('img.image1').data('ad-title', 'Title through $.data');
-            $('img.image4').data('ad-desc', 'This image is wider than the wrapper, so it has been scaled down');
-            $('img.image5').data('ad-desc', 'This image is higher than the wrapper, so it has been scaled down');
             var galleries = $('.ad-gallery').adGallery();
             $('#switch-effect').change(
       function () {
@@ -56,7 +52,7 @@
         body
         {
             font-size: 70%;
-            width: 900px;
+            width: 96%;
         }
         h2
         {
@@ -94,7 +90,7 @@
             height: 50px;
             background: #EEE;
             margin-top: 10px;
-            width: 900px;
+            width: 96%;
             padding: 10px;
             overflow: hidden;
         }
@@ -109,9 +105,8 @@
     </style>
 </head>
 <body>
-    <form id="form1" runat="server" clientidmode="Inherit" style="border-style: ridge;
-    font-family: Arial; font-size: medium; font-weight: normal; font-style: normal; background-color: #CCCCCC;
-    width: 1003px" enableviewstate="True">
+    <form id="form1" runat="server" clientidmode="Inherit" style="font-family: Arial; font-size: medium; font-weight: normal; font-style: normal;
+    width: 96%" enableviewstate="True">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div id="container">
         <div id="gallery" class="ad-gallery">

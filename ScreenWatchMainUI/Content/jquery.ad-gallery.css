@@ -1,12 +1,12 @@
 .ad-gallery {
-  width: 900px;
+  width: 96%;
 }
 .ad-gallery, .ad-gallery * {
   margin: 0;
   padding: 0;
 }
   .ad-gallery .ad-image-wrapper {
-    width: 100%;
+    width: 96%;
     height: 400px;
     margin-bottom: 10px;
     position: relative;
@@ -76,7 +76,7 @@
         left: 0px;
         padding: 7px;
         text-align: left;
-        width: 100%;
+        width: 96%;
         z-index: 2;
         background: url(Images/opa75.png);
         color: #000;
@@ -110,7 +110,7 @@
       font-style: italic;
     }
   .ad-gallery .ad-nav {
-    width: 100%;
+    width: 90%;
     position: relative;
   }
     .ad-gallery .ad-forward, .ad-gallery .ad-back {
@@ -139,7 +139,7 @@
     }
     .ad-gallery .ad-nav .ad-thumbs {
       overflow: hidden;
-      width: 100%;
+      width: 90%;
     }
       .ad-gallery .ad-thumbs .ad-thumb-list {
         float: left;
