@@ -10,7 +10,7 @@
     <title>Browse Schreen Shot History</title>
     <link rel="stylesheet" type="text/css" href="Content/jquery.ad-gallery.css" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script type="text/javascript" src="Scripts/jquery.ad-gallery.js"></script>
+    <script type="text/javascript" src="Scripts/jquery/js/jquery.ad-gallery.js"></script>    
     <script type="text/javascript">
         $(function () {
             $('img.image1').data('ad-desc', 'Whoa! This description is set through elm.data("ad-desc") instead of using the longdesc attribute.<br>And it contains <strong>H</strong>ow <strong>T</strong>o <strong>M</strong>eet <strong>L</strong>adies... <em>What?</em> That aint what HTML stands for? Man...');
