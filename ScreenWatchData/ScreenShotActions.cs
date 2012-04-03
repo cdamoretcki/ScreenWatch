@@ -627,7 +627,7 @@ namespace ScreenWatchData
         }
 
         /// <summary>
-        /// Get a user object based on passed username
+        /// Get a TextTrigger object based on passed id
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
@@ -673,6 +673,62 @@ namespace ScreenWatchData
                     }
                     reader.Close();
                     return textTrigger;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get a ToneTrigger object based on passed id
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public ToneTrigger getToneTriggerById(String input)
+        {
+            if (input == null || input == String.Empty)
+            {
+                throw new System.ArgumentException("Input to method cannot be null or an empty string: " + input, "id");
+            }
+
+            Guid id = new Guid(input);
+
+            StringBuilder connectionString = new StringBuilder();
+            connectionString.Append(SQL_CONNECTION_STRING);
+
+            using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("", connection);
+                command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName  WHERE tt.id = @id";
+                command.CommandType = System.Data.CommandType.Text;
+
+                SqlParameter parameter = new System.Data.SqlClient.SqlParameter("@id", System.Data.SqlDbType.UniqueIdentifier);
+                parameter.Value = id;
+                command.Parameters.Add(parameter);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    ToneTrigger toneTrigger = null;
+
+                    if (reader.Read())
+                    {
+                        Guid queriedId = (Guid)reader["id"];
+                        int color = 0;
+                        if (!queriedId.Equals(null))
+                        {
+                            toneTrigger = new ToneTrigger();
+                            toneTrigger.id = queriedId;
+                            toneTrigger.userName = (String)reader["userName"];
+                            toneTrigger.userEmail = (String)reader["email"];
+                            color = (int)reader["lowerColorBound"];
+                            toneTrigger.lowerColorBound = Color.FromArgb(color);
+                            color = (int)reader["upperColorBound"];
+                            toneTrigger.upperColorBound = Color.FromArgb(color);
+                            toneTrigger.sensitivity = (int)reader["sensitivity"];
+                        }
+                    }
+                    reader.Close();
+                    return toneTrigger;
                 }
             }
         }
