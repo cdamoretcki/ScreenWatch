@@ -78,6 +78,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\TextTriggerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ToneTriggerController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -92,6 +93,8 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\TextTriggerRepository.cs" />
     <Compile Include="Models\TextTriggerModels.cs" />
+    <Compile Include="Models\ToneTriggerModels.cs" />
+    <Compile Include="Models\ToneTriggerRepository.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +158,14 @@
     <Content Include="Views\TextTrigger\Error.aspx" />
     <Content Include="Views\TextTrigger\Index.aspx" />
     <Content Include="Views\TextTrigger\NotFound.aspx" />
+    <Content Include="Views\ToneTrigger\Create.aspx" />
+    <Content Include="Views\ToneTrigger\Delete.aspx" />
+    <Content Include="Views\ToneTrigger\Deleted.aspx" />
+    <Content Include="Views\ToneTrigger\Details.aspx" />
+    <Content Include="Views\ToneTrigger\Edit.aspx" />
+    <Content Include="Views\ToneTrigger\Error.aspx" />
+    <Content Include="Views\ToneTrigger\Index.aspx" />
+    <Content Include="Views\ToneTrigger\NotFound.aspx" />
     <Content Include="Views\User\Create.aspx" />
     <Content Include="Views\User\Delete.aspx" />
     <Content Include="Views\User\Deleted.aspx" />

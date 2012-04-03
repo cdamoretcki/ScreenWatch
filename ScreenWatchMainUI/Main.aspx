@@ -26,10 +26,10 @@
                 <iframe id="BrowseHistory" src="BrowseHistory.aspx" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_TextTriggers">
-                <iframe id="Dashboard" src="TextTrigger/" style="width: 100%; height: 550px"></iframe>
+                <iframe id="TextTriggers" src="TextTrigger/" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_ToneTriggers">
-                <iframe id="Iframe1" src="ToneTriggers.aspx" style="width: 100%; height: 550px"></iframe>
+                <iframe id="ToneTriggers" src="ToneTrigger/" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_Administration">
                 <iframe id="Administration" src="User/" style="width: 100%; height: 550px"></iframe>
