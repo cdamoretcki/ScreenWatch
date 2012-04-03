@@ -58,6 +58,11 @@ namespace ScreenShotReceiver
             return dataLayer.getTextTriggersByUser(user);
         }
 
+        public User GetUserByName(string user)
+        {
+            return dataLayer.getUserByUserName(user);
+        }
+
         #region test stub
         
         private class ScreenShotActionStub : IScreenShotActions
@@ -69,7 +74,7 @@ namespace ScreenShotReceiver
 
             public List<string> getUsers()
             {
-                throw new NotImplementedException();
+                return new List<string>() { "Jared" };
             }
 
             public List<User> getAllUsers()
@@ -94,7 +99,13 @@ namespace ScreenShotReceiver
 
             User IScreenShotActions.getUserByUserName(string userName)
             {
-                throw new NotImplementedException();
+                return new User()
+                    {
+                        userName = "Jared",
+                        email = "jared.tait@gmail.com", 
+                        isAdmin = true, 
+                        isMonitored = true
+                    };
             }
 
             public Guid insertTextTrigger(TextTrigger textTrigger)

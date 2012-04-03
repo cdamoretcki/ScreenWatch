@@ -51,22 +51,28 @@ namespace ScreenShotReceiver
 
         private void RethreadedUpload(ImageUpload upload)
         {
-            Debug.WriteLine("ScreenShotReceiver.RethreadedUpload entered " + DateTime.Now);
+            Debug.WriteLine("ScreenShotReceiver.RethreadedUpload entered {0}", DateTime.Now);
             try
             {
                 ScreenShotDataAdapter dataLayer = new ScreenShotDataAdapter();
 
-                //load image
-                using (MemoryStream stream = new MemoryStream(upload.ImageData))
-                using (Image image = Bitmap.FromStream(stream))
+                //only process if the user is monitored
+                if (dataLayer.GetUserByName(upload.UserID).isMonitored)
                 {
-                    image.Save(@"c:\temp\servicetest.png", ImageFormat.Png);
+                    //load image
+                    using (MemoryStream stream = new MemoryStream(upload.ImageData))
+                    using (Image image = Bitmap.FromStream(stream))
+                    {
+                        //Analyze the image for to see if it violates any triggers
+                        ProcessImage((Bitmap)image, upload.UserID, upload.CaptureTime, dataLayer);
 
-                    //Analyze the image for to see if it violates any triggers
-                    ProcessImage((Bitmap)image, upload.UserID, upload.CaptureTime, dataLayer);
-
-                    //send image to database
-                    dataLayer.SaveImage(image, upload.UserID, upload.CaptureTime);
+                        //send image to database
+                        dataLayer.SaveImage(image, upload.UserID, upload.CaptureTime);
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("ScreenShotReceiver.RethreadedUpload not monitoring " + upload.UserID);
                 }
             }
             catch (Exception e)
