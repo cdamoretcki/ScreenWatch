@@ -57,7 +57,8 @@ namespace ScreenShotReceiver
                 ScreenShotDataAdapter dataLayer = new ScreenShotDataAdapter();
 
                 //only process if the user is monitored
-                if (dataLayer.GetUserByName(upload.UserID).isMonitored)
+                var user = dataLayer.GetUserByName(upload.UserID);
+                if (user != null && user.isMonitored)
                 {
                     //load image
                     using (MemoryStream stream = new MemoryStream(upload.ImageData))
