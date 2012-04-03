@@ -18,7 +18,7 @@ namespace ScreenWatchData
     public class ScreenShotActions : IScreenShotActions
     {
         private bool unitTest = false;
-        private Boolean USE_REMOTE = false;
+        private Boolean USE_REMOTE = true;
         private string SQL_CONNECTION_STRING = String.Empty;
         private string SQL_DATA_SOURCE_REMOTE = @"146.186.87.88";
         private string SQL_DB_NAME_LOCAL = @"ScreenWatch";
