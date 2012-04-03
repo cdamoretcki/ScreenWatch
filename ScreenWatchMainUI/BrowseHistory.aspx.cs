@@ -28,7 +28,7 @@ namespace ScreenWatchUI
                     new ScreenShot
                     {
                          filePath = @"~\Images\Sleeping-cat.jpg", 
-                         thumbnailFilePath = @"~\Images\sleeping-cat-thumb.jpg"                    
+                         thumbnailFilePath = @""                    
                     }                
                 };
             ThumbNailRepeater.DataBind();
