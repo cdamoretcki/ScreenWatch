@@ -17,23 +17,42 @@ namespace ScreenWatchUI
 		{
             if (!IsPostBack)
             {
-
+                Meow();
             }
 		}
+
+        private void Meow()
+        {
+            ThumbNailRepeater.DataSource = new List<ScreenShot>()
+                {
+                    new ScreenShot
+                    {
+                         filePath = @"~\Images\Sleeping-cat.jpg", 
+                         thumbnailFilePath = @"~\Images\sleeping-cat-thumb.jpg"                    
+                    }                
+                };
+            ThumbNailRepeater.DataBind();
+        }
 
         protected void SelectDate(object sender, EventArgs e)
 		{
             DateTime date;
             DateTime.TryParse(DateTextBox.Text, out date);
 			ScreenShotActions data = new ScreenShotActions();
-			List<ScreenShot> lstOfScreenShots = data.getScreenShotsByDateRange(date, date.AddDays(1));
-
-            ThumbNailRepeater.DataSource = lstOfScreenShots;
-            ThumbNailRepeater.DataBind();
-            foreach (var screenShot in lstOfScreenShots)
+			List<ScreenShot> screenShots = data.getScreenShotsByDateRange(date, date.AddDays(1));
+            if (screenShots.Count > 0)
             {
-                screenShot.image.Dispose();
-                screenShot.thumbnail.Dispose();
+                ThumbNailRepeater.DataSource = screenShots;
+                ThumbNailRepeater.DataBind();
+                foreach (var screenShot in screenShots)
+                {
+                    screenShot.image.Dispose();
+                    screenShot.thumbnail.Dispose();
+                }
+            }
+            else
+            {
+                Meow();
             }
 		}
 	}

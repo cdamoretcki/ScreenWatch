@@ -123,6 +123,8 @@
     <Content Include="Images\ad_scroll_forward.png" />
     <Content Include="Images\loader.gif" />
     <Content Include="Images\opa75.png" />
+    <Content Include="Images\sleeping-cat-thumb.jpg" />
+    <Content Include="Images\sleeping-cat.jpg" />
     <Content Include="Libraries\AjaxControlToolkit.dll" />
     <Content Include="BrowseHistory.aspx" />
     <Content Include="Global.asax" />
