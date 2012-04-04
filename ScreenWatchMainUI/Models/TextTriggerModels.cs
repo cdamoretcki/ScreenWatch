@@ -8,13 +8,14 @@ namespace ScreenWatchUI.Models
 {
     public class TriggerStringValidationAttribute : RegularExpressionAttribute
     {
-        public TriggerStringValidationAttribute(): base(@"^[\w]{1}$") { }
+        public TriggerStringValidationAttribute() : base(@"^[\S]*$") { }
     }
 
     public class TextTrigger
     {
         public Guid id { get; set; }
         public String userEmail { get; set; }
+        public IEnumerable<string> users { get; set; }
 
         [Required(ErrorMessage = "Username Required")]
         [DisplayName("Username")]
@@ -24,5 +25,7 @@ namespace ScreenWatchUI.Models
         [TriggerStringValidation(ErrorMessage = "Not a valid trigger")]
         [DisplayName("Trigger Text")]
         public String triggerString { get; set; }
+
+
     }
 }
