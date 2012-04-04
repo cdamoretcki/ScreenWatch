@@ -10,7 +10,7 @@
     <title>Browse Schreen Shot History</title>
     <link rel="stylesheet" type="text/css" href="Content/jquery.ad-gallery.css" />
     <script type="text/javascript" src="Scripts/jquery/js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="Scripts/jquery/js/jquery.ad-gallery.js"></script>    
+    <script type="text/javascript" src="Scripts/jquery/js/jquery.ad-gallery.js"></script>
     <script type="text/javascript">
         $(function () {
             var galleries = $('.ad-gallery').adGallery();
@@ -37,7 +37,7 @@
       }
     );
         });
-  </script>
+    </script>
     <style type="text/css">
         *
         {
@@ -105,8 +105,8 @@
     </style>
 </head>
 <body>
-    <form id="form1" runat="server" clientidmode="Inherit" style="font-family: Arial; font-size: medium; font-weight: normal; font-style: normal;
-    width: 96%" enableviewstate="True">
+    <form id="form1" runat="server" clientidmode="Inherit" style="font-family: Arial;
+    font-size: medium; font-weight: normal; font-style: normal; width: 96%" enableviewstate="True">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div id="container">
         <div id="gallery" class="ad-gallery">
@@ -115,13 +115,15 @@
             <ajaxtoolkit:CalendarExtender runat="server" ID="Calendarextender1" PopupButtonID="btnDate2"
                 TargetControlID="DateTextBox" Format="MM/dd/yyyy" />
             <asp:LinkButton ID="SearchButton" runat="server" OnClick="SelectDate" Text="SEARCH" />
-            <asp:RequiredFieldValidator ID="RequireDate" runat="server" ErrorMessage="Please enter a date"
+            <asp:CompareValidator ID="dateValidator" runat="server" Type="Date" Operator="DataTypeCheck"
+                ControlToValidate="DateTextBox" ErrorMessage="Please enter a valid date, idiot." />
+            <asp:RequiredFieldValidator ID="RequireDate" runat="server" ErrorMessage="Please enter a date."
                 ControlToValidate="DateTextBox" />
             <div class="ad-image-wrapper">
             </div>
             <div class="ad-controls">
             </div>
-            <div class="ad-nav" >
+            <div class="ad-nav">
                 <div class="ad-thumbs">
                     <ul class="ad-thumb-list">
                         <asp:Repeater ID="ThumbNailRepeater" runat="server">
