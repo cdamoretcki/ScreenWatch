@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ScreenWatchData;
 using System.Drawing;
+using System.Web.Mvc;
 
 namespace ScreenWatchUI.Models
 {
@@ -44,6 +45,31 @@ namespace ScreenWatchUI.Models
             screenShotActions.updateToneTrigger(toneTriggerMapper(toneTrigger));
         }
 
+        public IEnumerable<SelectListItem> getUserList()
+        {
+            return getUserList(String.Empty);
+        }
+
+        public IEnumerable<SelectListItem> getUserList(String userName){
+
+            List<String> userList = new ScreenWatchData.ScreenShotActions().getUsers();
+            List<SelectListItem> userSelectList = new List<SelectListItem>();
+            SelectListItem selectListItem;
+            foreach (String user in userList)
+            {
+                selectListItem = new SelectListItem();
+                selectListItem.Text = user;
+                selectListItem.Value = user;
+                if (userName.Equals(user))
+                {
+                    selectListItem.Selected = true;
+                }
+                userSelectList.Add(selectListItem);
+            }
+            
+            return userSelectList.AsEnumerable<SelectListItem>();
+        }
+
         #region mappers
 
         private ToneTrigger toneTriggerMapper(ScreenWatchData.ToneTrigger sToneTrigger)
@@ -51,8 +77,8 @@ namespace ScreenWatchUI.Models
             ScreenWatchUI.Models.ToneTrigger toneTrigger = new ScreenWatchUI.Models.ToneTrigger();
             toneTrigger.id = sToneTrigger.id;
             toneTrigger.userName = sToneTrigger.userName;
-            toneTrigger.lowerColorBound = sToneTrigger.lowerColorBound.ToString();
-            toneTrigger.upperColorBound = sToneTrigger.upperColorBound.ToString();
+            toneTrigger.lowerColorBound = ColorTranslator.ToHtml(sToneTrigger.lowerColorBound);
+            toneTrigger.upperColorBound = ColorTranslator.ToHtml(sToneTrigger.upperColorBound);
             toneTrigger.sensitivity = sToneTrigger.sensitivity.ToString();
 
             return toneTrigger;
@@ -64,10 +90,9 @@ namespace ScreenWatchUI.Models
             sToneTrigger.id = toneTrigger.id;
             sToneTrigger.userName = toneTrigger.userName;
             sToneTrigger.userEmail = toneTrigger.userEmail;
-            sToneTrigger.lowerColorBound = Color.FromName(toneTrigger.lowerColorBound);
-            sToneTrigger.upperColorBound = Color.FromName(toneTrigger.upperColorBound);
+            sToneTrigger.lowerColorBound = ColorTranslator.FromHtml(toneTrigger.lowerColorBound.ToString());
+            sToneTrigger.upperColorBound = ColorTranslator.FromHtml(toneTrigger.upperColorBound.ToString());
             sToneTrigger.sensitivity = int.Parse(toneTrigger.sensitivity);
-
             return sToneTrigger;
         }
 

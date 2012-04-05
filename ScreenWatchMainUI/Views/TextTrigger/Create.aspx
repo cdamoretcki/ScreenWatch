@@ -20,7 +20,7 @@
                 <%: Html.LabelFor(model => model.userName) %>
             </div>
             <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.userName) %>
+                <%: Html.DropDownListFor(model => model.userName, Model.userList) %>
                 <%: Html.ValidationMessageFor(model => model.userName) %>
             </div>
             

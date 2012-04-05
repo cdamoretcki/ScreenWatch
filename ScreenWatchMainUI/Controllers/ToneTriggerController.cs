@@ -38,6 +38,7 @@ namespace ScreenWatchUI.Controllers
         public ActionResult Edit(string id)
         {
             ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+            toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
             return View(toneTrigger);
         }
 
@@ -74,12 +75,17 @@ namespace ScreenWatchUI.Controllers
         public ActionResult Create()
         {
             ToneTrigger toneTrigger = new ToneTrigger();
+            toneTrigger.userList = toneTriggerRepository.getUserList();
             return View(toneTrigger);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(ToneTrigger toneTrigger)
         {
+            toneTrigger.lowerColorBound = toneTrigger.lowerColorBound.Replace("#", String.Empty);
+            toneTrigger.lowerColorBound = Int32.Parse(toneTrigger.lowerColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
+            toneTrigger.upperColorBound = toneTrigger.upperColorBound.Replace("#", String.Empty);
+            toneTrigger.upperColorBound = Int32.Parse(toneTrigger.upperColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
             if (ModelState.IsValid)
             {
                 try

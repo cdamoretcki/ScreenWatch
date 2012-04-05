@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ScreenWatchData;
+using System.Web.Mvc;
 
 namespace ScreenWatchUI.Models
 {
@@ -41,6 +42,32 @@ namespace ScreenWatchUI.Models
         public void save(TextTrigger textTrigger)
         {
             screenShotActions.updateTextTrigger(textTriggerMapper(textTrigger));
+        }
+
+        public IEnumerable<SelectListItem> getUserList()
+        {
+            return getUserList(String.Empty);
+        }
+
+        public IEnumerable<SelectListItem> getUserList(String userName)
+        {
+
+            List<String> userList = new ScreenWatchData.ScreenShotActions().getUsers();
+            List<SelectListItem> userSelectList = new List<SelectListItem>();
+            SelectListItem selectListItem;
+            foreach (String user in userList)
+            {
+                selectListItem = new SelectListItem();
+                selectListItem.Text = user;
+                selectListItem.Value = user;
+                if (userName.Equals(user))
+                {
+                    selectListItem.Selected = true;
+                }
+                userSelectList.Add(selectListItem);
+            }
+
+            return userSelectList.AsEnumerable<SelectListItem>();
         }
 
         #region mappers

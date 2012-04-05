@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ScreenWatchUI.Models
 {
@@ -26,6 +27,6 @@ namespace ScreenWatchUI.Models
         [DisplayName("Trigger Text")]
         public String triggerString { get; set; }
 
-
+        public IEnumerable<SelectListItem> userList { get; set; }
     }
 }

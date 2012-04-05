@@ -29,7 +29,7 @@
                 <iframe id="TextTriggers" src="TextTrigger/" style="width: 100%; height: 550px"></iframe>
             </div>
             <div id="tab_ToneTriggers">
-                <iframe id="ToneTriggers" src="ToneTrigger/" style="width: 100%; height: 550px"></iframe>
+                <iframe id="ToneTriggers" src="ToneTrigger/" style="width: 100%; height: 500px"></iframe>
             </div>
             <div id="tab_Administration">
                 <iframe id="Administration" src="User/" style="width: 100%; height: 550px"></iframe>

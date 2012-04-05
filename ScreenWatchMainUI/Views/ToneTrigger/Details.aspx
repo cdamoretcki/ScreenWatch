@@ -5,6 +5,14 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+	<link type="text/css" rel="stylesheet" href="../Scripts/miniColors/jquery.miniColors.css" />
+	<script type="text/javascript" src="../Scripts/jquery/js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="../Scripts/miniColors/jquery.miniColors.js"></script>		
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".color-picker").miniColors({ letterCase: 'uppercase' });
+        });
+    </script>
 
     <h2>Trigger Details</h2>
 
@@ -14,8 +22,8 @@
         <div class="display-field"><%: Model.userName %></div>
         
         <div class="display-label">Lower Color Bound</div>
-        <div class="display-field"><%: Model.lowerColorBound %></div>
-        
+         <div class="display-field"><%: Model.lowerColorBound %></div>
+
         <div class="display-label">Upper Color Bound</div>
         <div class="display-field"><%: Model.upperColorBound %></div>
         

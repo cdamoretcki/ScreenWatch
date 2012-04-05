@@ -45,6 +45,7 @@ namespace ScreenWatchUI.Controllers
         public ActionResult Edit(string id, FormCollection formValues)
         {
             TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
+            textTrigger.userList = textTriggerRepository.getUserList(textTrigger.userName);
             try
             {
                 if (ModelState.IsValid)
@@ -72,6 +73,7 @@ namespace ScreenWatchUI.Controllers
         public ActionResult Create()
         {
             TextTrigger textTrigger = new TextTrigger();
+            textTrigger.userList = textTriggerRepository.getUserList();
             return View(textTrigger);
         }
 
