@@ -128,25 +128,6 @@
     <Content Include="BrowseHistory.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Main.aspx" />
-    <Content Include="Scripts\jpicker\ChangeLog.txt" />
-    <Content Include="Scripts\jpicker\css\jPicker-1.1.6.css" />
-    <Content Include="Scripts\jpicker\css\jPicker-1.1.6.min.css" />
-    <Content Include="Scripts\jpicker\Example.html" />
-    <Content Include="Scripts\jpicker\images\AlphaBar.png" />
-    <Content Include="Scripts\jpicker\images\bar-opacity.png" />
-    <Content Include="Scripts\jpicker\images\Bars.png" />
-    <Content Include="Scripts\jpicker\images\map-opacity.png" />
-    <Content Include="Scripts\jpicker\images\mappoint.gif" />
-    <Content Include="Scripts\jpicker\images\Maps.png" />
-    <Content Include="Scripts\jpicker\images\NoColor.png" />
-    <Content Include="Scripts\jpicker\images\picker.gif" />
-    <Content Include="Scripts\jpicker\images\preview-opacity.png" />
-    <Content Include="Scripts\jpicker\images\rangearrows.gif" />
-    <Content Include="Scripts\jpicker\jpicker-1.1.6.js" />
-    <Content Include="Scripts\jpicker\jpicker-1.1.6.min.js" />
-    <Content Include="Scripts\jpicker\jPicker.css" />
-    <Content Include="Scripts\jpicker\jquery-1.4.4.min.js" />
-    <Content Include="Scripts\jpicker\ReadMe.txt" />
     <Content Include="Scripts\jquery\css\start\images\ui-bg_flat_55_999999_40x100.png" />
     <Content Include="Scripts\jquery\css\start\images\ui-bg_flat_75_aaaaaa_40x100.png" />
     <Content Include="Scripts\jquery\css\start\images\ui-bg_glass_45_0078ae_1x400.png" />
@@ -168,6 +149,15 @@
     <Content Include="Scripts\jquery\js\jquery.ad-gallery.pack.js" />
     <Content Include="Scripts\jquery\js\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery\js\jquery-ui-1.8.18.custom.min.js" />
+    <Content Include="Scripts\minicolors\images\circle.gif" />
+    <Content Include="Scripts\minicolors\images\gradient.png" />
+    <Content Include="Scripts\minicolors\images\line.gif" />
+    <Content Include="Scripts\minicolors\images\rainbow.png" />
+    <Content Include="Scripts\minicolors\images\trigger.png" />
+    <Content Include="Scripts\minicolors\index.html" />
+    <Content Include="Scripts\minicolors\jquery.miniColors.css" />
+    <Content Include="Scripts\minicolors\jquery.miniColors.js" />
+    <Content Include="Scripts\minicolors\jquery.miniColors.min.js" />
     <Content Include="TextTriggers.aspx" />
     <Content Include="ToneTriggers.aspx" />
     <Content Include="Views\TextTrigger\Create.aspx" />
@@ -230,6 +220,9 @@
       <Project>{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}</Project>
       <Name>ScreenWatchData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\minicolors\readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

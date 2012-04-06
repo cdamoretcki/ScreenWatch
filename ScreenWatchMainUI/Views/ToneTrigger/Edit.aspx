@@ -6,17 +6,15 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <link type="text/css" rel="Stylesheet" href="../Scripts/jquery/css/start/jquery-ui-1.8.18.custom.css"/>
-    <link type="text/css" rel="stylesheet" href="../Scripts/miniColors/jquery.miniColors.css" />
-    <script type="text/javascript" src="../Scripts/jquery/js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="../Scripts/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
-	<script type="text/javascript" src="../Scripts/miniColors/jquery.miniColors.js"></script>		 
+    <link type="text/css" rel="Stylesheet" href="../../Scripts/jquery/css/start/jquery-ui-1.8.18.custom.css"/>
+    <link type="text/css" rel="stylesheet" href="../../Scripts/miniColors/jquery.miniColors.css" />
+    <script type="text/javascript" src="../../Scripts/jquery/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+	<script type="text/javascript" src="../../Scripts/miniColors/jquery.miniColors.js"></script>		 
     <script type="text/javascript">
-
         $(document).ready(function () {
             $(".color-picker").miniColors({ letterCase: 'uppercase' });
         });
-
         $(function () {
             $("#slider").slider({
                 range: "min",
