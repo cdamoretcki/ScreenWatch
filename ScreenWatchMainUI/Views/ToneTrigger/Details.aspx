@@ -22,19 +22,45 @@
         <div class="display-field"><%: Model.userName %></div>
         
         <div class="display-label">Lower Color Bound</div>
-         <div class="display-field"><%: Model.lowerColorBound %></div>
-
+        <div class="display-field">
+            <table style="border: none;">
+                <tr>
+                    <td name="colorBoundText" style="width: 90px; border: none;">
+                        <%: Model.lowerColorBound %>
+                    </td>
+                    <td name="colorBoundColor" style="width: 30px; border: 1px solid #E8EEF4;"></td>
+                </tr>
+            </table>
+        </div>
         <div class="display-label">Upper Color Bound</div>
-        <div class="display-field"><%: Model.upperColorBound %></div>
+        <div class="display-field">
+            <table style="border: none;">
+                <tr>
+                    <td name="colorBoundText" style="width: 90px; border: none;">
+                        <%: Model.upperColorBound %>
+                    </td>
+                    <td name="colorBoundColor" style="width: 30px; border: 1px solid #E8EEF4;"></td>
+                </tr>
+            </table>
+        </div>
+            
         
-        <div class="display-label">Sensitivity</div>
-        <div class="display-field"><%: Model.sensitivity %></div>
+        <div class="display-label">Percentage of Screen</div>
+        <div class="display-field"><%: Model.sensitivity %>%</div>
         
     </fieldset>
     <p>
         <%: Html.ActionLink("Edit", "Edit", new { id=Model.id }) %> |
         <%: Html.ActionLink("Back to List", "Index") %>
     </p>
+
+    <script type="text/javascript">
+        var textFields = document.getElementsByName("colorBoundText");
+        var colorsFields = document.getElementsByName("colorBoundColor");
+        for (var i = 0; i < colorsFields.length; i++) {
+            colorsFields[i].style.backgroundColor = textFields[i].innerHTML;
+        }
+    </script>
 
 </asp:Content>
 

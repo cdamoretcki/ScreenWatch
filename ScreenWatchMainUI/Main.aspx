@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>ScreenWatch - The Woodstock to your Snoopy</title>
-    <link type="text/css" href="Scripts/jquery/css/start/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="Scripts/jquery/css/start/jquery-ui-1.8.18.custom.css" rel="Stylesheet"/>
     <script type="text/javascript" src="Scripts/jquery/js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="Scripts/jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
     <script type="text/javascript">

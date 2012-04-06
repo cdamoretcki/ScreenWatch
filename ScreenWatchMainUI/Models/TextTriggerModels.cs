@@ -16,17 +16,16 @@ namespace ScreenWatchUI.Models
     {
         public Guid id { get; set; }
         public String userEmail { get; set; }
-        public IEnumerable<string> users { get; set; }
+        public IEnumerable<SelectListItem> userList { get; set; }
 
         [Required(ErrorMessage = "Username Required")]
         [DisplayName("Username")]
         public String userName { get; set; }
 
         [Required(ErrorMessage = "Trigger Text Required")]
-        [TriggerStringValidation(ErrorMessage = "Not a valid trigger")]
+        [TriggerStringValidation(ErrorMessage = "Not a valid trigger string")]
         [DisplayName("Trigger Text")]
         public String triggerString { get; set; }
 
-        public IEnumerable<SelectListItem> userList { get; set; }
     }
 }

@@ -82,14 +82,14 @@ namespace ScreenWatchUI.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(ToneTrigger toneTrigger)
         {
-            toneTrigger.lowerColorBound = toneTrigger.lowerColorBound.Replace("#", String.Empty);
-            toneTrigger.lowerColorBound = Int32.Parse(toneTrigger.lowerColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
-            toneTrigger.upperColorBound = toneTrigger.upperColorBound.Replace("#", String.Empty);
-            toneTrigger.upperColorBound = Int32.Parse(toneTrigger.upperColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
             if (ModelState.IsValid)
             {
                 try
                 {
+                    toneTrigger.lowerColorBound = toneTrigger.lowerColorBound.Replace("#", String.Empty);
+                    toneTrigger.lowerColorBound = Int32.Parse(toneTrigger.lowerColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
+                    toneTrigger.upperColorBound = toneTrigger.upperColorBound.Replace("#", String.Empty);
+                    toneTrigger.upperColorBound = Int32.Parse(toneTrigger.upperColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
                     Guid id = toneTriggerRepository.addToneTrigger(toneTrigger);
                     return RedirectToAction("Details", new { id = id.ToString() });
                 }

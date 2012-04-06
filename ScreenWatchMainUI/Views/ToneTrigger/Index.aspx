@@ -16,14 +16,14 @@
             <th>
                 User Name
             </th>
-            <th>
+            <th colspan="2" align="center">
                 Lower Color Bound
             </th>
-            <th>
+            <th colspan="2" align="center">
                 Upper Color Bound
             </th>
             <th>
-                Sensitivity
+                Percentage of Screen
             </th>
             <th>
                 Actions
@@ -40,14 +40,16 @@
             <td>
                 <%: Model.ElementAt(i).userName%>
             </td>
-            <td>
+            <td name="colorBoundText" style="width: 90px">
                 <%: Model.ElementAt(i).lowerColorBound%>
             </td>
-            <td>
+            <td name="colorBoundColor" style="width: 30px"></td>
+            <td name="colorBoundText" style="width: 90px">
                 <%: Model.ElementAt(i).upperColorBound%>
             </td>
+            <td name="colorBoundColor" style="width: 30px"></td>
             <td>
-                <%: Model.ElementAt(i).sensitivity%>
+                <%: Model.ElementAt(i).sensitivity%>%
             </td>
             <td>
                 <%: Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).id })%> |
@@ -62,6 +64,14 @@
     <p>
         <%: Html.ActionLink("Add Tone Trigger", "Create") %>
     </p>
+
+    <script type="text/javascript">
+        var textFields = document.getElementsByName("colorBoundText");
+        var colorsFields = document.getElementsByName("colorBoundColor");
+        for (var i = 0; i < colorsFields.length; i++) {
+            colorsFields[i].style.backgroundColor = textFields[i].innerHTML;
+        }
+    </script>
 
 </asp:Content>
 

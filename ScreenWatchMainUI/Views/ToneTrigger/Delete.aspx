@@ -17,7 +17,7 @@
         <div class="display-label">Lower Color Bound</div>
         <div class="display-field"><%: Model.lowerColorBound %></div>
         
-        <div class="display-label">Lower Color Bound<</div>
+        <div class="display-label">Upper Color Bound</div>
         <div class="display-field"><%: Model.upperColorBound %></div>
         
         <div class="display-label">Sensitivity</div>

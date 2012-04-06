@@ -50,7 +50,8 @@ namespace ScreenWatchUI.Models
             return getUserList(String.Empty);
         }
 
-        public IEnumerable<SelectListItem> getUserList(String userName){
+        public IEnumerable<SelectListItem> getUserList(String userName)
+		{
 
             List<String> userList = new ScreenWatchData.ScreenShotActions().getUsers();
             List<SelectListItem> userSelectList = new List<SelectListItem>();

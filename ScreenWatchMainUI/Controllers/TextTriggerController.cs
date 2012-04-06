@@ -84,8 +84,6 @@ namespace ScreenWatchUI.Controllers
             {
                 try
                 {
-                    //textTrigger.id = Guid.Empty;
-                    //textTrigger.userEmail = String.Empty;
                     Guid id = textTriggerRepository.addTextTrigger(textTrigger);
                     return RedirectToAction("Details", new { id = id.ToString() });
                 }
