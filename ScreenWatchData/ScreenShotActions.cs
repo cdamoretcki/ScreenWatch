@@ -119,34 +119,7 @@ namespace ScreenWatchData
         {
             ScreenShot screenShot = new ScreenShot();
 
-            string SelectTSql = @"SELECT ss.userName, ss.timeStamp, ss.image FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.id = @id";
-
-            using (SqlConnection conn = new SqlConnection(SQL_CONNECTION_STRING))
-            {
-                conn.Open();
-
-                using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
-                {
-                    cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
-
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
-                    {
-                        rdr.Read();
-                        screenShot.user = rdr.GetSqlString(0).Value;
-                        screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
-                        Byte[] imageBytes = rdr.GetSqlBytes(2).Value;
-                        using (MemoryStream memoryStream = new MemoryStream(imageBytes))
-                         {
-                            screenShot.image = Image.FromStream(memoryStream);
-                        }
-                        rdr.Close();
-                    }
-                }
-            }
-
-
             // Create temporary image info
-
             String dir, thumbDir, absolutePath, thumbAbsolutePath;
             if (!unitTest)
             {
@@ -181,17 +154,48 @@ namespace ScreenWatchData
 
             ScreenShotActionsLogger.log("the image absolute path is: " + absolutePath);
             ScreenShotActionsLogger.log("the thumbnail absolute path is: " + thumbAbsolutePath);
-            screenShot.image.Save(absolutePath, ImageFormat.Png);
 
-            Bitmap bitmap = new Bitmap(160, 90);
-            using (Graphics graphics = Graphics.FromImage((Image)bitmap))
+            if (File.Exists(absolutePath) && File.Exists(thumbAbsolutePath))
             {
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.DrawImage(screenShot.image, 0, 0, 160, 90);
-                screenShot.thumbnail = (Image)bitmap;
-                screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
-            }    
+                screenShot.image = Image.FromFile(absolutePath);
+                screenShot.thumbnail = Image.FromFile(thumbAbsolutePath);
+            }
+            else
+            {
+                string SelectTSql = @"SELECT ss.userName, ss.timeStamp, ss.image FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.id = @id";
 
+                using (SqlConnection conn = new SqlConnection(SQL_CONNECTION_STRING))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
+                    {
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            screenShot.user = rdr.GetSqlString(0).Value;
+                            screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
+                            Byte[] imageBytes = rdr.GetSqlBytes(2).Value;
+                            using (MemoryStream memoryStream = new MemoryStream(imageBytes))
+                            {
+                                screenShot.image = Image.FromStream(memoryStream);
+                            }
+                            rdr.Close();
+                        }
+                    }
+                }
+
+                screenShot.image.Save(absolutePath, ImageFormat.Png);
+
+                Bitmap bitmap = new Bitmap(160, 90);
+                using (Graphics graphics = Graphics.FromImage((Image)bitmap))
+                {
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphics.DrawImage(screenShot.image, 0, 0, 160, 90);
+                    screenShot.thumbnail = (Image)bitmap;
+                    screenShot.thumbnail.Save(thumbAbsolutePath, ImageFormat.Png);
+                }
+            }
             return screenShot;
         }
 
@@ -211,17 +215,17 @@ namespace ScreenWatchData
                     cmd.Parameters.Add("@toDate", SqlDbType.DateTime).Value = toDate;
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
                     {
+                        while (reader.Read())
+                        {
                             ids.Add(reader.GetGuid(0));
-                    }
+                        }
                         reader.Close();
+                    }
                 }
-            }
                 connection.Close();
-        }
-    
+            }
+
             return ids;
         }
 
@@ -749,7 +753,7 @@ namespace ScreenWatchData
             }
 
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
-        {
+            {
                 connection.Open();
 
                 SqlCommand insertCommand = new SqlCommand("", connection);
@@ -782,7 +786,7 @@ namespace ScreenWatchData
         /// </summary>
         /// <param name="user"></param>
         public void updateUser(User user)
-                {
+        {
             deleteUser(user.userName);
             insertUser(user);
         }
@@ -792,11 +796,11 @@ namespace ScreenWatchData
         /// </summary>
         /// <param name="userName"></param>
         public void deleteUser(String userName)
-                    {
+        {
             if (userName == null)
-                        {
+            {
                 throw new System.ArgumentException("Input to method cannot be null", "userName");
-                        }
+            }
 
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
@@ -812,8 +816,8 @@ namespace ScreenWatchData
                 deleteCommand.Parameters.Add(parameter);
 
                 deleteCommand.ExecuteNonQuery();
-                    }
-                }
+            }
+        }
 
         /// <summary>
         /// Get a user object based on passed username
@@ -847,16 +851,16 @@ namespace ScreenWatchData
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     User user = null;
-                    
+
                     if (reader.Read())
                     {
-                        String queriedUserName = (String) reader["userName"];
+                        String queriedUserName = (String)reader["userName"];
                         if (!queriedUserName.Equals(null) && !queriedUserName.Equals(String.Empty))
                         {
                             user = new User();
                             user.userName = queriedUserName;
-                            user.email = (String) reader["email"];
-                            user.isMonitored = (Boolean) reader["isMonitored"];
+                            user.email = (String)reader["email"];
+                            user.isMonitored = (Boolean)reader["isMonitored"];
                             user.isAdmin = (Boolean)reader["isAdmin"];
                         }
                     }
@@ -880,7 +884,7 @@ namespace ScreenWatchData
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-            {
+                    {
                         users.Add(reader.GetString(0));
                     }
                     reader.Close();
@@ -906,22 +910,22 @@ namespace ScreenWatchData
                 command.CommandType = System.Data.CommandType.Text;
 
                 using (SqlDataReader reader = command.ExecuteReader())
-                    {
+                {
                     User user;
-                        while (reader.Read())
-                        {
+                    while (reader.Read())
+                    {
                         user = new User();
                         user.userName = (String)reader["userName"];
                         user.email = (String)reader["email"];
                         user.isMonitored = (Boolean)reader["isMonitored"];
                         user.isAdmin = (Boolean)reader["isAdmin"];
                         users.Add(user);
-                        }
                     }
+                }
 
                 return users;
-                }
             }
+        }
 
 
         # endregion
