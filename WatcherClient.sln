@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatcherClientApp", "Watcher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenWatchData", "ScreenWatchData\ScreenWatchData.csproj", "{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WatcherClientInstaller", "ClientInstaller\WatcherClientInstaller\WatcherClientInstaller.vdproj", "{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2D0A8F9B-7ADB-41DB-BD34-59E722CACFA4}.Release|x86.ActiveCfg = Release|Any CPU
+		{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}.Debug|Any CPU.ActiveCfg = Debug
+		{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}.Debug|x86.ActiveCfg = Debug
+		{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}.Release|Any CPU.ActiveCfg = Release
+		{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}.Release|Mixed Platforms.ActiveCfg = Release
+		{E6E571A6-929A-4C9A-A3EE-AB2B57E3EAF0}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
