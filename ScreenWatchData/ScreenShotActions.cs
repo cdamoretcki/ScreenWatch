@@ -937,7 +937,7 @@ namespace ScreenWatchData
 
         public static void init()
         {
-            Debug.Listeners.Add(new TextWriterTraceListener(@"C:\temp\" + APP_NAME + ".log", APP_NAME));
+            Debug.Listeners.Add(new TextWriterTraceListener(@"C:\temp\" + APP_NAME + ".log"));
             Debug.AutoFlush = true;
         }
 

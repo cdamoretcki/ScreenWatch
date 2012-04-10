@@ -56,7 +56,7 @@ namespace ScreenShotReceiver
             bool red = IsBetween(color1.R, average.R, color2.R);            
             bool green = IsBetween(color1.G, average.G, color2.G);
             bool blue = IsBetween(color1.B, average.B, color2.B);
-            Debug.WriteLine("ToneAnalysis.IsBetween(red={0} green={1} blue={2})", red, green, blue);
+            //Debug.WriteLine("ToneAnalysis.IsBetween(red={0} green={1} blue={2})", red, green, blue);
             return red && green && blue;
         }
 
