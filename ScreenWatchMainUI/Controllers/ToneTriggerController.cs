@@ -46,6 +46,7 @@ namespace ScreenWatchUI.Controllers
         public ActionResult Edit(string id, FormCollection formValues)
         {
             ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+            toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
             try
             {
                 if (ModelState.IsValid)
@@ -82,6 +83,7 @@ namespace ScreenWatchUI.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(ToneTrigger toneTrigger)
         {
+            toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
             if (ModelState.IsValid)
             {
                 try

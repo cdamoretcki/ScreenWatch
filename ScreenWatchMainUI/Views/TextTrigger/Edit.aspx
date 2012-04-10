@@ -14,12 +14,15 @@
         <fieldset>
             <legend>Settings for this trigger</legend>
             
+            <%: Html.HiddenFor(model => model.id) %>
+            <%: Html.HiddenFor(model => model.userEmail) %>
+
             <div class="editor-label">
                 <%: Html.LabelFor(model => model.userName) %>
             </div>
             <div class="editor-field">
-                <%: Html.TextBoxFor(model => model.userName)%>
-                <%: Html.ValidationMessageFor(model => model.userName)%>
+                <%: Html.DropDownListFor(model => model.userName, Model.userList) %>
+                <%: Html.ValidationMessageFor(model => model.userName) %>
             </div>
             
             <div class="editor-label">
