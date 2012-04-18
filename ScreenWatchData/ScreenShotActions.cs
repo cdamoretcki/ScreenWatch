@@ -18,7 +18,7 @@ namespace ScreenWatchData
     public class ScreenShotActions : IScreenShotActions
     {
         private bool unitTest = false;
-        private Boolean USE_REMOTE = true;
+        private Boolean USE_REMOTE = false;
         private string SQL_CONNECTION_STRING = String.Empty;
         private string SQL_DATA_SOURCE_REMOTE = @"146.186.87.88";
         private string SQL_DB_NAME_LOCAL = @"ScreenWatch";
@@ -159,6 +159,23 @@ namespace ScreenWatchData
             {
                 screenShot.image = Image.FromFile(absolutePath);
                 screenShot.thumbnail = Image.FromFile(thumbAbsolutePath);
+
+                string SelectTSql = @"SELECT ss.userName, ss.timeStamp FROM " + SQL_TABLE_SCREENSHOT + " ss WHERE ss.id = @id";
+                using (SqlConnection conn = new SqlConnection(SQL_CONNECTION_STRING))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(SelectTSql, conn))
+                    {
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            screenShot.user = rdr.GetSqlString(0).Value;
+                            screenShot.timeStamp = rdr.GetSqlDateTime(1).Value;
+                            rdr.Close();
+                        }
+                    }
+                }
             }
             else
             {

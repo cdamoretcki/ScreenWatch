@@ -42,7 +42,7 @@ namespace ScreenWatchUI
 			List<ScreenShot> screenShots = data.getScreenShotsByDateRange(date, date.AddDays(1));
             if (screenShots.Count > 0)
             {
-                ThumbNailRepeater.DataSource = screenShots;
+                ThumbNailRepeater.DataSource = screenShots.OrderBy(image => image.timeStamp);
                 ThumbNailRepeater.DataBind();
                 foreach (var screenShot in screenShots)
                 {
