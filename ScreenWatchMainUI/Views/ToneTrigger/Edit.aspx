@@ -25,7 +25,7 @@
                     $("#sensitivity").val(ui.value);
                 }
             });
-            $("#sensitivity").val($("#slider").slider("value"));
+            $("#slider").slider("option", "value", document.getElementById("sensitivity").value);
         });
     </script>
 

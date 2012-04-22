@@ -23,7 +23,7 @@
                 Upper Color Bound
             </th>
             <th>
-                Percentage of Screen
+                Threshold
             </th>
             <th>
                 Actions

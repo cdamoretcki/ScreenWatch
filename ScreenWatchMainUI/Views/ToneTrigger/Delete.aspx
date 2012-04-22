@@ -20,13 +20,13 @@
         <div class="display-label">Upper Color Bound</div>
         <div class="display-field"><%: Model.upperColorBound %></div>
         
-        <div class="display-label">Sensitivity</div>
+        <div class="display-label">Threshold</div>
         <div class="display-field"><%: Model.sensitivity %></div>
         
     </fieldset>
     <% using (Html.BeginForm()) { %>
         <p>
-		    <input type="submit" value="Delete" /> |
+		    <input type="submit" value="Delete" />
 		    <%: Html.ActionLink("Back to ScreenWatch Tone Triggers", "Index") %>
         </p>
     <% } %>

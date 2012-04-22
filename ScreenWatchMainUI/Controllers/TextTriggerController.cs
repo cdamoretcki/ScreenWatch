@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ScreenWatchUI.Models;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
 
 namespace ScreenWatchUI.Controllers
 {
@@ -17,38 +18,74 @@ namespace ScreenWatchUI.Controllers
 
         public ActionResult Index()
         {
-            var textTriggers = textTriggerRepository.getAllTextTriggers();
-            return View("Index", textTriggers);
+            try
+            {
+                List<TextTrigger> textTriggers = textTriggerRepository.getAllTextTriggers();
+                return View("Index", textTriggers);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
+
+
         }
 
         public ActionResult Details(string id)
         {
-            TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
+            try
+            {
+                TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
 
-            if (textTrigger == null)
-            {
-                return View("NotFound");
+                if (textTrigger == null)
+                {
+                    return View("NotFound");
+                }
+                else
+                {
+                    return View("Details", textTrigger);
+                }
             }
-            else
+            catch (SqlException sqlException)
             {
-                return View("Details", textTrigger);
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
             }
         }
 
         public ActionResult Edit(string id)
         {
-            TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
-            textTrigger.userList = textTriggerRepository.getUserList(textTrigger.userName);
-            return View(textTrigger);
+            try
+            {
+                TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
+                textTrigger.userList = textTriggerRepository.getUserList(textTrigger.userName);
+                return View(textTrigger);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(string id, FormCollection formValues)
         {
-            TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
-            textTrigger.userList = textTriggerRepository.getUserList(textTrigger.userName);
             try
             {
+                TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
+                textTrigger.userList = textTriggerRepository.getUserList(textTrigger.userName);
+                
                 if (ModelState.IsValid)
                 {
                     textTrigger.userName = Request.Form["userName"];
@@ -65,65 +102,105 @@ namespace ScreenWatchUI.Controllers
 
                 return View(textTrigger);
             }
-            catch
+            catch (SqlException sqlException)
             {
-                return View(textTrigger);
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
             }
         }
         
         public ActionResult Create()
         {
-            TextTrigger textTrigger = new TextTrigger();
-            textTrigger.userList = textTriggerRepository.getUserList();
-            return View(textTrigger);
+            try
+            {
+                TextTrigger textTrigger = new TextTrigger();
+                textTrigger.userList = textTriggerRepository.getUserList();
+                return View(textTrigger);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(TextTrigger textTrigger)
         {
-            textTrigger.userList = textTriggerRepository.getUserList();
-            if (ModelState.IsValid)
+            try
             {
-                try
+                textTrigger.userList = textTriggerRepository.getUserList();
+                if (ModelState.IsValid)
                 {
                     Guid id = textTriggerRepository.addTextTrigger(textTrigger);
                     return RedirectToAction("Details", new { id = id.ToString() });
                 }
-                catch
-                {
-                    return View("Error");
-                }
-            }
 
-            return View(textTrigger);
+                return View(textTrigger);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
         public ActionResult Delete(string id){
-            
-            TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
-            
-            if (textTrigger == null)
+
+            try
             {
-                return View("NotFound");
-            } 
-            else
+                TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
+
+                if (textTrigger == null)
+                {
+                    return View("NotFound");
+                }
+                else
+                {
+                    return View(textTrigger);
+                }
+            }
+            catch (SqlException sqlException)
             {
-                return View(textTrigger);
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(string id, string confirmButton){
-            
-            TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
-            
-            if (textTrigger == null)
+            try
             {
-                return View("NotFound");
-            }
+                TextTrigger textTrigger = textTriggerRepository.getTextTrigger(id);
 
-            textTriggerRepository.deleteTextTrigger(textTrigger);
-            return View("Deleted");
+                if (textTrigger == null)
+                {
+                    return View("NotFound");
+                }
+
+                textTriggerRepository.deleteTextTrigger(textTrigger);
+                return View("Deleted");
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
     }
 }

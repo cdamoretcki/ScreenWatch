@@ -22,6 +22,7 @@ namespace ScreenWatchUI.Models
     {
         public Guid id { get; set; }
         public String userEmail { get; set; }
+        
 		public IEnumerable<SelectListItem> userList { get; set; }
         
         [Required(ErrorMessage = "Username Required")]
@@ -38,9 +39,9 @@ namespace ScreenWatchUI.Models
         [DisplayName("Upper Color Bound")]
         public String upperColorBound { get; set; }
         
-        [Required(ErrorMessage = "Percentage of Screen Required")]
-        [PercentageValidation(ErrorMessage = "Not a valid precentage (range is 1-100)")]
-        [DisplayName("Percentage of Screen")]
+        [Required(ErrorMessage = "Threshold Required")]
+        [PercentageValidation(ErrorMessage = "Not a valid threshold (range is 1-100)")]
+        [DisplayName("Threshold")]
         public String sensitivity { get; set; }
     }
 }

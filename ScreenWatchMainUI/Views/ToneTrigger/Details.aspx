@@ -45,7 +45,7 @@
         </div>
             
         
-        <div class="display-label">Percentage of Screen</div>
+        <div class="display-label">Threshold</div>
         <div class="display-field"><%: Model.sensitivity %>%</div>
         
     </fieldset>

@@ -584,7 +584,7 @@ namespace ScreenWatchData
 
                 using (SqlCommand command = new SqlCommand("", connection))
                 {
-                    command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
+                    command.CommandText = "SELECT tt.id, tt.userName, u.email, tt.triggerString FROM " + SQL_TABLE_TEXT_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName ORDER BY u.userName";
                     command.CommandType = System.Data.CommandType.Text;
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -620,7 +620,7 @@ namespace ScreenWatchData
 
                 using (SqlCommand command = new SqlCommand("", connection))
                 {
-                    command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName";
+                    command.CommandText = @"SELECT tt.id, tt.userName, u.email, tt.lowerColorBound, tt.upperColorBound, tt.sensitivity FROM " + SQL_TABLE_TONE_TRIGGER + " tt INNER JOIN " + SQL_TABLE_USER + " u ON tt.userName = u.userName ORDER BY u.userName";
                     command.CommandType = System.Data.CommandType.Text;
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -897,7 +897,7 @@ namespace ScreenWatchData
             using (SqlConnection connection = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 connection.Open();
-                using (SqlCommand cmd = new SqlCommand(@"SELECT u.userName FROM " + SQL_TABLE_USER + " u", connection))
+                using (SqlCommand cmd = new SqlCommand(@"SELECT u.userName FROM " + SQL_TABLE_USER + " u ORDER BY u.userName", connection))
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())

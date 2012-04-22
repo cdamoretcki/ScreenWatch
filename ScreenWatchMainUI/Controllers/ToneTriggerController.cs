@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ScreenWatchUI.Models;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
 
 namespace ScreenWatchUI.Controllers
 {
@@ -17,38 +18,72 @@ namespace ScreenWatchUI.Controllers
 
         public ActionResult Index()
         {
-            var toneTriggers = toneTriggerRepository.getAllToneTriggers();
-            return View("Index", toneTriggers);
+            try
+            {
+                List<ToneTrigger> toneTriggers = toneTriggerRepository.getAllToneTriggers();
+                return View("Index", toneTriggers);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
         public ActionResult Details(string id)
         {
-            ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+            try
+            {
+                ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
 
-            if (toneTrigger == null)
-            {
-                return View("NotFound");
+                if (toneTrigger == null)
+                {
+                    return View("NotFound");
+                }
+                else
+                {
+                    return View("Details", toneTrigger);
+                }
             }
-            else
+            catch (SqlException sqlException)
             {
-                return View("Details", toneTrigger);
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
             }
         }
 
         public ActionResult Edit(string id)
         {
-            ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
-            toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
-            return View(toneTrigger);
+            try
+            {
+                ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+                toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
+                return View(toneTrigger);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(string id, FormCollection formValues)
         {
-            ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
-            toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
-            try
+            try 
             {
+                ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+                toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
+            
                 if (ModelState.IsValid)
                 {
                     toneTrigger.userName = Request.Form["userName"];
@@ -67,26 +102,42 @@ namespace ScreenWatchUI.Controllers
 
                 return View(toneTrigger);
             }
-            catch
+            catch (SqlException sqlException)
             {
-                return View(toneTrigger);
+                return View("../Shared/DbError");
             }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
+            
         }
         
         public ActionResult Create()
         {
-            ToneTrigger toneTrigger = new ToneTrigger();
-            toneTrigger.userList = toneTriggerRepository.getUserList();
-            return View(toneTrigger);
+            try
+            {
+                ToneTrigger toneTrigger = new ToneTrigger();
+                toneTrigger.userList = toneTriggerRepository.getUserList();
+                return View(toneTrigger);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(ToneTrigger toneTrigger)
         {
-            toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
-            if (ModelState.IsValid)
+            try
             {
-                try
+                toneTrigger.userList = toneTriggerRepository.getUserList(toneTrigger.userName);
+                if (ModelState.IsValid)
                 {
                     toneTrigger.lowerColorBound = toneTrigger.lowerColorBound.Replace("#", String.Empty);
                     toneTrigger.lowerColorBound = Int32.Parse(toneTrigger.lowerColorBound, System.Globalization.NumberStyles.HexNumber).ToString();
@@ -95,41 +146,67 @@ namespace ScreenWatchUI.Controllers
                     Guid id = toneTriggerRepository.addToneTrigger(toneTrigger);
                     return RedirectToAction("Details", new { id = id.ToString() });
                 }
-                catch
-                {
-                    return View("Error");
-                }
-            }
 
-            return View(toneTrigger);
+                return View(toneTrigger);
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
 
-        public ActionResult Delete(string id){
-            
-            ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
-            
-            if (toneTrigger == null)
+        public ActionResult Delete(string id)
+        {
+            try
             {
-                return View("NotFound");
-            } 
-            else
+                ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+
+                if (toneTrigger == null)
+                {
+                    return View("NotFound");
+                }
+                else
+                {
+                    return View(toneTrigger);
+                }
+            }
+            catch (SqlException sqlException)
             {
-                return View(toneTrigger);
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(string id, string confirmButton){
-            
-            ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
-            
-            if (toneTrigger == null)
-            {
-                return View("NotFound");
-            }
 
-            toneTriggerRepository.deleteToneTrigger(toneTrigger);
-            return View("Deleted");
+            try
+            {
+                ToneTrigger toneTrigger = toneTriggerRepository.getToneTrigger(id);
+
+                if (toneTrigger == null)
+                {
+                    return View("NotFound");
+                }
+
+                toneTriggerRepository.deleteToneTrigger(toneTrigger);
+                return View("Deleted");
+            }
+            catch (SqlException sqlException)
+            {
+                return View("../Shared/DbError");
+            }
+            catch (Exception e)
+            {
+                return View("../Shared/Error");
+            }
         }
     }
 }

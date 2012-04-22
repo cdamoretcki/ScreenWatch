@@ -161,11 +161,11 @@
     <Content Include="TextTriggers.aspx" />
     <Content Include="ToneTriggers.aspx" />
     <Content Include="Views\TextTrigger\Create.aspx" />
+    <Content Include="Views\Shared\DbError.aspx" />
     <Content Include="Views\TextTrigger\Delete.aspx" />
     <Content Include="Views\TextTrigger\Deleted.aspx" />
     <Content Include="Views\TextTrigger\Details.aspx" />
     <Content Include="Views\TextTrigger\Edit.aspx" />
-    <Content Include="Views\TextTrigger\Error.aspx" />
     <Content Include="Views\TextTrigger\Index.aspx" />
     <Content Include="Views\TextTrigger\NotFound.aspx" />
     <Content Include="Views\ToneTrigger\Create.aspx" />

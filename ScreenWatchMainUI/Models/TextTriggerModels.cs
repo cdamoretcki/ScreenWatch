@@ -16,6 +16,7 @@ namespace ScreenWatchUI.Models
     {
         public Guid id { get; set; }
         public String userEmail { get; set; }
+
         public IEnumerable<SelectListItem> userList { get; set; }
 
         [Required(ErrorMessage = "Username Required")]

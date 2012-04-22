@@ -6,6 +6,11 @@
 
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Sorry, an error occurred while processing your request.
+        ScreenWatch Epic Fail
     </h2>
+
+    <p>
+        Things went horribly wrong.
+    </p>
+
 </asp:Content>
